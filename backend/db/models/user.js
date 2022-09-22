@@ -1,9 +1,7 @@
 'use strict';
-const bcrypt = require('brycptjs');
+const bcrypt = require('bcryptjs');
+const { Model, Validator } = require('sequelize');
 
-const {
-  Model
-} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -16,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       return { id, username, email };
     }
     
-    validatePassword(passsword) {
+    validatePassword(password) {
       return bcrypt.compareSync(password, this.hashedPassword.toString())
     }
     
@@ -61,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         len: [4, 30],
         isNotEmail(value) {
-          if (validator.isEmail(value)) {
+          if (Validator.isEmail(value)) {
             throw new Error("Username cannot be an email address")
           }
         }
