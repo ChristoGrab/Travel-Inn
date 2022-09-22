@@ -40,6 +40,4 @@ router.post('/', validateSignup, async (req, res) => {
   }
 );
 
-//Validate User Sign Up
-
 module.exports = router;
