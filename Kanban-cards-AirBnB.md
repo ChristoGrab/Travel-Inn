@@ -14,7 +14,13 @@ project. GitHub Kanban boards use markdown formatting, allowing these sections
 to be copied directly:
 
 
+### Authentication Required
 
+All endpoints that require a current user to be logged in receive a standard
+authentication response.
+
+- [ ] Authentication middleware responds with error status 401 when
+  authentication is not provided
 
 
 ### Authorization Required
@@ -179,7 +185,7 @@ Create and return a new image for a review specified by id.
 - [ ] Image data returned includes the `id` and `url`
 - [ ] Error response with status 404 is given when a review does not exist with
   the provided `id`
-- [ ] Error response with status 400 is given when the maximum number of images
+- [ ] Error response with status 403 is given when the maximum number of images
   have been added for the review
 
 
@@ -345,13 +351,7 @@ Delete an existing image for a Review.
   with the provided `id`
 
 
-### Add Query Filter### Authentication Required
-
-All endpoints that require a current user to be logged in receive a standard
-authentication response.
-
-- [ ] Authentication middleware responds with error status 401 when
-  authentication is not provideds to Get All Spots
+### Add Query Filters to Get All Spots
 
 Return spots filtered by query parameters.
 
