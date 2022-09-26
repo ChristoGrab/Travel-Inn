@@ -14,7 +14,7 @@ module.exports = {
    await queryInterface.bulkInsert('Spots', 
    [
     {
-      ownerId: "1",
+      ownerId: 1,
       address: "109 Cynthia Dr",
       city: "Chapel Hill",
       state: "NC",
@@ -26,7 +26,7 @@ module.exports = {
       price: 109
     },
     {
-      ownerId: "1",
+      ownerId: 1,
       address: "5300 S Hyde Park Blvd",
       city: "Chicago",
       state: "IL",
@@ -38,7 +38,7 @@ module.exports = {
       price: 249
     },
     {
-      ownerId: "2",
+      ownerId: 2,
       address: "27, Calle Nte 3",
       city: "Mahahual",
       state: "Yucatan",
@@ -59,11 +59,8 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('Spots', 
-    [
-      {
-        
-      }
-    ])
+    await queryInterface.bulkDelete('Spots', {
+    address: { [Op.in]: ['109 Cynthia Dr', '5300 S Hyde Park Blvd', '27, Calle Nte 3'] }
+  }, {});
   }
 };

@@ -11,25 +11,31 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   await queryInterface.bulkInsert('Bookings', [
+   await queryInterface.bulkInsert('Reviews', [
     {
-      spotId: 1,
       userId: 3,
-      startDate: '2022-11-05',
-      endDate: '2022-11-08'
-    },
-    {
       spotId: 2,
-      userId: 2,
-      startDate: '2022-08-12',
-      endDate: '2022-08-21'
+      review: "Had a great time here, lovely view!",
+      stars: 5
     },
     {
+      userId: 2,
       spotId: 3,
-      userId: 1,
-      startDate: '2021-01-01',
-      endDate: '2021-02-01'
+      review: "Was ok, but the water wasn't working half the time...",
+      stars: 3
     },
+    {
+      userId: 1,
+      spotId: 3,
+      review: "Loved how cozy this spot was",
+      stars: 4
+    },
+    {
+      userId: 3,
+      spotId: 1,
+      review: "Pretty good time",
+      stars: 3
+    }
    ])
   },
 
