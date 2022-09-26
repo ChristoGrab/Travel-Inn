@@ -60,8 +60,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('Spots', {
-    address: { [Op.in]: ['109 Cynthia Dr', '5300 S Hyde Park Blvd', '27, Calle Nte 3'] }
-  }, {});
+    await queryInterface.bulkDelete('Spots', null, {});
   }
 };
