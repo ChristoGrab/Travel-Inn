@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     toSafeObject() {
-      const { id, username, email } = this;
-      return { id, username, email };
+      const { id, firstName, lastName, email, username } = this;
+      return { id, firstName, lastName, email, username };
     }
     
     validatePassword(password) {
@@ -40,6 +40,8 @@ module.exports = (sequelize, DataTypes) => {
     static async signup({username, email, password}) {
       const hashedPassword = bcrypt.hashSync(password);
       const user = await User.create({
+        firstName,
+        lastName,
         username,
         email,
         hashedPassword
