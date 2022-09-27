@@ -7,7 +7,7 @@ const { Op } = require('sequelize');
 
 
 
-// GET Spots owned by Current User
+// GET SPOTS OWNED BY CURRENT USER //
 router.get('/current', requireAuth, async (req, res) => {
 
   const mySpots = await Spot.findAll({
@@ -50,11 +50,15 @@ router.get('/current', requireAuth, async (req, res) => {
       })
     })
     
+  // Delete the nested array of images
+  spotsList.forEach(spot => {
+    delete spot.SpotImages
+  })
     
     res.json({"Spots": spotsList})
   })
 
-// GET spot by Id
+// GET SPOT BY ID //
 
 router.get('/:spotId', async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId, {
@@ -96,7 +100,7 @@ router.get('/:spotId', async (req, res) => {
   res.json(spot)
 })
 
-// GET all Spots
+// GET ALL SPOTS //
 
 router.get('/', async (req, res) => {
 
@@ -146,7 +150,7 @@ router.get('/', async (req, res) => {
 })
 
 
-//CREATE a new Spot
+// CREATE A NEW SPOT //
 router.post('/', requireAuth, async (req, res) => {
 
   // Deconstruct request body for fields
@@ -178,6 +182,35 @@ router.post('/', requireAuth, async (req, res) => {
 
   res.json(newSpot)
 
+})
+
+// DELETE A SPOT //
+
+router.delete('/:spotId', requireAuth, async (req, res) => {
+  const spot = await Spot.findByPk(req.params.spotId)
+  
+  if (!spot) {
+    res.status(404)
+    res.json({
+      "message": "Spot couldn't be found",
+      "statusCode": 404
+    })
+  }
+  
+  if (spot.ownerId !== req.user.id) {
+    res.status(403)
+    res.json({
+      "message": "Forbidden",
+      "statusCode": 403
+    })
+  }
+  
+  await spot.destroy()
+  
+  res.json({
+    "message": "Succesffuly deleted",
+    "statusCode": 200
+  })
 })
 
 module.exports = router;
