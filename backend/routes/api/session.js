@@ -58,10 +58,17 @@ router.delete('/', async (req, res) => {
 router.get('/', requireAuth, (req, res) => {
   const { user } = req;
   if (user) {
+    const { id, firstName, lastName, email, username } = user
     return res.json({
-      user: user.toSafeObject()
+      id,
+      firstName,
+      lastName,
+      email,
+      username
     });
-  } else return res.json({});
+  } 
+  
+  else return res.json({});
 });
 
 
