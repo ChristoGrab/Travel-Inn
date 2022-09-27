@@ -91,7 +91,7 @@ router.get('/:spotId', async (req, res) => {
 
   if (!spot) {
     res.status(404)
-    res.json({
+    return res.json({
       "message": "Spot couldn't be found",
       "statusCode": 404
     })
@@ -185,6 +185,54 @@ router.post('/', requireAuth, async (req, res) => {
 
 })
 
+// EDIT A SPOT //
+
+router.put('/:spotId', requireAuth, async (req, res) => {
+  const spot = await Spot.findByPk(req.params.spotId)
+  
+  if (!spot) {
+    res.status(404)
+    return res.json({
+      "message": "Spot couldn't be found",
+      "statusCode": 404
+    })
+  }
+  
+  if (spot.ownerId !== req.user.id) {
+    res.status(403);
+    return res.json({
+      "message": "Forbidden",
+      "statusCode": 403
+    })
+  }
+  
+  const {
+    address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price
+  } = req.body
+  
+  const updatedSpot = await spot.update({
+    address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price
+  })
+  
+  res.json(updatedSpot)
+})
+
 // DELETE A SPOT //
 
 router.delete('/:spotId', requireAuth, async (req, res) => {
@@ -192,7 +240,7 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
   
   if (!spot) {
     res.status(404)
-    res.json({
+    return res.json({
       "message": "Spot couldn't be found",
       "statusCode": 404
     })
@@ -200,7 +248,7 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
   
   if (spot.ownerId !== req.user.id) {
     res.status(403)
-    res.json({
+    return res.json({
       "message": "Forbidden",
       "statusCode": 403
     })
@@ -209,7 +257,7 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
   await spot.destroy()
   
   res.json({
-    "message": "Succesffuly deleted",
+    "message": "Successfuly deleted",
     "statusCode": 200
   })
 })
