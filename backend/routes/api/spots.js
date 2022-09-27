@@ -19,7 +19,7 @@ router.get('/current', requireAuth, async (req, res) => {
         [sequelize.fn('avg', sequelize.col('stars')), 'avgRating']
       ]
     },
-    group: ['Spot.id'],
+    group: ['Spot.id', "SpotImages.id"],
     
       include: [
         {
@@ -70,7 +70,7 @@ router.get('/:spotId', async (req, res) => {
       ]
     },
     
-    group: ["Spot.id"],
+    group: ["Spot.id", "SpotImages.id"],
     
     include: [
       {
@@ -111,7 +111,8 @@ router.get('/', async (req, res) => {
         [sequelize.fn('avg', sequelize.col('stars')), 'avgRating']
       ]
     },
-    group: ["Spot.id"],
+    // Have to include SpotImages for PostrGres
+    group: ["Spot.id", "SpotImages.id"],
     include: [
       { model: SpotImage },
       {
