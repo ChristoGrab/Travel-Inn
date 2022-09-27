@@ -1,19 +1,38 @@
 const express = require('express')
-const { Spot, Review, SpotImage, sequelize } = require('../../db/models');
-const { requireAuth } = require('../../utils/auth') 
+const { Spot, Review, SpotImage, User, sequelize } = require('../../db/models');
+const { requireAuth } = require('../../utils/auth')
 const router = express.Router();
 const { Op } = require('sequelize');
 
 
 // GET spot by Id
 
-router.get('/spots/:spotId', async (req, res) => {
-  const spot = await Spot.findOne({
-    where: {
-      id: req.params.spotId
-    }
+router.get('/:spotId', async (req, res) => {
+  const spot = await Spot.findByPk(req.params.spotId, {
+    attributes: {
+      include: [
+        [sequelize.fn('count', sequelize.col('review')), 'numReviews'],
+        [sequelize.fn('avg', sequelize.col('stars')), 'avgRating']
+      ]
+    },
+    group: ["Spot.id"],
+    include: [
+      {
+        model: SpotImage,
+        attributes: ["id", "url", "preview"]
+      },
+      {
+          model: User,
+          as: "Owner",
+          attributes: ["id", "firstName", "lastName"]
+      },
+      { 
+          model: Review,
+          attributes: []
+      },
+    ]
   })
-  
+
   if (!spot) {
     res.status(404)
     res.json({
@@ -21,14 +40,14 @@ router.get('/spots/:spotId', async (req, res) => {
       "statusCode": 404
     })
   }
-  
+
   res.json(spot)
 })
 
 // GET all Spots
 
 router.get('/', async (req, res) => {
-  
+
   // Include average rating for each Spot from its associated Reviews
   const allSpots = await Spot.findAll({
     attributes: {
@@ -45,7 +64,7 @@ router.get('/', async (req, res) => {
       }
     ]
   });
-  
+
   // Create an array of each spot by converting each to JSON
   let spotsList = [];
   allSpots.forEach(spot => {
@@ -59,23 +78,25 @@ router.get('/', async (req, res) => {
         spot.previewImage = image.url
       }
     })
-  
+
     // Message if no images are marked as preview
     if (!spot.previewImage) {
       spot.previewImage = "This spot doesn't have a preview image"
     }
   })
-  
+
   // Delete the nested array of images
   spotsList.forEach(spot => {
     delete spot.SpotImages
-    })
-  
-  res.json({"Spots": spotsList});
+  })
+
+  res.json({ "Spots": spotsList });
 })
 
+
+//CREATE a new Spot
 router.post('/', requireAuth, async (req, res) => {
-  
+
   // Deconstruct request body for fields
   const {
     address,
@@ -88,8 +109,8 @@ router.post('/', requireAuth, async (req, res) => {
     description,
     price
   } = req.body
-  
-  // Set ownerId to request
+
+  // Set ownerId to current User id with nifty req.user
   const newSpot = await Spot.create({
     ownerId: req.user.id,
     address,
@@ -102,9 +123,9 @@ router.post('/', requireAuth, async (req, res) => {
     description,
     price
   })
-  
+
   res.json(newSpot)
-  
+
 })
 
 module.exports = router;
