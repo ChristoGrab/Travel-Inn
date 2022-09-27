@@ -66,6 +66,10 @@ router.get('/', async (req, res) => {
     }
   })
   
+  spotsList.forEach(spot => {
+    delete spot.SpotImages
+    })
+  
   res.json({"Spots": spotsList});
 })
 
