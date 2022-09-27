@@ -70,7 +70,7 @@ router.get('/:spotId', async (req, res) => {
       ]
     },
     
-    group: ["Spot.id", "SpotImages.id"],
+    group: ["Spot.id", "SpotImages.id", "Owner.id"],
     
     include: [
       {
