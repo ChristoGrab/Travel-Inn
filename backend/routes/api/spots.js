@@ -1,6 +1,6 @@
 const express = require('express')
 const { Spot, Review, SpotImage, sequelize } = require('../../db/models');
-
+const { requireAuth } = require('../../utils/auth') 
 const router = express.Router();
 const { Op } = require('sequelize');
 
@@ -60,17 +60,51 @@ router.get('/', async (req, res) => {
       }
     })
   
-    
+    // Message if no images are marked as preview
     if (!spot.previewImage) {
       spot.previewImage = "This spot doesn't have a preview image"
     }
   })
   
+  // Delete the nested array of images
   spotsList.forEach(spot => {
     delete spot.SpotImages
     })
   
   res.json({"Spots": spotsList});
+})
+
+router.post('/', requireAuth, async (req, res) => {
+  
+  // Deconstruct request body for fields
+  const {
+    address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price
+  } = req.body
+  
+  // Set ownerId to request
+  const newSpot = await Spot.create({
+    ownerId: req.user.id,
+    address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price
+  })
+  
+  res.json(newSpot)
+  
 })
 
 module.exports = router;
