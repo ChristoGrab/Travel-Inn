@@ -109,7 +109,7 @@ scopes: {
     attributes: { exclude: ['hashedPassword'] }
   },
   loginUser: {
-    attributes: {}
+    attributes: { exclude: ['createdAt', 'updatedAt', 'hashedPassword']}
   }
 }
 });
