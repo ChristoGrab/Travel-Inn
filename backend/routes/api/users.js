@@ -54,7 +54,6 @@ router.post('/', validateSignup, async (req, res) => {
       lastName,
       email,
       username,
-      password,
       token
     });
   }
