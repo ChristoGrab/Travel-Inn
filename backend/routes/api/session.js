@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
 const { User } = require('../../db/models');
 
 const router = express.Router();
@@ -44,7 +44,7 @@ router.post('/', validateLogin, async (req, res, next) => {
     lastName: user.lastName,
     email: user.email,
     username: user.username,
-    token: "whatup??" });
+    token: myToken });
 });
 
 
