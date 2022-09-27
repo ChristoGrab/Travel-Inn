@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     toSafeObject() {
-      const { id, firstName, lastName, email, username } = this;
-      return { id, firstName, lastName, email, username };
+      const { id, email, username } = this;
+      return { id, email, username };
     }
     
     validatePassword(password) {
@@ -48,6 +48,9 @@ module.exports = (sequelize, DataTypes) => {
       });
       return await User.scope('currentUser').findByPk(user.id);
     }
+    
+    
+    
     
     static associate(models) {
       User.hasMany(models.Spot, { foreignKey: 'ownerId' })

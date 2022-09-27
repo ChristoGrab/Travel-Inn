@@ -29,6 +29,7 @@ router.get('/spots/:spotId', async (req, res) => {
 
 router.get('/', async (req, res) => {
   
+  // Include average rating for each Spot from its associated Reviews
   const allSpots = await Spot.findAll({
     attributes: {
       include: [
@@ -51,7 +52,7 @@ router.get('/', async (req, res) => {
     spotsList.push(spot.toJSON())
   })
 
-  
+  // Iterate through each spot, finding the associated SpotImage with preview set to true
   spotsList.forEach(spot => {
     spot.SpotImages.forEach(image => {
       if (image.preview === true) {
