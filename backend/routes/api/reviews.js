@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express('router');
-const { Spot, User, ReviewImage, Review } = require('../../db/models');
-const { requireAuth } = require('../../utils/auth')
+const { Spot, User, ReviewImage, Review, SpotImage, sequelize } = require('../../db/models');
+const { requireAuth } = require('../../utils/auth');
 
 // GET ALL REVIEWS OF CURRENT USER
 router.get('/current', requireAuth, async (req, res) => {
