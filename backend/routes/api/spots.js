@@ -208,6 +208,39 @@ router.get('/', async (req, res) => {
   res.json({ "Spots": spotsList });
 })
 
+// CREATE REVIEW FOR A SPOT BASED ON THE SPOT'S ID //
+router.post('/:spotId/reviews', requireAuth, async (req, res) => {
+  const spot = await Spot.findByPk(req.params.spotId, {
+    include: [
+      {
+        model: Review,
+        attributes: []
+      }
+    ]
+  })
+  
+  if (!spot) {
+    res.status(404)
+    return res.json({
+      "message": "Spot couldn't be found",
+      "statusCode": 404
+    })
+  }
+  
+  
+  const { review, stars } = req.body;
+  
+  const newReview = await Review.create({
+    userId: req.user.id,
+    spotId: spot.id,
+    review,
+    stars
+  })
+  
+  res.status(201);
+  return res.json(newReview);
+})
+
 
 // CREATE A NEW SPOT //
 router.post('/', requireAuth, async (req, res) => {
