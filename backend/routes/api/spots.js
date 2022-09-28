@@ -7,30 +7,30 @@ const { Op } = require('sequelize');
 
 // CREATE IMAGE FOR SPOT //
 router.post('/:spotId/images', requireAuth, async (req, res) => {
-  
+
   const spot = await Spot.findByPk(req.params.spotId)
-  
+
   if (!spot) {
     return res.json({
       "message": "Spot couldn't be found",
       "statusCode": 404
     })
   }
-  
+
   const { url, preview } = req.body;
-  
+
   const newImage = await SpotImage.create({
     spotId: req.params.spotId,
     url,
     preview
   })
-  
+
   return res.json({
     id: newImage.id,
     url,
     preview
   })
-  
+
 })
 
 
@@ -41,7 +41,7 @@ router.get('/:spotId/reviews', async (req, res) => {
       spotId: req.params.spotId
     },
     include: [
-      { 
+      {
         model: User,
         attributes: ['id', 'firstName', 'lastName']
       },
@@ -51,7 +51,7 @@ router.get('/:spotId/reviews', async (req, res) => {
       }
     ]
   })
-  
+
   // An empty array is still a truthy value, so we need to check for length if there are no spots
   if (!spotReviews.length) {
     res.status(404)
@@ -60,9 +60,9 @@ router.get('/:spotId/reviews', async (req, res) => {
       "statusCode": 404
     })
   }
-  
-  return res.json({"Reviews": spotReviews})
-  
+
+  return res.json({ "Reviews": spotReviews })
+
 })
 
 // GET SPOTS OWNED BY CURRENT USER //
@@ -78,71 +78,71 @@ router.get('/current', requireAuth, async (req, res) => {
       ]
     },
     group: ['Spot.id', "SpotImages.id"],
-    
-      include: [
-        {
-          model: User,
-          as: "Owner",
-          attributes: []
-        },
-        {
-          model: SpotImage
-        },
-        {
-          model: Review,
-          attributes: []
-        }
-      ]
+
+    include: [
+      {
+        model: User,
+        as: "Owner",
+        attributes: []
+      },
+      {
+        model: SpotImage
+      },
+      {
+        model: Review,
+        attributes: []
+      }
+    ]
+  })
+
+  const spotsList = []
+  mySpots.forEach(spot => {
+    spotsList.push(spot.toJSON())
+  })
+
+  spotsList.forEach(spot => {
+    spot.SpotImages.forEach(image => {
+      if (image.preview === true) {
+        spot.previewImage = image.url
+      }
     })
-    
-    const spotsList = []
-    mySpots.forEach(spot => {
-      spotsList.push(spot.toJSON())
-    })
-    
-    spotsList.forEach(spot => {
-      spot.SpotImages.forEach(image => {
-        if (image.preview === true) {
-          spot.previewImage = image.url
-        }
-      })
-    })
-    
+  })
+
   // Delete the nested array of images
   spotsList.forEach(spot => {
     delete spot.SpotImages
   })
-    
-    res.json({"Spots": spotsList})
-  })
+
+  res.json({ "Spots": spotsList })
+})
 
 // GET SPOT BY ID //
 
 router.get('/:spotId', async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId, {
     attributes: {
-      
+
       include: [
         [sequelize.fn('count', sequelize.col('review')), 'numReviews'],
         [sequelize.fn('round', sequelize.fn('avg', sequelize.col('stars')), 1), 'avgRating']
       ]
     },
-    
+
     group: ["Spot.id", "SpotImages.id", "Owner.id"],
-    
+
     include: [
       {
         model: SpotImage,
         attributes: ["id", "url", "preview"]
       },
       {
-          model: User,
-          as: "Owner",
-          attributes: ["id", "firstName", "lastName"]
+        model: User,
+        as: "Owner",
+        attributes: ["id", "firstName", "lastName"]
       },
-      { 
-          model: Review,
-          attributes: []
+      {
+        model: Review,
+        attributes: []
       }
     ]
   })
@@ -214,11 +214,10 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
     include: [
       {
         model: Review,
-        attributes: []
       }
     ]
   })
-  
+
   if (!spot) {
     res.status(404)
     return res.json({
@@ -226,17 +225,34 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
       "statusCode": 404
     })
   }
-  
-  
+
+  // Turn the Spot into a JSON
+  let hasReview = false;
+  const spotToJSON = spot.toJSON();
+
+  spotToJSON.Reviews.forEach(review => {
+    if (review.userId === req.user.id) {
+      hasReview = true;
+    }
+  })
+
+  if (hasReview === true) {
+    res.status(403);
+    return res.json({
+      "message": "User already has a review for this spot",
+      "statusCode": 403
+    })
+  }
+
   const { review, stars } = req.body;
-  
+
   const newReview = await Review.create({
     userId: req.user.id,
     spotId: spot.id,
     review,
     stars
   })
-  
+
   res.status(201);
   return res.json(newReview);
 })
@@ -271,7 +287,7 @@ router.post('/', requireAuth, async (req, res) => {
     description,
     price
   })
-  
+
   res.status(201);
   res.json(newSpot)
 
@@ -281,7 +297,7 @@ router.post('/', requireAuth, async (req, res) => {
 
 router.put('/:spotId', requireAuth, async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId)
-  
+
   if (!spot) {
     res.status(404)
     return res.json({
@@ -289,7 +305,7 @@ router.put('/:spotId', requireAuth, async (req, res) => {
       "statusCode": 404
     })
   }
-  
+
   if (spot.ownerId !== req.user.id) {
     res.status(403);
     return res.json({
@@ -297,7 +313,7 @@ router.put('/:spotId', requireAuth, async (req, res) => {
       "statusCode": 403
     })
   }
-  
+
   const {
     address,
     city,
@@ -309,7 +325,7 @@ router.put('/:spotId', requireAuth, async (req, res) => {
     description,
     price
   } = req.body
-  
+
   const updatedSpot = await spot.update({
     address,
     city,
@@ -321,7 +337,7 @@ router.put('/:spotId', requireAuth, async (req, res) => {
     description,
     price
   })
-  
+
   res.json(updatedSpot)
 })
 
@@ -329,7 +345,7 @@ router.put('/:spotId', requireAuth, async (req, res) => {
 
 router.delete('/:spotId', requireAuth, async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId)
-  
+
   if (!spot) {
     res.status(404)
     return res.json({
@@ -337,7 +353,7 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
       "statusCode": 404
     })
   }
-  
+
   if (spot.ownerId !== req.user.id) {
     res.status(403)
     return res.json({
@@ -345,9 +361,9 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
       "statusCode": 403
     })
   }
-  
+
   await spot.destroy()
-  
+
   res.json({
     "message": "Successfuly deleted",
     "statusCode": 200
