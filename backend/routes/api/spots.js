@@ -1,5 +1,5 @@
 const express = require('express')
-const { Spot, Review, SpotImage, User, sequelize } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage, sequelize } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
 const router = express.Router();
 const { Op } = require('sequelize');
@@ -30,6 +30,38 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
     url,
     preview
   })
+  
+})
+
+
+// GET ALL REVIEWS BY A SPOT'S ID //
+router.get('/:spotId/reviews', async (req, res) => {
+  const spotReviews = await Review.findAll({
+    where: {
+      spotId: req.params.spotId
+    },
+    include: [
+      { 
+        model: User,
+        attributes: ['id', 'firstName', 'lastName']
+      },
+      {
+        model: ReviewImage,
+        attributes: ['id', 'url']
+      }
+    ]
+  })
+  
+  // An empty array is still a truthy value, so we need to check for length if there are no spots
+  if (!spotReviews.length) {
+    res.status(404)
+    return res.json({
+      "message": "Spot couldn't be found",
+      "statusCode": 404
+    })
+  }
+  
+  return res.json({"Reviews": spotReviews})
   
 })
 
