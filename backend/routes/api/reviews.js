@@ -3,6 +3,7 @@ const router = express('router');
 const { Spot, User, ReviewImage, Review, SpotImage, sequelize } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
+
 // GET ALL REVIEWS OF CURRENT USER
 router.get('/current', requireAuth, async (req, res) => {
   const myReviews = await Review.findAll({
@@ -35,7 +36,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     include: [
       {
         model: ReviewImage,
-        attributes: []
+        // attributes: []
       }
     ]
   })
@@ -59,13 +60,17 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
   }
   
   // Return 403 if review already has 10 images
-  // if (review.ReviewImage.length >= 10) {
-  //   res.status(403)
-  //   return res.json({
-  //     "message": "Maximum number of images for this resource was reached",
-  //     "statusCode": 403
-  //   })
-  // } 
+  const reviewJSON = review.toJSON();
+  
+  console.log(reviewJSON)
+  
+  if (reviewJSON.ReviewImages.length >= 10) {
+    res.status(403)
+    return res.json({
+      "message": "Maximum number of images for this resource was reached",
+      "statusCode": 403
+    })
+  }
   
   const { url } = req.body
   
