@@ -42,7 +42,7 @@ router.get('/current', requireAuth, async (req, res) => {
     },
     attributes: {
       include: [
-        [sequelize.fn('round', sequelize.fn('avg', sequelize.col('stars')), 2), 'avgRating']
+        [sequelize.fn('round', sequelize.fn('avg', sequelize.col('stars')), 1), 'avgRating']
       ]
     },
     group: ['Spot.id', "SpotImages.id"],
@@ -92,7 +92,7 @@ router.get('/:spotId', async (req, res) => {
       
       include: [
         [sequelize.fn('count', sequelize.col('review')), 'numReviews'],
-        [sequelize.fn('round', sequelize.fn('avg', sequelize.col('stars')), 2), 'avgRating']
+        [sequelize.fn('round', sequelize.fn('avg', sequelize.col('stars')), 1), 'avgRating']
       ]
     },
     
@@ -134,7 +134,7 @@ router.get('/', async (req, res) => {
   const allSpots = await Spot.findAll({
     attributes: {
       include: [
-        [sequelize.fn('round', sequelize.fn('avg', sequelize.col('stars')), 2), 'avgRating']
+        [sequelize.fn('round', sequelize.fn('avg', sequelize.col('stars')), 1), 'avgRating']
       ]
     },
     // Have to include SpotImages for PostrGres
