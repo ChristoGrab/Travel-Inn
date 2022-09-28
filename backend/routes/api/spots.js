@@ -5,7 +5,33 @@ const router = express.Router();
 const { Op } = require('sequelize');
 
 
-
+// CREATE IMAGE FOR SPOT //
+router.post('/:spotId/images', requireAuth, async (req, res) => {
+  
+  const spot = await Spot.findByPk(req.params.spotId)
+  
+  if (!spot) {
+    return res.json({
+      "message": "Spot couldn't be found",
+      "statusCode": 404
+    })
+  }
+  
+  const { url, preview } = req.body;
+  
+  const newImage = await SpotImage.create({
+    spotId: req.params.spotId,
+    url,
+    preview
+  })
+  
+  return res.json({
+    id: newImage.id,
+    url,
+    preview
+  })
+  
+})
 
 // GET SPOTS OWNED BY CURRENT USER //
 router.get('/current', requireAuth, async (req, res) => {
