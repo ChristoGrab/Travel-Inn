@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express('router');
-const { Spot, User, ReviewImage, Review, SpotImage, sequelize } = require('../../db/models');
+const { Spot, User, ReviewImage, Review, SpotImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { validateReview } = require('../../utils/errors');
+const { Op } = require('sequelize');
 
 
 // GET ALL REVIEWS OF CURRENT USER
@@ -28,7 +29,13 @@ router.get('/current', requireAuth, async (req, res) => {
     ]
   })
 
-  return res.json({ "Reviews": myReviews })
+  // Create an array of reviews converted to JSON
+  const reviewsList = [];
+  myReviews.forEach(review => {
+    reviewsList.push(review.toJSON())
+  })
+
+  return res.json({ "Reviews": reviewsList })
 });
 
 // ADD AN IMAGE TO A REVIEW BASED ON THE REVIEW'S ID
@@ -146,9 +153,9 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
       "statusCode": 403
     })
   }
-  
+
   await review.destroy();
-  
+
   res.json({
     "message": "Successfully deleted",
     "statusCode": 200
