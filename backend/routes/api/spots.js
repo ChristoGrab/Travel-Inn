@@ -333,7 +333,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     endDate
   })
   
-  res.send('error testing')
+
   return res.json({
     newBooking
   })
