@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express('router');
-const { Spot, User, ReviewImage, Review, SpotImage, sequelize } = require('../../db/models');
+const { Spot, User, ReviewImage, Review, SpotImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { validateReview } = require('../../utils/errors');
 
@@ -19,7 +19,10 @@ router.get('/current', requireAuth, async (req, res) => {
       {
         model: Spot,
         attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country',
-          'lat', 'lng', 'name', 'price']
+          'lat', 'lng', 'name', 'price'],
+          include: {
+            model: SpotImage
+          }
       },
       {
         model: ReviewImage,
@@ -28,7 +31,29 @@ router.get('/current', requireAuth, async (req, res) => {
     ]
   })
 
-  return res.json({ "Reviews": myReviews })
+  // Create an array of reviews converted to JSON
+  const reviewsList = [];
+  myReviews.forEach(review => {
+    reviewsList.push(review.toJSON())
+  })
+  
+  // Iterate through each review
+  reviewsList.forEach(review => {
+    review.Spot.SpotImages.forEach(spotImage => {
+      
+      if (spotImage.preview) {
+        review.Spot.previewImage = spotImage.url
+        
+      } else {
+        review.Spot.previewImage = "This spot doesn't have a preview image yet"
+      }
+    })
+    
+    // Make sure to remove the SpotImages from response
+    delete review.Spot.SpotImages;
+  })
+
+  return res.json({ "Reviews": reviewsList })
 });
 
 // ADD AN IMAGE TO A REVIEW BASED ON THE REVIEW'S ID
@@ -115,7 +140,8 @@ router.put('/:reviewId', requireAuth, validateReview, async (req, res) => {
     stars
   })
 
-  res.json({
+
+  return res.json({
     id: editedReview.id,
     userId: editedReview.userId,
     spotId: editedReview.spotId,
@@ -149,9 +175,9 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
       "statusCode": 403
     })
   }
-  
+
   await review.destroy();
-  
+
   res.json({
     "message": "Successfully deleted",
     "statusCode": 200

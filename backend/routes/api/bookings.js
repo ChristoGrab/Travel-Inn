@@ -16,44 +16,62 @@ router.get('/current', requireAuth, async (req, res) => {
       attributes: {
         exclude: ['description', 'createdAt', 'updatedAt']
       },
-      include: [
-        {
-          model: SpotImage,
-          attributes: ['preview', 'url']
-        }
-      ]
+      include:
+        { model: SpotImage }
     }
   })
   
-  //TRYING TO SOLVE PREVIEWIMAGE
+  let bookingsList = []
+  myBookings.forEach(booking => {
+    bookingsList.push(booking.toJSON())
+  })
   
-  // let bookingsList = []
-  // myBookings.forEach(booking => {
-  //   bookingsList.push(booking.toJSON())
-  // })
-  
-  // let spotsList = []
-  // bookingsList.forEach(booking => {
-  //   spotsList.push(booking.Spot)
-  //   })
+  bookingsList.forEach(booking => {
+    booking.Spot.SpotImages.forEach(spotImage => {
+      
+      if (spotImage.preview) {
+        booking.Spot.previewImage = spotImage.url
+      
+      } else {
+        booking.Spot.previewImage = "This spot doesn't have a preview image"
+      }
+      
+    })
     
-  // let imageList = []
-  // spotsList.forEach(spot => {
-  //   imageList.push(spot.SpotImages)
-  // })
+    delete booking.Spot.SpotImages;
+  })
   
-  // console.log(imageList)
-  // let imgUrl;
+  res.json({"Bookings": bookingsList})
+})
+
+// EDIT A BOOKING
+router.put('/:bookingId', requireAuth, async (req, res) => {
+  const booking = await Booking.findByPk(req.params.bookingId)
   
-  // imageList[0].forEach(image => {
-  //   if (image.preview === true) {
-  //     imgUrl = image.url
-  //   }
-  // })
+  if (!booking) {
+    res.status(404)
+    return res.json({
+      "message": "Booking couldn't be found",
+      "statusCode": 404
+    })
+  }
   
-  // console.log(imgUrl);
+  const { startDate, endDate } = req.body
   
-  res.json({"Bookings": myBookings})
+  await booking.update({
+    startDate,
+    endDate
+  })
+  
+  return res.json({
+    id: booking.id,
+    spotId: booking.spotId,
+    userId: booking.userId,
+    startDate,
+    endDate,
+    createdAt: booking.createdAt,
+    updatedAt: booking.updatedAt
+  })
 })
 
 // DELETE A BOOKING

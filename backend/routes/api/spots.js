@@ -1,5 +1,5 @@
 const express = require('express')
-const { Spot, Review, SpotImage, User, ReviewImage, sequelize } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage, Booking, sequelize } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
 const router = express.Router();
 const { Op } = require('sequelize');
@@ -66,6 +66,48 @@ router.get('/:spotId/reviews', async (req, res) => {
 
 })
 
+// GET ALL BOOKINGS FOR A SPOT BASED ON THE SPOT'S ID
+router.get('/:spotId/bookings', requireAuth, async (req, res) => {
+  const idCheck = await Spot.findByPk(req.params.spotId)
+
+
+  // If query array is empty spot doesn't exist
+  if (!idCheck) {
+    res.status(404)
+    return res.json({
+      "message": "Spot couldn't be found",
+      "statusCode": 404
+    })
+  }
+
+  if (idCheck.ownerId !== req.user.id) {
+    const nonOwnerBookings = await Booking.findAll({
+      where: {
+        spotId: req.params.spotId
+      },
+      attributes: ['spotId', 'startDate', 'endDate']
+    })
+    return res.json({
+      "Bookings": nonOwnerBookings
+    })
+  }
+
+  else {
+    const ownerBookings = await Booking.findAll({
+      where: {
+        spotId: req.params.spotId
+      },
+      include: {
+        model: User,
+        attributes: ['id', 'firstName', 'lastName']
+      }
+    })
+    return res.json({
+      "Bookings": ownerBookings
+    })
+  }
+})
+
 // GET SPOTS OWNED BY CURRENT USER //
 router.get('/current', requireAuth, async (req, res) => {
 
@@ -114,7 +156,9 @@ router.get('/current', requireAuth, async (req, res) => {
     delete spot.SpotImages
   })
 
-  res.json({ "Spots": spotsList })
+  return res.json({
+    "Spots": spotsList
+  })
 })
 
 // GET SPOT BY ID //
@@ -156,7 +200,7 @@ router.get('/:spotId', async (req, res) => {
     })
   }
 
-  res.json(spot)
+  return res.json(spot)
 })
 
 // GET ALL SPOTS //
@@ -206,7 +250,7 @@ router.get('/', async (req, res) => {
     delete spot.SpotImages
   })
 
-  res.json({ "Spots": spotsList });
+  return res.json({ "Spots": spotsList });
 })
 
 // CREATE REVIEW FOR A SPOT BASED ON THE SPOT'S ID //
@@ -258,6 +302,73 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
   return res.json(newReview);
 })
 
+// CREATE A BOOKING FROM A SPOT BASED ON THE SPOT'S ID
+router.post('/:spotId/bookings', requireAuth, async (req, res) => {
+  const spot = await Spot.findByPk(req.params.spotId)
+  
+  // 404 error
+  if (!spot) {
+    res.status(404)
+    return res.json({
+      "message": "Spot couldn't be found",
+      "statusCode": 404
+    })
+  }
+  
+  // Prevent owner from making a booking
+  if (req.user.id === spot.ownerId) {
+    res.status(403);
+    return res.json({
+      "message": "You cannot create a booking for a property you own",
+      "statusCode": 403
+    })
+  }
+  
+  const { startDate, endDate } = req.body
+  
+  const bookingConflict = await Booking.findAll({
+    where: {
+      spotId: req.params.spotId
+    }
+  })
+  
+  const bookingsList = []
+  bookingConflict.forEach(booking => {
+    bookingsList.push(booking.toJSON())
+  })
+  
+  for (let i = 0; i < bookingsList.length; i++) {
+    let ele = bookingsList[i]
+    if (ele.startDate === startDate ||
+      ele.startDate === endDate ||
+      ele.endDate === startDate ||
+      ele.endDate === endDate) {
+        res.status(403)
+        return res.json({
+          "message": "Sorry, this spot is not available for the requested dates",
+          "statusCode": 403
+        })
+      }
+  }
+  
+  const newBooking = await Booking.create({
+    spotId: spot.id,
+    userId: req.user.id,
+    startDate,
+    endDate
+  })
+  
+
+  return res.json({
+    id: newBooking.id,
+    spotId: newBooking.spotId,
+    userId: newBooking.userId,
+    startDate: newBooking.startDate,
+    endDate: newBooking.endDate,
+    createdAt: newBooking.createdAt,
+    updatedAt: newBooking.updatedAt    
+  })
+})
 
 // CREATE A NEW SPOT //
 router.post('/', requireAuth, async (req, res) => {
@@ -290,7 +401,7 @@ router.post('/', requireAuth, async (req, res) => {
   })
 
   res.status(201);
-  res.json(newSpot)
+  return res.json(newSpot)
 
 })
 
@@ -365,7 +476,7 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
 
   await spot.destroy()
 
-  res.json({
+  return res.json({
     "message": "Successfuly deleted",
     "statusCode": 200
   })
