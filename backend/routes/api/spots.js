@@ -108,7 +108,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
   }
 })
 
-// GET SPOTS OWNED BY CURRENT USER //
+// GET ALL SPOTS OWNED BY THE CURRENT USER //
 router.get('/current', requireAuth, async (req, res) => {
 
   const mySpots = await Spot.findAll({
@@ -388,7 +388,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
   })
 })
 
-// CREATE A NEW SPOT //
+// CREATE A SPOT //
 router.post('/', requireAuth, async (req, res) => {
 
   // Deconstruct request body for fields

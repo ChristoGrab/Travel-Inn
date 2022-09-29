@@ -40,11 +40,11 @@ const validateSpot = [
   handleValidationErrors
 ];
 
-const bookingsValidate = [
+const validateBooking = [
   check('endDate')
     .isAfter()
     .withMessage("endDate cannot be on or before startDate")
 ]
 
 
-module.exports = { validateReview };
+module.exports = { validateReview, validateSpot, validateBooking };
