@@ -302,6 +302,43 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
   return res.json(newReview);
 })
 
+// CREATE A BOOKING FROM A SPOT BASED ON THE SPOT'S ID
+router.post('/:spotId/bookings', requireAuth, async (req, res) => {
+  const spot = await Spot.findByPk(req.params.spotId)
+  
+  // 404 error
+  if (!spot) {
+    res.status(404)
+    return res.json({
+      "message": "Spot couldn't be found",
+      "statusCode": 404
+    })
+  }
+  
+  // Prevent owner from making a booking
+  if (req.user.id === spot.ownerId) {
+    res.status(403);
+    return res.json({
+      "message": "You cannot create a booking for a property you own",
+      "statusCode": 403
+    })
+  }
+  
+  const { startDate, endDate } = req.body
+  
+  const newBooking = await Booking.create({
+    spotId: spot.id,
+    userId: req.user.id,
+    startDate,
+    endDate
+  })
+  
+  res.send('error testing')
+  return res.json({
+    newBooking
+  })
+  
+})
 
 // CREATE A NEW SPOT //
 router.post('/', requireAuth, async (req, res) => {
