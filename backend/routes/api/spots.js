@@ -169,7 +169,7 @@ router.get('/:spotId', async (req, res) => {
 
       include: [
         [sequelize.fn('count', sequelize.col('review')), 'numReviews'],
-        [sequelize.fn('round', sequelize.fn('avg', sequelize.col('stars')), 1), 'avgRating']
+        [sequelize.fn('round', sequelize.fn('avg', sequelize.col('stars')), 1), 'avgStarRating']
       ]
     },
 
@@ -214,7 +214,16 @@ router.get('/', async (req, res) => {
   page = parseInt(page);
   size = parseInt(size);
   
+  if (page > 10) page = 10;
+  if (size > 20) size = 20;
+  
   const pagination = {};
+  
+  if (Number.isInteger(page) && Number.isInteger(size) &&
+  page > 0 && size > 0) {
+    pagination.limit = size;
+    pagination.offset = size * (page - 1);
+  } 
 
   // Include average rating for each Spot from its associated Reviews
   const allSpots = await Spot.findAll({
@@ -231,7 +240,7 @@ router.get('/', async (req, res) => {
         model: Review,
         attributes: []
       }
-    ]
+    ],
   });
 
   // Create an array of each spot by converting each to JSON

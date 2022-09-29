@@ -88,8 +88,6 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
   // Return 403 if review already has 10 images
   const reviewJSON = review.toJSON();
 
-  console.log(reviewJSON)
-
   if (reviewJSON.ReviewImages.length >= 10) {
     res.status(403)
     return res.json({
