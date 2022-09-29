@@ -206,6 +206,15 @@ router.get('/:spotId', async (req, res) => {
 // GET ALL SPOTS //
 
 router.get('/', async (req, res) => {
+  
+  let { page, size } = req.query;
+  if (!page) page = 1;
+  if (!size) size = 20;
+  
+  page = parseInt(page);
+  size = parseInt(size);
+  
+  const pagination = {};
 
   // Include average rating for each Spot from its associated Reviews
   const allSpots = await Spot.findAll({
@@ -250,7 +259,7 @@ router.get('/', async (req, res) => {
     delete spot.SpotImages
   })
 
-  return res.json({ "Spots": spotsList });
+  return res.json({ "Spots": spotsList, page, size });
 })
 
 // CREATE REVIEW FOR A SPOT BASED ON THE SPOT'S ID //
