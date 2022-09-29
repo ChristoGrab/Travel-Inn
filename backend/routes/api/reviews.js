@@ -148,6 +148,7 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
   }
   
   await review.destroy();
+  
   res.json({
     "message": "Successfully deleted",
     "statusCode": 200
