@@ -21,8 +21,6 @@ router.get('/current', requireAuth, async (req, res) => {
     }
   })
   
-  //TRYING TO SOLVE PREVIEWIMAGE
-  
   let bookingsList = []
   myBookings.forEach(booking => {
     bookingsList.push(booking.toJSON())
