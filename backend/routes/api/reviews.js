@@ -80,7 +80,10 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     url
   })
 
-  return res.json(newImage)
+  return res.json({
+    id: newImage.id,
+    url
+  })
 })
 
 // EDIT A REVIEW
