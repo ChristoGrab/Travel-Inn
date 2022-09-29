@@ -16,44 +16,34 @@ router.get('/current', requireAuth, async (req, res) => {
       attributes: {
         exclude: ['description', 'createdAt', 'updatedAt']
       },
-      include: [
-        {
-          model: SpotImage,
-          attributes: ['preview', 'url']
-        }
-      ]
+      include:
+        { model: SpotImage }
     }
   })
   
   //TRYING TO SOLVE PREVIEWIMAGE
   
-  // let bookingsList = []
-  // myBookings.forEach(booking => {
-  //   bookingsList.push(booking.toJSON())
-  // })
+  let bookingsList = []
+  myBookings.forEach(booking => {
+    bookingsList.push(booking.toJSON())
+  })
   
-  // let spotsList = []
-  // bookingsList.forEach(booking => {
-  //   spotsList.push(booking.Spot)
-  //   })
+  bookingsList.forEach(booking => {
+    booking.Spot.SpotImages.forEach(spotImage => {
+      
+      if (spotImage.preview) {
+        booking.Spot.previewImage = spotImage.url
+      
+      } else {
+        booking.Spot.previewImage = "This spot doesn't have a preview image"
+      }
+      
+    })
     
-  // let imageList = []
-  // spotsList.forEach(spot => {
-  //   imageList.push(spot.SpotImages)
-  // })
+    delete booking.Spot.SpotImages;
+  })
   
-  // console.log(imageList)
-  // let imgUrl;
-  
-  // imageList[0].forEach(image => {
-  //   if (image.preview === true) {
-  //     imgUrl = image.url
-  //   }
-  // })
-  
-  // console.log(imgUrl);
-  
-  res.json({"Bookings": myBookings})
+  res.json({"Bookings": bookingsList})
 })
 
 // DELETE A BOOKING

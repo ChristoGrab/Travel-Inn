@@ -3,7 +3,6 @@ const router = express('router');
 const { Spot, User, ReviewImage, Review, SpotImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { validateReview } = require('../../utils/errors');
-const { Op } = require('sequelize');
 
 
 // GET ALL REVIEWS OF CURRENT USER
@@ -37,8 +36,6 @@ router.get('/current', requireAuth, async (req, res) => {
   myReviews.forEach(review => {
     reviewsList.push(review.toJSON())
   })
-  
-  console.log(reviewsList)
   
   // Iterate through each review
   reviewsList.forEach(review => {
