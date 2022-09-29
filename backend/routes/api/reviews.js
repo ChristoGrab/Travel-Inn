@@ -105,7 +105,10 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     url
   })
 
-  return res.json(newImage)
+  return res.json({
+    id: newImage.id,
+    url
+  })
 })
 
 // EDIT A REVIEW
@@ -137,7 +140,8 @@ router.put('/:reviewId', requireAuth, validateReview, async (req, res) => {
     stars
   })
 
-  res.json({
+
+  return res.json({
     id: editedReview.id,
     userId: editedReview.userId,
     spotId: editedReview.spotId,
