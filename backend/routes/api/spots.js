@@ -1,5 +1,5 @@
 const express = require('express')
-const { Spot, Review, SpotImage, User, ReviewImage, sequelize } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage, Booking, sequelize } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
 const router = express.Router();
 const { Op } = require('sequelize');
@@ -64,6 +64,50 @@ router.get('/:spotId/reviews', async (req, res) => {
 
   return res.json({ "Reviews": spotReviews })
 
+})
+
+// GET ALL BOOKINGS FOR A SPOT BASED ON THE SPOT'S ID
+router.get('/:spotId/bookings', requireAuth, async (req, res) => {
+  const bookings = await Booking.findAll({
+    where: {
+      spotId: req.params.spotId
+    },
+    include: {
+      model: User,
+      attributes: ['id', 'firstName', 'lastName']
+    },
+    include: {
+      model: Spot,
+      attributes: ['ownerId']
+    }
+  })
+  
+  // If query array is empty spot doesn't exist
+  if (!bookings.length) {
+    res.status(404)
+    return res.json({
+      "message": "Spot couldn't be found",
+      "statusCode": 404
+    })
+  }
+  
+  // Turn list into JSON
+  let bookingsList = [];
+  bookings.forEach(booking => {
+    bookingsList.push(booking.toJSON())
+  })
+  
+  // All ownerId will be same, so we just need one to compare against current userId
+  const idCheck = bookingsList[0].Spot.ownerId;
+  
+  if (req.user.id === idCheck) {
+    delete bookings.Spot
+    return res.json({
+      "Bookings": bookings
+    })
+  }
+  
+  res.send('testing')
 })
 
 // GET SPOTS OWNED BY CURRENT USER //
