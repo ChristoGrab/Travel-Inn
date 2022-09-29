@@ -44,6 +44,36 @@ router.get('/current', requireAuth, async (req, res) => {
   res.json({"Bookings": bookingsList})
 })
 
+// EDIT A BOOKING
+router.put('/:bookingId', requireAuth, async (req, res) => {
+  const booking = await Booking.findByPk(req.params.bookingId)
+  
+  if (!booking) {
+    res.status(404)
+    return res.json({
+      "message": "Booking couldn't be found",
+      "statusCode": 404
+    })
+  }
+  
+  const { startDate, endDate } = req.body
+  
+  await booking.update({
+    startDate,
+    endDate
+  })
+  
+  return res.json({
+    id: booking.id,
+    spotId: booking.spotId,
+    userId: booking.userId,
+    startDate,
+    endDate,
+    createdAt: booking.createdAt,
+    updatedAt: booking.updatedAt
+  })
+})
+
 // DELETE A BOOKING
 
 router.delete('/:bookingId', requireAuth, async (req, res) => {
