@@ -20,7 +20,10 @@ router.get('/current', requireAuth, async (req, res) => {
       {
         model: Spot,
         attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country',
-          'lat', 'lng', 'name', 'price']
+          'lat', 'lng', 'name', 'price'],
+          include: {
+            model: SpotImage
+          }
       },
       {
         model: ReviewImage,
@@ -33,6 +36,24 @@ router.get('/current', requireAuth, async (req, res) => {
   const reviewsList = [];
   myReviews.forEach(review => {
     reviewsList.push(review.toJSON())
+  })
+  
+  console.log(reviewsList)
+  
+  // Iterate through each review
+  reviewsList.forEach(review => {
+    review.Spot.SpotImages.forEach(spotImage => {
+      
+      if (spotImage.preview) {
+        review.Spot.previewImage = spotImage.url
+        
+      } else {
+        review.Spot.previewImage = "This spot doesn't have a preview image yet"
+      }
+    })
+    
+    // Make sure to remove the SpotImages from response
+    delete review.Spot.SpotImages;
   })
 
   return res.json({ "Reviews": reviewsList })
