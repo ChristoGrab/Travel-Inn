@@ -2,6 +2,7 @@ const express = require('express');
 const router = express('router');
 const { Spot, User, ReviewImage, Review, SpotImage, sequelize } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
+const { validateReview } = require('../../utils/errors');
 
 
 // GET ALL REVIEWS OF CURRENT USER
@@ -83,7 +84,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
 })
 
 // EDIT A REVIEW
-router.put('/:reviewId', requireAuth, async (req, res) => {
+router.put('/:reviewId', requireAuth, validateReview, async (req, res) => {
   const reviewToEdit = await Review.findByPk(req.params.reviewId)
 
   // Return 404 error if review doesn't exist

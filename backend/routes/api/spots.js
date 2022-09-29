@@ -3,6 +3,7 @@ const { Spot, Review, SpotImage, User, ReviewImage, sequelize } = require('../..
 const { requireAuth } = require('../../utils/auth')
 const router = express.Router();
 const { Op } = require('sequelize');
+const { validateReview } = require('../../utils/errors');
 
 
 // CREATE IMAGE FOR SPOT //
@@ -209,7 +210,7 @@ router.get('/', async (req, res) => {
 })
 
 // CREATE REVIEW FOR A SPOT BASED ON THE SPOT'S ID //
-router.post('/:spotId/reviews', requireAuth, async (req, res) => {
+router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId, {
     include: [
       {
