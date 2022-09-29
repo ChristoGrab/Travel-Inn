@@ -326,6 +326,31 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
   
   const { startDate, endDate } = req.body
   
+  const bookingConflict = await Booking.findAll({
+    where: {
+      spotId: req.params.spotId
+    }
+  })
+  
+  const bookingsList = []
+  bookingConflict.forEach(booking => {
+    bookingsList.push(booking.toJSON())
+  })
+  
+  for (let i = 0; i < bookingsList.length; i++) {
+    let ele = bookingsList[i]
+    if (ele.startDate === startDate ||
+      ele.startDate === endDate ||
+      ele.endDate === startDate ||
+      ele.endDate === endDate) {
+        res.status(403)
+        return res.json({
+          "message": "Sorry, this spot is not available for the requested dates",
+          "statusCode": 403
+        })
+      }
+  }
+  
   const newBooking = await Booking.create({
     spotId: spot.id,
     userId: req.user.id,
@@ -335,9 +360,14 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
   
 
   return res.json({
-    newBooking
+    id: newBooking.id,
+    spotId: newBooking.spotId,
+    userId: newBooking.userId,
+    startDate: newBooking.startDate,
+    endDate: newBooking.endDate,
+    createdAt: newBooking.createdAt,
+    updatedAt: newBooking.updatedAt    
   })
-  
 })
 
 // CREATE A NEW SPOT //
