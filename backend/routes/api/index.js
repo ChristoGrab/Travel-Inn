@@ -14,7 +14,6 @@ const { restoreUser, requireAuth } = require('../../utils/auth.js');
   // If current user session is not valid, set req.user to null
 router.use(restoreUser);
 
-
 // List of routers
 router.use('/session', sessionRouter);
 router.use('/users', usersRouter);

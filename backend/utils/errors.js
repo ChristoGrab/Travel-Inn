@@ -1,6 +1,34 @@
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('./validation');
 
+// Validation checks for signing up a new user
+const validateSignup = [
+  check('email')
+    .exists({ checkFalsy: true })
+    .isEmail()
+    .withMessage('Invalid email'),
+  check('username')
+    .exists({ checkFalsy: true })
+    .isLength({ min: 4 })
+    .withMessage('Please provide a username with at least 4 characters.'),
+  check('username')
+    .not()
+    .isEmail()
+    .withMessage('Username is required and cannot be an email.'),
+  check('password')
+    .exists({ checkFalsy: true })
+    .isLength({ min: 6 })
+    .withMessage('Password must be 6 characters or more.'),
+  check('firstName')
+    .exists({ checkFalsy: true })
+    .withMessage("First Name is required"),
+  check('lastName')
+    .exists({ checkFalsy: true })
+    .withMessage("Last Name is required"),
+  handleValidationErrors
+];
+
+// Validation checks for creating or editing Reviews
 const validateReview = [
   check('review')
     .exists({ checkFalsy: true})
@@ -12,6 +40,7 @@ const validateReview = [
     handleValidationErrors
 ];
 
+// Validation checks for creating or editing Spots
 const validateSpot = [
   check('address')
     .exists({ checkFalsy: true })
@@ -45,11 +74,14 @@ const validateSpot = [
   handleValidationErrors
 ];
 
-const validateBooking = [
-  check('endDate')
-    .isAfter()
-    .withMessage("endDate cannot be on or before startDate")
-]
+// Validations for bookings
+// const validateBooking = [
+//   check('endDate')
+//     .isAfter()
+//     .withMessage("endDate cannot be on or before startDate")
+// ]
 
 
-module.exports = { validateReview, validateSpot, validateBooking };
+
+
+module.exports = { validateReview, validateSpot, validateSignup };
