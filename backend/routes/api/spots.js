@@ -346,7 +346,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
   startDateCheck = new Date(startDate)
   endDateCheck = new Date(endDate)
   
-  if (endDateCheck >= startDateCheck) {
+  if (endDateCheck <= startDateCheck) {
     res.status(400);
     return res.json({
       "message": "The end date for your booking cannot be on or before the start date",
