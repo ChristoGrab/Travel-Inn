@@ -206,24 +206,24 @@ router.get('/:spotId', async (req, res) => {
 // GET ALL SPOTS //
 
 router.get('/', async (req, res) => {
-  
+
   let { page, size } = req.query;
   if (!page) page = 1;
   if (!size) size = 20;
-  
+
   page = parseInt(page);
   size = parseInt(size);
-  
+
   if (page > 10) page = 10;
   if (size > 20) size = 20;
-  
+
   const pagination = {};
-  
+
   if (Number.isInteger(page) && Number.isInteger(size) &&
-  page > 0 && size > 0) {
+    page > 0 && size > 0) {
     pagination.limit = size;
     pagination.offset = size * (page - 1);
-  } 
+  }
 
   // Include average rating for each Spot from its associated Reviews
   const allSpots = await Spot.findAll({
@@ -323,7 +323,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
 // CREATE A BOOKING FROM A SPOT BASED ON THE SPOT'S ID
 router.post('/:spotId/bookings', requireAuth, async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId)
-  
+
   // 404 error
   if (!spot) {
     res.status(404)
@@ -332,7 +332,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
       "statusCode": 404
     })
   }
-  
+
   // Prevent owner from making a booking
   if (req.user.id === spot.ownerId) {
     res.status(403);
@@ -341,51 +341,61 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
       "statusCode": 403
     })
   }
-  
+
   const { startDate, endDate } = req.body
   startDateCheck = new Date(startDate)
   endDateCheck = new Date(endDate)
-  
+
   if (endDateCheck <= startDateCheck) {
     res.status(400);
     return res.json({
       "message": "The end date for your booking cannot be on or before the start date",
       "statusCode": 400
-      })
-    }
-  
+    })
+  }
+
   const bookingConflict = await Booking.findAll({
     where: {
       spotId: req.params.spotId
     }
   })
-  
+
   const bookingsList = []
   bookingConflict.forEach(booking => {
     bookingsList.push(booking.toJSON())
   })
-  
+
   for (let i = 0; i < bookingsList.length; i++) {
-    let ele = bookingsList[i]
-    if (ele.startDate === startDate ||
-      ele.startDate === endDate ||
-      ele.endDate === startDate ||
-      ele.endDate === endDate) {
-        res.status(403)
-        return res.json({
-          "message": "Sorry, this spot is not available for the requested dates",
-          "statusCode": 403
-        })
-      }
+    let eleStart = new Date(bookingsList[i].startDate)
+    let eleEnd = new Date(bookingsList[i].endDate)
+    if (startDateCheck >= eleStart && startDateCheck <= eleEnd) {
+      res.status(403)
+      return res.json({
+        "message": "Sorry, your start date conflicts with an existing booking",
+        "statusCode": 403
+      })
+    } else if (endDateCheck >= eleStart && endDateCheck <= eleEnd) {
+      res.status(403)
+      return res.json({
+        "message": "Sorry, your end date conflicts with an existing booking",
+        "statusCode": 403
+      })
+    } else if (startDateCheck < eleStart && endDateCheck > eleEnd) {
+      res.status(403)
+      return res.json({
+        "message": "Sorry, your booking dates are in conflict with an existing booking",
+        "statusCode": 403
+      })
+    }
   }
-  
+
   const newBooking = await Booking.create({
     spotId: spot.id,
     userId: req.user.id,
     startDate,
     endDate
   })
-  
+
 
   return res.json({
     id: newBooking.id,
@@ -394,7 +404,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     startDate: newBooking.startDate,
     endDate: newBooking.endDate,
     createdAt: newBooking.createdAt,
-    updatedAt: newBooking.updatedAt    
+    updatedAt: newBooking.updatedAt
   })
 })
 
