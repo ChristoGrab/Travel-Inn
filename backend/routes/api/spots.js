@@ -3,7 +3,7 @@ const { Spot, Review, SpotImage, User, ReviewImage, Booking, sequelize } = requi
 const { requireAuth } = require('../../utils/auth')
 const router = express.Router();
 const { Op } = require('sequelize');
-const { validateReview } = require('../../utils/errors');
+const { validateReview, validateSpot } = require('../../utils/errors');
 
 
 // CREATE IMAGE FOR SPOT //
@@ -389,7 +389,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
 })
 
 // CREATE A SPOT //
-router.post('/', requireAuth, async (req, res) => {
+router.post('/', requireAuth, validateSpot, async (req, res) => {
 
   // Deconstruct request body for fields
   const {
@@ -425,7 +425,7 @@ router.post('/', requireAuth, async (req, res) => {
 
 // EDIT A SPOT //
 
-router.put('/:spotId', requireAuth, async (req, res) => {
+router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId)
 
   if (!spot) {

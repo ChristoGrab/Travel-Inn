@@ -32,11 +32,16 @@ const validateSpot = [
   check('description')
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage('Description is required'),
+    .withMessage('Description is required')
+    .isLength({ max: 50 })
+    .withMessage('Please do not exceed 50 characters'),
   check('price')
     .exists({ checkFalsy: true })
     .notEmpty()
     .withMessage('Price per day is required'),
+  check('price')
+    .isNumeric()
+    .withMessage('Please provide a valid price'),
   handleValidationErrors
 ];
 

@@ -70,7 +70,9 @@ app.use((err, _req, _res, next) => {
 // Error formatter
 app.use((err, _req, res, _next) => {
   res.status(err.status || 500);
+  // Prints error to console
   console.error(err);
+  // This is the returned object
   res.json({
     title: err.title || 'Server Error',
     message: err.message,
