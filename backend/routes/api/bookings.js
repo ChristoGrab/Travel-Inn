@@ -48,6 +48,7 @@ router.get('/current', requireAuth, async (req, res) => {
 router.put('/:bookingId', requireAuth, async (req, res) => {
   const booking = await Booking.findByPk(req.params.bookingId)
   
+  
   if (!booking) {
     res.status(404)
     return res.json({
@@ -59,8 +60,16 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
   if (booking.userId !== req.user.id) {
     res.status(403);
     return res.json({
-      message: "Forbidden",
+      message: "Unauthorized request",
       statusCode: 403
+    })
+  }
+  
+  if (booking.endDate < new Date()) {
+    res.status(400);
+    return res.json({
+      "message": "This booking has already ended and cannot be modified",
+      "statusCode": 403
     })
   }
   
@@ -102,7 +111,15 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
   if (booking.userId !== req.user.id) {
     res.status(403)
     return res.json({
-      "message": "Forbidden",
+      "message": "Unauthorized request",
+      "statusCode": 403
+    })
+  }
+  
+  if (booking.startDate < new Date()) {
+    res.status(403);
+    return res.json({
+      "message": "Bookings that have already started cannot be deleted",
       "statusCode": 403
     })
   }
