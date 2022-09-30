@@ -65,15 +65,16 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
     })
   }
   
-  if (booking.endDate < new Date()) {
+  const { startDate, endDate } = req.body
+  let endDateCheck = new Date(endDate)
+  
+  if (endDateCheck < new Date()) {
     res.status(400);
     return res.json({
       "message": "This booking has already ended and cannot be modified",
       "statusCode": 403
     })
   }
-  
-  const { startDate, endDate } = req.body
   
   await booking.update({
     startDate,
@@ -99,7 +100,7 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
       model: Spot
     }
   });
-  
+    
   if (!booking) {
     res.status(404)
     return res.json({
@@ -116,7 +117,12 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
     })
   }
   
-  if (booking.startDate < new Date()) {
+  // Turn startDate into a Date object and compare it to present
+  let requestObject = booking.toJSON();
+  let startDate = requestObject.startDate
+  startDate = new Date(startDate)
+  
+  if (startDate < new Date()) {
     res.status(403);
     return res.json({
       "message": "Bookings that have already started cannot be deleted",
