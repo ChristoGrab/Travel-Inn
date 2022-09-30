@@ -156,6 +156,12 @@ router.get('/current', requireAuth, async (req, res) => {
   spotsList.forEach(spot => {
     delete spot.SpotImages
   })
+  
+  spotsList.forEach(spot => {
+    if (spot.avgRating === null) {
+      spot.avgRating = "This spot doesn't have any ratings yet"
+    }
+  })
 
   return res.json({
     "Spots": spotsList
@@ -200,13 +206,22 @@ router.get('/:spotId', async (req, res) => {
       "statusCode": 404
     })
   }
+  
+  spotObject = spot.toJSON()
+  
+  if (!spotObject.avgStarRating) {
+    spotObject.avgStarRating = "This spot does not have any ratings yet"
+    console.log(spot.avgStarRating)
+    console.log(spot)
+  }
 
-  return res.json(spot)
+  return res.json(spotObject)
 })
 
 // GET ALL SPOTS //
 router.get('/', async (req, res) => {
 
+  // Pagination
   let { page, size } = req.query;
   if (!page) page = 1;
   if (!size) size = 20;
@@ -216,37 +231,63 @@ router.get('/', async (req, res) => {
 
   if (page > 10) page = 10;
   if (size > 20) size = 20;
-
-  const pagination = {};
-
+  
   if (Number.isInteger(page) && Number.isInteger(size) &&
     page > 0 && size > 0) {
-    pagination.limit = size;
-    pagination.offset = size * (page - 1);
+    limit = size;
+    offset = size * (page - 1);
   }
 
-  // Include average rating for each Spot from its associated Reviews
+  // First query for spots by pagination
   const allSpots = await Spot.findAll({
-    attributes: {
-      include: [
-        [sequelize.fn('round', sequelize.fn('avg', sequelize.col('stars')), 1), 'avgRating']
-      ]
-    },
-    // Have to include SpotImages for PostrGres
-    group: ["Spot.id", "SpotImages.id"],
+    limit,
+    offset,
     include: [
-      { model: SpotImage },
       {
-        model: Review,
-        attributes: []
-      }
-    ],
+        model: SpotImage,
+      },
+    ]
   });
-
-  // Create an array of each spot by converting each to JSON
-  let spotsList = [];
-  allSpots.forEach(spot => {
-    spotsList.push(spot.toJSON())
+  
+    // Create an array of each spot by converting each to JSON
+    let spotsList = [];
+    allSpots.forEach(spot => {
+      spotsList.push(spot.toJSON())
+    })
+  
+    // Create avgRating and numReviews properties because sequelize is a pain
+    spotsList.forEach(spot => {
+      spot.avgRating = 0;
+      spot.numReviews = 0;
+    })
+    
+  // Separate query for all reviews
+  const reviews = await Review.findAll({})
+  reviewsList = []
+  
+  reviews.forEach(review => {
+    reviewsList.push(review.toJSON())
+  })
+  
+  // Add the sum of all review scores to each associated spot by id and keep track of numReviews
+  reviewsList.forEach(review => {
+    spotsList.forEach(spot => {
+      if (review.spotId === spot.id) {
+        spot.avgRating += review.stars
+        spot.numReviews ++
+      }
+    })
+  })
+  
+  // Calculate the actual avgRating
+  spotsList.forEach(spot => {
+    spot.avgRating = spot.avgRating / spot.numReviews;
+  })
+  
+  spotsList.forEach(spot => {
+    if (!spot.avgRating) {
+      spot.avgRating = "This spot doesn't have any ratings yet"
+    }
   })
 
   // Iterate through each spot, finding the associated SpotImage with preview set to true
@@ -262,10 +303,11 @@ router.get('/', async (req, res) => {
       spot.previewImage = "This spot doesn't have a preview image"
     }
   })
-
-  // Delete the nested array of images
+  
+  // Delete the nested images and numReviews property
   spotsList.forEach(spot => {
     delete spot.SpotImages
+    delete spot.numReviews
   })
 
   return res.json({ "Spots": spotsList, page, size });
