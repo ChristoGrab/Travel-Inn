@@ -6,12 +6,13 @@ const { Op } = require('sequelize');
 const { validateReview, validateSpot } = require('../../utils/errors');
 
 
-// CREATE IMAGE FOR SPOT //
+// ADD AN IMAGE TO A SPOT BASED ON THE SPOT'S ID //
 router.post('/:spotId/images', requireAuth, async (req, res) => {
 
   const spot = await Spot.findByPk(req.params.spotId)
 
   if (!spot) {
+    res.status(404)
     return res.json({
       "message": "Spot couldn't be found",
       "statusCode": 404
@@ -204,7 +205,6 @@ router.get('/:spotId', async (req, res) => {
 })
 
 // GET ALL SPOTS //
-
 router.get('/', async (req, res) => {
 
   let { page, size } = req.query;
@@ -302,7 +302,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
   if (hasReview === true) {
     res.status(403);
     return res.json({
-      "message": "User already has a review for this spot",
+      "message": "You have already left a review for this spot",
       "statusCode": 403
     })
   }
@@ -459,7 +459,7 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
   if (spot.ownerId !== req.user.id) {
     res.status(403);
     return res.json({
-      "message": "Forbidden",
+      "message": "Unauthorized request",
       "statusCode": 403
     })
   }
@@ -507,7 +507,7 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
   if (spot.ownerId !== req.user.id) {
     res.status(403)
     return res.json({
-      "message": "Forbidden",
+      "message": "Unauthorized request",
       "statusCode": 403
     })
   }

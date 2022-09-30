@@ -80,7 +80,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
   if (review.userId !== req.user.id) {
     res.status(403)
     return res.json({
-      "message": "Forbidden",
+      "message": "Unauthorized request",
       "statusCode": 403
     })
   }
@@ -126,7 +126,7 @@ router.put('/:reviewId', requireAuth, validateReview, async (req, res) => {
   if (reviewToEdit.userId !== req.user.id) {
     res.status(403)
     return res.json({
-      "message": "Forbidden",
+      "message": "Unauthorized request",
       "statusCode": 403
     })
   }
@@ -169,7 +169,7 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
   if (review.userId !== req.user.id) {
     res.status(403)
     return res.json({
-      "message": "Forbidden",
+      "message": "Unauthorized request",
       "statusCode": 403
     })
   }
