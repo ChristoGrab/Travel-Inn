@@ -35,7 +35,6 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 
 })
 
-
 // GET ALL REVIEWS BY A SPOT'S ID //
 router.get('/:spotId/reviews', async (req, res) => {
   const spotReviews = await Review.findAll({
@@ -388,6 +387,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
   startDateCheck = new Date(startDate)
   endDateCheck = new Date(endDate)
 
+  // Sanity check for request start date coming before end date
   if (endDateCheck <= startDateCheck) {
     res.status(400);
     return res.json({
@@ -396,6 +396,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     })
   }
 
+  // Query for all existing bookings at designated spot
   const bookingConflict = await Booking.findAll({
     where: {
       spotId: req.params.spotId
@@ -407,6 +408,8 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     bookingsList.push(booking.toJSON())
   })
 
+  // Check incoming start and end dates against all pre-existing bookings.
+  // New booking cannot overlap with or encapsulate an existing booking
   for (let i = 0; i < bookingsList.length; i++) {
     let eleStart = new Date(bookingsList[i].startDate)
     let eleEnd = new Date(bookingsList[i].endDate)
