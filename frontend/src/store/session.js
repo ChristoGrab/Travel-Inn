@@ -7,7 +7,7 @@ const STOP_SESSION = 'session/stop';
 
 // ------ SESSION ACTION CREATORS ------ //
 const setUser = (user) => {
-  console.log("This is user being passed in to action creator: ", user)
+  // console.log("This is user being passed in to action creator: ", user)
   return {
     type: START_SESSION,
     payload: user
@@ -25,7 +25,7 @@ const removeUser = () => {
 // login thunk
 export const login = (user) => async (dispatch) => {
   const { credential, password } = user;
-  console.log("Credentials being sent: ", credential, password)
+  // console.log("Credentials being sent: ", credential, password)
   const response = await csrfFetch('/api/session', {
     method: 'POST',
     body: JSON.stringify({
@@ -35,10 +35,8 @@ export const login = (user) => async (dispatch) => {
   });
   
   const data = await response.json();
-  console.log("Data being returned: ", data)
-  console.log("Data.user being returned: ", data.user)
+  // console.log("Data being returned: ", data)
   dispatch(setUser(data));
-  console.log("User being returned from data: ", data.user)
   return response;
 };
 
