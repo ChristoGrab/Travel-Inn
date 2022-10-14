@@ -92,7 +92,6 @@ const sessionReducer = (state = initialState, action) => {
       newState = Object.assign({}, state);
       console.log("New state: ", state)
       newState.user = action.payload;
-      console.log("User: ", action.user)
       return newState;
       
     case STOP_SESSION:
