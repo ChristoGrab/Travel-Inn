@@ -35,7 +35,6 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 
 })
 
-
 // GET ALL REVIEWS BY A SPOT'S ID //
 router.get('/:spotId/reviews', async (req, res) => {
   const spotReviews = await Review.findAll({
