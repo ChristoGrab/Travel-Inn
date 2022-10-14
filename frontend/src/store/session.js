@@ -21,6 +21,8 @@ const removeUser = () => {
 };
 
 // ------ SESSION THUNK CREATORS ------ //
+
+// login thunk
 export const login = (user) => async (dispatch) => {
   const { credential, password } = user;
   console.log("Credentials being sent: ", credential, password)
@@ -40,10 +42,41 @@ export const login = (user) => async (dispatch) => {
   return response;
 };
 
+// restore session thunk
 export const restoreUser = () => async dispatch => {
   const response = await csrfFetch('/api/session');
+  
   const data = await response.json();
   dispatch(setUser(data));
+  return response;
+}
+
+// signup thunk
+export const signup = (user) => async dispatch => {
+  const { username, email, password, firstName, lastName } = user;
+  const response = await csrfFetch('/api/users', {
+    method: "POST",
+    body: JSON.stringify({
+      username,
+      email,
+      password,
+      firstName,
+      lastName
+    })
+  })
+  
+  const data = await response.json();
+  dispatch(setUser(data))
+  return response;
+}
+
+// LOGOUT thunk
+export const logout = () => async dispatch => {
+  const response = await csrfFetch('/api/session', {
+    method: "DELETE",
+  });
+  
+  dispatch(removeUser());
   return response;
 }
 
@@ -53,6 +86,7 @@ const initialState = { user: null };
 const sessionReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
+    
     case START_SESSION:
       console.log("Prev state: ", state)
       newState = Object.assign({}, state);
