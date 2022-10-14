@@ -31,6 +31,7 @@ export const login = (user) => async (dispatch) => {
       password
     }),
   });
+  
   const data = await response.json();
   console.log("Data being returned: ", data)
   console.log("Data.user being returned: ", data.user)
@@ -38,6 +39,13 @@ export const login = (user) => async (dispatch) => {
   console.log("User being returned from data: ", data.user)
   return response;
 };
+
+export const restoreUser = () => async dispatch => {
+  const response = await csrfFetch('/api/session');
+  const data = await response.json();
+  dispatch(setUser(data));
+  return response;
+}
 
 const initialState = { user: null };
 
@@ -52,10 +60,12 @@ const sessionReducer = (state = initialState, action) => {
       newState.user = action.payload;
       console.log("User: ", action.user)
       return newState;
+      
     case STOP_SESSION:
       newState = Object.assign({}, state);
       newState.user = null;
       return newState;
+      
     default:
       return state;
   }
