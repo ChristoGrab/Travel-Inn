@@ -55,7 +55,7 @@ router.delete('/', async (req, res) => {
 });
 
 // GET the current User
-router.get('/', requireAuth, (req, res) => {
+router.get('/', (req, res) => {
   const { user } = req;
   if (user) {
     const { id, firstName, lastName, email, username } = user
@@ -68,11 +68,7 @@ router.get('/', requireAuth, (req, res) => {
     });
   } 
   
-  else return res.json({});
+  else { res.json(null) };
 });
-
-
-
-
 
 module.exports = router;
