@@ -1,0 +1,24 @@
+.spot-card-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.spot-card-details {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}
+
+.spot-card-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.spot-card-list {
+  display: flex;
+  flex-direction: row;
+  gap: 5%;
+  list-style: none;
+}

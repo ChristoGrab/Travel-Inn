@@ -1,0 +1,32 @@
+.top-navbar {
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  height: 40px;
+  margin: auto;
+}
+
+#app-name {
+  color: #ff385c;
+  text-decoration: none;
+  font-size: x-large;
+  font-weight: bold;
+  font-family: Roboto, Helvetica Neue, sans-serif;
+}
+
+.navbar-links {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+}
+
+.navbar-left {
+  text-decoration: n
+}
+
+.navbar-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
