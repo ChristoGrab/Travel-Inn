@@ -19,9 +19,11 @@ const loadSpots = (spots) => {
 export const getAllSpots = () => async (dispatch) => {
   const response = await csrfFetch('/api/spots');
   
+
   const data = await response.json();
   dispatch(loadSpots(data));
-  return response;
+  console.log("Data returned from GetAllSpots: ", data);
+  return data;
 }
 
 const initialState = { Spots: {} }
@@ -33,12 +35,16 @@ const spotsReducer = (state = initialState, action) => {
   
   switch (action.type) {
     
-    case LOAD_SPOTS:
-      newState['allSpots'] = { ...action.spots }
-      
-      return newState;
-      
+    case LOAD_SPOTS: {
+      action.spots.Spots.forEach(spot => {
+        newState.Spots[spot.id] = spot
+      })
+      console.log("Load spots: ", newState)
+      return newState;    
+  }
     default:
       return state;
   }
 }
+
+export default spotsReducer;
