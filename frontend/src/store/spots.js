@@ -82,10 +82,15 @@ const spotsReducer = (state = initialState, action) => {
     }
 
     case CREATE_SPOT: {
+      
+      // create object to update list in allspots
       const allSpotsObject = { 
         ...state.spots, 
         [action.spot.id]: action.spot 
       }
+      
+      // return copy of state with spots set to allSpots object 
+      // and singleSpot set to the action spot.
       return {
         ...state,
         spots: allSpotsObject,
@@ -101,11 +106,15 @@ const spotsReducer = (state = initialState, action) => {
     }
 
     case ADD_IMAGE: {
+      
+      // create object to update singlespot, and its image array
       const singleSpotObject = {
         ...state.singleSpot,
         SpotImages: [...state.singleSpot.SpotImages, action.image]
       }
       
+      // return a copy of state with singleSpot set to our mutated
+      // object
       return {
         ...state,
         singleSpot: singleSpotObject
