@@ -14,6 +14,13 @@ const loadSpots = (spots) => {
   };
 };
 
+const createSpot = (spot) => {
+  return {
+    type: CREATE_SPOT,
+    spot
+  };
+};
+
 // ------ SESSION THUNK CREATORS ------ //
 
 export const getAllSpots = () => async (dispatch) => {
@@ -36,12 +43,27 @@ const spotsReducer = (state = initialState, action) => {
   switch (action.type) {
     
     case LOAD_SPOTS: {
+      
+      // action = spots: { {Spots: [{1:{x}}, {2:{y}}, {3:{z}}]} }
+      // action.spots = {Spots: [{1:{x}}, {2:{y}}, {3:{z}}]}
+      // action.spots.Spots = [{1:{x}}, {2:{y}}, {3:{z}}]
       action.spots.Spots.forEach(spot => {
         newState.Spots[spot.id] = spot
+        
+      //  newState = { Spots: {} }
+      // newState.Spots.id = {1: {name, location, etc}}
+        
       })
       console.log("Load spots: ", newState)
       return newState;    
   }
+  
+    case CREATE_SPOT: {
+      
+    // action = spot: { spo}
+      newState.Spots[action.spot.id] = action.spot
+    }
+    
     default:
       return state;
   }

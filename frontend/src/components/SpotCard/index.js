@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react';
-import { getAllSpots } from '../../store/allSpots';
+import { getAllSpots } from '../../store/spots';
 import SpotCardInfo from './SpotCard'
 
 function SpotCard() {
@@ -18,16 +18,13 @@ function SpotCard() {
 
   return (
     <div className="spot-card-container">
-      <div className="spot-card-info">
         <ul className="spot-card-list">
           {spotsArray.map(spot => (
-          <li key={spot.id} 
-          spot={spot}>
+          <li key={spot.id}>
             <SpotCardInfo spot={spot}/>
           </li>
           ))}
         </ul>
-      </div>
     </div>
   )
 }

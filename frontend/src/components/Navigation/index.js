@@ -27,14 +27,12 @@ function Navigation({ isLoaded }) {
 
   return (
     <div className="top-navbar">
-      <div className='navbar-links'>
         <div className='navbar-left'>
           <NavLink exact to="/" id="app-name">Travel-Host</NavLink>
           </div>
           <div className='navbar-right'>
           {isLoaded && sessionLinks}
           </div>
-      </div>
     </div>
   );
 }

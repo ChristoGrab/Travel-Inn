@@ -8,12 +8,15 @@
   display: flex;
   flex-direction: column;
   width: fit-content;
+  color: grey
 }
 
 .spot-card-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  width: 70%;
+  margin: auto;
 }
 
 .spot-card-list {
@@ -21,4 +24,18 @@
   flex-direction: row;
   gap: 5%;
   list-style: none;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.spot-card-info {
+  display: flex;
+  border: 1px solid black;
+  padding: 10px;
+  box-sizing: border-box;
+  flex-direction: column;
+}
+
+.spot-card-price {
+  color: black;
 }
