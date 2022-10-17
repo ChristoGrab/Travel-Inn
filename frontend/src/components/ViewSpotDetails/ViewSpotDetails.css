@@ -1,0 +1,20 @@
+.spot-details-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.spot-details-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.spot-details-image-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.spot-details-description {
+  display: flex;
+}

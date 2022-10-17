@@ -1,7 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { getOneSpot } from '../../store/spots'
+import { getOneSpot } from '../../store/spots';
+import './ViewSpotDetails.css';
 
 function ViewSpotDetails() {
   const dispatch = useDispatch();
@@ -12,7 +13,8 @@ function ViewSpotDetails() {
   }, [dispatch, spotId])
 
   const mySpot = useSelector(state => state.spots.singleSpot);
-  
+  const currentUser = useSelector(state => state.session.user)
+
   let imageList = []
   
   // need to create a conditional for mapping images, otherwise
@@ -27,15 +29,15 @@ function ViewSpotDetails() {
   return (
     <div className="spot-details-container">
       <div className="spot-details-header">
-        {mySpot.name}
-        {mySpot.avgRating}
-        {mySpot.numReviews}
-        {mySpot.city}, {mySpot.state}, {mySpot.country}
+        <div>{mySpot.name}</div>
+        <div>{mySpot.avgRating}</div>
+        <div>{mySpot.numReviews}</div>
+        <div>{mySpot.city}, {mySpot.state}, {mySpot.country}</div>
       </div>
       <div className="spot-details-image-list">
         <ul>
           {imageList.map(img => (
-            <img key ={img.id} src={img.url}></img>
+            <img key ={img.id} src={img.url} alt={img.name}></img>
           ))}
         </ul>
       </div>
