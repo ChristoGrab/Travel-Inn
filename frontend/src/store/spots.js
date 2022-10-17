@@ -56,6 +56,21 @@ export const getOneSpot = (id) => async (dispatch) => {
   return data;
 }
 
+export const createNewSpot = (spot) => async (dispatch) => {
+  const response = await csrfFetch('/api/spots', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(spot)
+  })
+  
+  if (response.ok) {
+    const newSpot = await response.json();
+    dispatch(createSpot(newSpot))
+  }
+}
+
 const initialState = { spots: {}, singleSpot: {} }
 
 // ------ SPOTS REDUCER ------ //

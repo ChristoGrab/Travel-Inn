@@ -5,6 +5,8 @@ import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SpotCard from "./components/SpotCard";
+import CreateSpotForm from './components/CreateSpotForm/CreateSpotForm'
+import CreateSpotButton from "./components/CreateSpotForm";
 
 function App() {
   
@@ -23,9 +25,13 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
+          <Route path="/create" exact>
+          <CreateSpotForm />
+          </Route>
         </Switch>
       )}
       <SpotCard />
+
     </>
   );
 }

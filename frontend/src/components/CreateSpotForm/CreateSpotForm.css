@@ -1,0 +1,29 @@
+.create-spot-form-container {
+  display: flex;
+  justify-content: center;
+}
+
+.create-spot-form-greeting {
+  font-size: 20px;
+  color: d  
+}
+
+.create-spot-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 5px;
+  border: 1px solid lightgray;
+  padding: 30px 40px;
+  border-radius: 8%;
+}
+
+.create-spot-form-input {
+  border: 1px solid lightgray;
+}
+
+.create-spot-form-textarea {
+  border: 1px solid lightgray;
+}
+
+
