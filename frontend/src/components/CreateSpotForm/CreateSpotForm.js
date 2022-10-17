@@ -10,6 +10,7 @@ function CreateSpotForm() {
   // list of state variables
   const dispatch = useDispatch();
   const history = useHistory();
+  const [inputErrors, setInputErrors] = useState([])
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [region, setRegion] = useState("");
