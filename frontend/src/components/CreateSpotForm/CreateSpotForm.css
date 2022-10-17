@@ -4,8 +4,7 @@
 }
 
 .create-spot-form-greeting {
-  font-size: 20px;
-  color: d  
+  font-size: 20px; 
 }
 
 .create-spot-form {
@@ -35,4 +34,8 @@
 
 #create-spot-button:hover {
   box-shadow: 1px 1px 1px red;
+}
+
+.create-spot-errors {
+  color: #ff385c;
 }

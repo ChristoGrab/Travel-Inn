@@ -32,6 +32,16 @@ function CreateSpotForm() {
   const updateDescription = (e) => setDescription(e.target.value)
   const updatePrice = (e) => setPrice(e.target.value)
   
+  useEffect(() => {
+    let errors = []
+    if (name.length <= 2) errors.push("Please provide a name with at least 3 characters")
+    if (typeof latitude !== 'number') errors.push("Please provide a valid latitude in decimal format")
+    if (typeof longitude !== 'number') errors.push("Please provide a valid longitude in decimal format")
+    if (description.length <= 12) errors.push("Please provide a brief description of your listing that is at least 12 characters long")
+    if (price <= 0) errors.push("Please provide a valid price per night")
+    setInputErrors(errors)
+  }, [name, description, price, latitude, longitude])
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -60,6 +70,15 @@ function CreateSpotForm() {
       <form className="create-spot-form">
         <div className="create-spot-form-greeting">
           Ready to join our growing family of hosts?
+        </div>
+        <div className="create-spot-errors">
+          <ul>
+            {inputErrors.map((error) => (
+              <li>
+                {error}
+              </li>
+            ))}
+          </ul>
         </div>
         <label>
           Address
