@@ -26,4 +26,13 @@
   border: 1px solid lightgray;
 }
 
+#create-spot-button {
+  background-color: white;
+  border: 1px solid lightgray;
+  border-radius: 20%;
+  box-shadow: 1px 1px 1px black;
+}
 
+#create-spot-button:hover {
+  box-shadow: 1px 1px 1px red;
+}

@@ -44,7 +44,6 @@ export const getAllSpots = () => async (dispatch) => {
 
   const data = await response.json();
   dispatch(loadSpots(data));
-  console.log("Data returned from GetAllSpots: ", data);
   return data;
 }
 

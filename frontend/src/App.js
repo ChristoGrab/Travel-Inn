@@ -6,13 +6,13 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SpotCard from "./components/SpotCard";
 import CreateSpotForm from './components/CreateSpotForm/CreateSpotForm'
-import CreateSpotButton from "./components/CreateSpotForm";
+import ViewSpotDetails from './components/ViewSpotDetails/index'
 
 function App() {
-  
+
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  
+
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
@@ -26,12 +26,16 @@ function App() {
             <SignupFormPage />
           </Route>
           <Route path="/create" exact>
-          <CreateSpotForm />
+            <CreateSpotForm />
+          </Route>
+          <Route path="/" exact>
+            <SpotCard />
+          </Route>
+          <Route path="/spots/:spotId">
+            <ViewSpotDetails />
           </Route>
         </Switch>
       )}
-      <SpotCard />
-
     </>
   );
 }

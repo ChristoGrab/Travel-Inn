@@ -7,12 +7,12 @@ function SpotCard() {
 
   const dispatch = useDispatch()
   const spotsObj = useSelector(state => state.spots)
-  console.log("This is all-spots: ", spotsObj)
 
   useEffect(() => {
     dispatch(getAllSpots())
   }, [dispatch])
 
+  // turn the object containing all spots into an array for mapping
   const allSpots = spotsObj.spots
   const spotsArray = Object.values(allSpots)
 
