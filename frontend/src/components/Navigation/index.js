@@ -5,13 +5,13 @@ import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal';
 import './Navigation.css';
 
-function Navigation({ isLoaded }){
-  
+function Navigation({ isLoaded }) {
+
   const sessionUser = useSelector(state => state.session.user);
   // console.log("Session user in Navigation: ", sessionUser)
-  
+
   let sessionLinks;
-  
+
   if (sessionUser) {
     sessionLinks = (
       <ProfileButton user={sessionUser} />
@@ -26,12 +26,14 @@ function Navigation({ isLoaded }){
   }
 
   return (
-    <ul>
-      <li>
-        <NavLink exact to="/">Home</NavLink>
-        {isLoaded && sessionLinks}
-      </li>
-    </ul>
+    <div className="top-navbar">
+        <div className='navbar-left'>
+          <NavLink exact to="/" id="app-name">Travel-Host</NavLink>
+          </div>
+          <div className='navbar-right'>
+          {isLoaded && sessionLinks}
+          </div>
+    </div>
   );
 }
 

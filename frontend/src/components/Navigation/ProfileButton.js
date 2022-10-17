@@ -28,6 +28,7 @@ function ProfileButton({ user }) {
 
   const logout = (e) => {
     e.preventDefault();
+    console.log("logout has been initiated")
     dispatch(sessionActions.logout());
   };
 
