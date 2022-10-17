@@ -13,7 +13,7 @@ function SpotCard() {
     dispatch(getAllSpots())
   }, [dispatch])
 
-  const allSpots = spotsObj["Spots"]
+  const allSpots = spotsObj.spots
   const spotsArray = Object.values(allSpots)
 
   return (

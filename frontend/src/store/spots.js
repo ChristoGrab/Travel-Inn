@@ -5,6 +5,8 @@ const LOAD_SPOTS = 'spots/load';
 const CREATE_SPOT = 'spots/create';
 const DELETE_SPOT = 'spots/delete';
 const UPDATE_SPOT = 'spots/update';
+const GET_SPOT = 'spots/getOne'
+const ADD_IMAGE = 'spots/addImage'
 
 // ------ SESSION ACTION CREATORS ------ //
 const loadSpots = (spots) => {
@@ -21,11 +23,24 @@ const createSpot = (spot) => {
   };
 };
 
+const getSpot = (spot) => {
+  return {
+    type: GET_SPOT,
+    spot
+  }
+}
+
+const addImage = (image) => {
+  return {
+    type: ADD_IMAGE,
+    image
+  }
+}
+
 // ------ SESSION THUNK CREATORS ------ //
 
 export const getAllSpots = () => async (dispatch) => {
   const response = await csrfFetch('/api/spots');
-  
 
   const data = await response.json();
   dispatch(loadSpots(data));
@@ -33,35 +48,68 @@ export const getAllSpots = () => async (dispatch) => {
   return data;
 }
 
-const initialState = { Spots: {} }
+export const getOneSpot = (id) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${id}`)
+
+  const data = await response.json();
+  dispatch(getSpot(data))
+  return data;
+}
+
+const initialState = { spots: {}, singleSpot: {} }
 
 // ------ SPOTS REDUCER ------ //
 const spotsReducer = (state = initialState, action) => {
   
-  let newState = { ...state }
+  // don't declare newState here, JS is weird with spread logic and
+  // could mutate the original if we are not careful
   
   switch (action.type) {
-    
+
     case LOAD_SPOTS: {
-      
       // action = spots: { {Spots: [{1:{x}}, {2:{y}}, {3:{z}}]} }
       // action.spots = {Spots: [{1:{x}}, {2:{y}}, {3:{z}}]}
       // action.spots.Spots = [{1:{x}}, {2:{y}}, {3:{z}}]
+      const allSpotsObject = {};
       action.spots.Spots.forEach(spot => {
-        newState.Spots[spot.id] = spot
-        
-      //  newState = { Spots: {} }
-      // newState.Spots.id = {1: {name, location, etc}}
-        
+        allSpotsObject[spot.id] = spot;
       })
-      console.log("Load spots: ", newState)
-      return newState;    
-  }
-  
+
+      return {
+        ...state,
+        spots: allSpotsObject
+      }
+    }
+
     case CREATE_SPOT: {
+      const allSpotsObject = { 
+        ...state.spots, 
+        [action.spot.id]: action.spot 
+      }
+      return {
+        ...state,
+        spots: allSpotsObject,
+        singleSpot: action.spot
+      }
+    }
+
+    case GET_SPOT: {
+      return {
+        ...state,
+        singleSpot: action.spot
+      }
+    }
+
+    case ADD_IMAGE: {
+      const singleSpotObject = {
+        ...state.singleSpot,
+        SpotImages: [...state.singleSpot.SpotImages, action.image]
+      }
       
-    // action = spot: { spo}
-      newState.Spots[action.spot.id] = action.spot
+      return {
+        ...state,
+        singleSpot: singleSpotObject
+      }
     }
     
     default:
@@ -70,3 +118,4 @@ const spotsReducer = (state = initialState, action) => {
 }
 
 export default spotsReducer;
+
