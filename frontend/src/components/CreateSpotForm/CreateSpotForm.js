@@ -39,8 +39,8 @@ function CreateSpotForm() {
       city,
       state: region,
       country,
-      latitude,
-      longitude,
+      lat: latitude,
+      lng: longitude,
       name,
       description,
       price
