@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { getOneSpot } from '../../store/spots';
@@ -13,7 +13,7 @@ function ViewSpotDetails() {
   }, [dispatch, spotId])
 
   const mySpot = useSelector(state => state.spots.singleSpot);
-  const currentUser = useSelector(state => state.session.user)
+  const currentUser = useSelector(state => state.session.user);
 
   let imageList = []
   
@@ -24,7 +24,15 @@ function ViewSpotDetails() {
     mySpot.SpotImages.forEach(img => imageList.push(img))
   }
   
-  console.log(imageList)
+  let currentUserId;
+  let spotOwnerId;
+  
+  
+  if (currentUser.id) currentUserId = currentUser.id;
+  if (mySpot.Owner.id) spotOwnerId = mySpot.Owner.id;
+  
+  console.log("This is my user ID: ", currentUserId)
+  console.log("This is the spot owner ID: ", spotOwnerId)
   
   return (
     <div className="spot-details-container">
@@ -44,6 +52,7 @@ function ViewSpotDetails() {
       <div className="spot-details-description">
         {mySpot.description}
       </div>
+
     </div>
   )
 }

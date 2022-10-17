@@ -70,20 +70,31 @@ export const createNewSpot = (spot) => async (dispatch) => {
   }
 }
 
+export const createImage = (image, spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(image)
+  })
+  
+  if (response.ok) {
+    const newImage = await response.json();
+    dispatch(addImage(newImage))
+  }
+}
+
 const initialState = { spots: {}, singleSpot: {} }
 
 // ------ SPOTS REDUCER ------ //
 const spotsReducer = (state = initialState, action) => {
-  
   // don't declare newState here, JS is weird with spread logic and
   // could mutate the original if we are not careful
   
   switch (action.type) {
 
     case LOAD_SPOTS: {
-      // action = spots: { {Spots: [{1:{x}}, {2:{y}}, {3:{z}}]} }
-      // action.spots = {Spots: [{1:{x}}, {2:{y}}, {3:{z}}]}
-      // action.spots.Spots = [{1:{x}}, {2:{y}}, {3:{z}}]
       const allSpotsObject = {};
       action.spots.Spots.forEach(spot => {
         allSpotsObject[spot.id] = spot;

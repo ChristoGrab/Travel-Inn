@@ -10,7 +10,7 @@ function CreateSpotForm() {
   // list of state variables
   const dispatch = useDispatch();
   const history = useHistory();
-  const [inputErrors, setInputErrors] = useState([]);
+  // const [inputErrors, setInputErrors] = useState([]);
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [region, setRegion] = useState("");
@@ -32,15 +32,13 @@ function CreateSpotForm() {
   const updateDescription = (e) => setDescription(e.target.value)
   const updatePrice = (e) => setPrice(e.target.value)
   
-  useEffect(() => {
-    let errors = []
-    if (name.length <= 2) errors.push("Please provide a name with at least 3 characters")
-    if (typeof latitude !== 'number') errors.push("Please provide a valid latitude in decimal format")
-    if (typeof longitude !== 'number') errors.push("Please provide a valid longitude in decimal format")
-    if (description.length <= 12) errors.push("Please provide a brief description of your listing that is at least 12 characters long")
-    if (price <= 0) errors.push("Please provide a valid price per night")
-    setInputErrors(errors)
-  }, [name, description, price, latitude, longitude])
+  // useEffect(() => {
+  //   let errors = []
+  //   if (name.length <= 2) errors.push("Please provide a name with at least 3 characters")
+  //   if (description.length <= 12) errors.push("Please provide a brief description of your listing that is at least 12 characters long")
+  //   if (price <= 0) errors.push("Please provide a valid price per night")
+  //   setInputErrors(errors)
+  // }, [name, description, price, latitude, longitude])
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -71,7 +69,7 @@ function CreateSpotForm() {
         <div className="create-spot-form-greeting">
           Ready to join our growing family of hosts?
         </div>
-        <div className="create-spot-errors">
+        {/* <div className="create-spot-errors">
           <ul>
             {inputErrors.map((error) => (
               <li>
@@ -79,7 +77,7 @@ function CreateSpotForm() {
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
         <label>
           Address
           <input className="create-spot-form-input"
@@ -145,7 +143,9 @@ function CreateSpotForm() {
             value={price}
             onChange={updatePrice}/>
         </label>
-        <button onClick={handleSubmit}>Add your listing!</button>
+        <button 
+        // disabled={!!inputErrors.length}
+        onClick={handleSubmit}>Add your listing!</button>
       </form>
     </div>
   )
