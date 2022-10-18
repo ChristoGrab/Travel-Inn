@@ -25,15 +25,12 @@
   border: 1px solid lightgray;
 }
 
-#create-spot-button {
+#create-spot-submit-button {
   background-color: white;
   border: 1px solid lightgray;
-  border-radius: 20%;
+  border-radius: 10%;
   box-shadow: 1px 1px 1px black;
-}
-
-#create-spot-button:hover {
-  box-shadow: 1px 1px 1px red;
+  color: #ff385c;
 }
 
 .create-spot-errors {
