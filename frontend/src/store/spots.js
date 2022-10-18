@@ -122,6 +122,7 @@ export const createImageThunk = (payload, spotId) => async (dispatch) => {
   
   if (response.ok) {
     const newImage = await response.json();
+    console.log("New image in image thunk: ", newImage)
     dispatch(addImage(newImage))
   }
 }
@@ -201,7 +202,7 @@ const spotsReducer = (state = initialState, action) => {
       // create object to update singlespot, and its image array
       const singleSpotObject = {
         ...state.singleSpot,
-        SpotImages: [...state.singleSpot.SpotImages, action.image]
+        SpotImages: [action.image]
       }
       
       // return a copy of state with singleSpot set to our mutated

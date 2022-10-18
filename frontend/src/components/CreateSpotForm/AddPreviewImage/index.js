@@ -12,8 +12,9 @@ function AddPreviewImage() {
   const updateUrl = (e) => setUrl(e.target.value);
   const newSpot = useSelector(state => state.spots.singleSpot)
 
+  console.log("adding preview image: ", newSpot)
   if (!newSpot.id) return null;
-  console.log("Hello")
+
   
   let spotId;
   if (newSpot.id) {
@@ -27,10 +28,11 @@ function AddPreviewImage() {
 
     const payload = {
       url,
-      preview: true
+      preview: true,
+      spotId
     }
     
-    console.log(spotId)
+    console.log("SpotId in handleSubmit for SpotImage: ", spotId)
 
     dispatch(createImageThunk(payload, spotId)).then(() => history.push('/'))
   }
