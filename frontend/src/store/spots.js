@@ -30,6 +30,13 @@ const getSpot = (spot) => {
   }
 }
 
+const editSpot = (spot) => {
+  return {
+    type: UPDATE_SPOT,
+    spot
+  }
+}
+
 const addImage = (image) => {
   return {
     type: ADD_IMAGE,
@@ -44,7 +51,6 @@ export const getAllSpots = () => async (dispatch) => {
 
   const data = await response.json();
   dispatch(loadSpots(data));
-  console.log("Data returned from GetAllSpots: ", data);
   return data;
 }
 
@@ -56,20 +62,63 @@ export const getOneSpot = (id) => async (dispatch) => {
   return data;
 }
 
+export const createNewSpot = (spot) => async (dispatch) => {
+  const response = await csrfFetch('/api/spots', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(spot)
+  })
+  
+  if (response.ok) {
+    const newSpot = await response.json();
+    dispatch(createSpot(newSpot))
+  }
+}
+
+export const updateSpot = (spotData, spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(spotData)
+  })
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(editSpot(data))
+  }
+
+  else return response;
+}
+
+export const createImage = (image, spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(image)
+  })
+  
+  if (response.ok) {
+    const newImage = await response.json();
+    dispatch(addImage(newImage))
+  }
+}
+
 const initialState = { spots: {}, singleSpot: {} }
 
 // ------ SPOTS REDUCER ------ //
 const spotsReducer = (state = initialState, action) => {
-  
   // don't declare newState here, JS is weird with spread logic and
   // could mutate the original if we are not careful
   
   switch (action.type) {
 
     case LOAD_SPOTS: {
-      // action = spots: { {Spots: [{1:{x}}, {2:{y}}, {3:{z}}]} }
-      // action.spots = {Spots: [{1:{x}}, {2:{y}}, {3:{z}}]}
-      // action.spots.Spots = [{1:{x}}, {2:{y}}, {3:{z}}]
       const allSpotsObject = {};
       action.spots.Spots.forEach(spot => {
         allSpotsObject[spot.id] = spot;
@@ -104,6 +153,33 @@ const spotsReducer = (state = initialState, action) => {
         singleSpot: action.spot
       }
     }
+    
+    case UPDATE_SPOT: {
+      const allSpotsObject = {
+        ...state.spots,
+        [action.spot.id]: action.spot
+      }
+    
+    return {
+      ...state,
+      spots: allSpotsObject,
+      singleSpot: action.spot
+    }
+  }
+  
+  case DELETE_SPOT: {
+    const allSpotsObject = {
+      ...state.spots.allSpots
+    }
+    delete allSpotsObject[action.id]
+    return {
+      ...state,
+      spots: {
+        allSpots: allSpotsObject,
+        singleSpot: {}
+      }
+    }
+  }
 
     case ADD_IMAGE: {
       

@@ -5,12 +5,16 @@ import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SpotCard from "./components/SpotCard";
+import CreateSpotForm from './components/CreateSpotForm/CreateSpotForm'
+import ViewSpotDetails from './components/ViewSpotDetails/index'
+import EditSpotForm from './components/EditSpotForm'
+import DeleteModal from "./components/DeleteSpotModal/DeleteSpot";
 
 function App() {
-  
+
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  
+
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
@@ -23,9 +27,23 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
+          <Route path="/create" exact>
+            <CreateSpotForm />
+          </Route>
+          <Route path="/" exact>
+            <SpotCard />
+          </Route>
+          <Route path="/spots/:spotId" exact>
+            <ViewSpotDetails />
+          </Route>
+          <Route path="/spots/:spotId/edit">
+            <EditSpotForm />
+          </Route>
+          <Route path='/spots/:spotId/delete'>
+            <DeleteModal />
+          </Route>
         </Switch>
       )}
-      <SpotCard />
     </>
   );
 }
