@@ -8,6 +8,7 @@ import SpotCard from "./components/SpotCard";
 import CreateSpotForm from './components/CreateSpotForm/CreateSpotForm'
 import ViewSpotDetails from './components/ViewSpotDetails/index'
 import EditSpotForm from './components/EditSpotForm'
+import DeleteModal from "./components/DeleteSpotModal/DeleteSpot";
 
 function App() {
 
@@ -37,6 +38,9 @@ function App() {
           </Route>
           <Route path="/spots/:spotId/edit">
             <EditSpotForm />
+          </Route>
+          <Route path='/spots/:spotId/delete'>
+            <DeleteModal />
           </Route>
         </Switch>
       )}

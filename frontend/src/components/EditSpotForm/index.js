@@ -28,10 +28,10 @@ function EditSpotForm() {
   const updateName = (e) => setName(e.target.value)
   const updateDescription = (e) => setDescription(e.target.value)
   const updatePrice = (e) => setPrice(e.target.value)
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const payload = {
       address,
       city,

@@ -166,6 +166,20 @@ const spotsReducer = (state = initialState, action) => {
       singleSpot: action.spot
     }
   }
+  
+  case DELETE_SPOT: {
+    const allSpotsObject = {
+      ...state.spots.allSpots
+    }
+    delete allSpotsObject[action.id]
+    return {
+      ...state,
+      spots: {
+        allSpots: allSpotsObject,
+        singleSpot: {}
+      }
+    }
+  }
 
     case ADD_IMAGE: {
       

@@ -58,7 +58,7 @@ function ViewSpotDetails() {
               <Link to={`/spots/${mySpot.id}/edit`}>Edit your listing</Link>
             </div>
             <div className="delete-listing-button">
-              <Link to="">Delete your listing</Link>
+              <Link to={`/spots/${mySpot.id}/delete`}>Delete your listing</Link>
             </div>
           </div>
         )}
