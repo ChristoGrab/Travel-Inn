@@ -16,12 +16,10 @@ function ViewSpotDetails() {
   const currentUser = useSelector(state => state.session.user);
 
   let imageList = [];
-
   if (!mySpot.Owner) return null;
 
   // need to create a conditional for mapping images, otherwise
   // runs into a timing issue with dispatch.
-
   if (mySpot.SpotImages) {
     mySpot.SpotImages.forEach(img => imageList.push(img))
   }
@@ -38,7 +36,7 @@ function ViewSpotDetails() {
       <div className="spot-details-header">
         <div>{mySpot.name}</div>
         <div className="spot-details-">
-          <div>★ {mySpot.avgRating}</div>
+          <div>★ {mySpot.avgStarRating}</div>
           <div>{mySpot.numReviews}</div>
           <div>{mySpot.city}, {mySpot.state}, {mySpot.country}</div>
         </div>
@@ -54,10 +52,17 @@ function ViewSpotDetails() {
         {mySpot.description}
       </div>
       <div>
-          {currentUserId === spotOwnerId && (
-            <button>Edit Your Listing</button>
-          )}
-        </div>
+        {currentUserId === spotOwnerId && (
+          <div className="listing-owner-container">
+            <div className="edit-listing-button">
+              <Link to={`/spots/${mySpot.id}/edit`}>Edit your listing</Link>
+            </div>
+            <div className="delete-listing-button">
+              <Link to="">Delete your listing</Link>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
 
   )

@@ -7,6 +7,7 @@ import Navigation from "./components/Navigation";
 import SpotCard from "./components/SpotCard";
 import CreateSpotForm from './components/CreateSpotForm/CreateSpotForm'
 import ViewSpotDetails from './components/ViewSpotDetails/index'
+import EditSpotForm from './components/EditSpotForm'
 
 function App() {
 
@@ -31,8 +32,11 @@ function App() {
           <Route path="/" exact>
             <SpotCard />
           </Route>
-          <Route path="/spots/:spotId">
+          <Route path="/spots/:spotId" exact>
             <ViewSpotDetails />
+          </Route>
+          <Route path="/spots/:spotId/edit">
+            <EditSpotForm />
           </Route>
         </Switch>
       )}

@@ -30,6 +30,13 @@ const getSpot = (spot) => {
   }
 }
 
+const editSpot = (spot) => {
+  return {
+    type: UPDATE_SPOT,
+    spot
+  }
+}
+
 const addImage = (image) => {
   return {
     type: ADD_IMAGE,
@@ -68,6 +75,23 @@ export const createNewSpot = (spot) => async (dispatch) => {
     const newSpot = await response.json();
     dispatch(createSpot(newSpot))
   }
+}
+
+export const updateSpot = (spotData, spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(spotData)
+  })
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(editSpot(data))
+  }
+
+  else return response;
 }
 
 export const createImage = (image, spotId) => async (dispatch) => {
@@ -129,6 +153,19 @@ const spotsReducer = (state = initialState, action) => {
         singleSpot: action.spot
       }
     }
+    
+    case UPDATE_SPOT: {
+      const allSpotsObject = {
+        ...state.spots,
+        [action.spot.id]: action.spot
+      }
+    
+    return {
+      ...state,
+      spots: allSpotsObject,
+      singleSpot: action.spot
+    }
+  }
 
     case ADD_IMAGE: {
       
