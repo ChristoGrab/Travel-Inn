@@ -37,6 +37,13 @@ const editSpot = (spot) => {
   }
 }
 
+const deleteSpot = (id) => {
+  return {
+    type: DELETE_SPOT,
+    id
+  }
+}
+
 const addImage = (image) => {
   return {
     type: ADD_IMAGE,
@@ -92,6 +99,16 @@ export const updateSpot = (spotData, spotId) => async (dispatch) => {
   }
 
   else return response;
+}
+
+export const deleteSpotThunk = (id) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${id}`, {
+    method: "DELETE"
+  })
+  
+  if (response.ok) {
+    dispatch(deleteSpot(id))
+  }
 }
 
 export const createImage = (image, spotId) => async (dispatch) => {
@@ -169,15 +186,15 @@ const spotsReducer = (state = initialState, action) => {
   
   case DELETE_SPOT: {
     const allSpotsObject = {
-      ...state.spots.allSpots
+      ...state.spots
     }
+    console.log("AllSpotsObj before delete: ", allSpotsObject)
     delete allSpotsObject[action.id]
+    console.log("And after delete: ", allSpotsObject)
     return {
       ...state,
-      spots: {
-        allSpots: allSpotsObject,
+        spots: allSpotsObject,
         singleSpot: {}
-      }
     }
   }
 
