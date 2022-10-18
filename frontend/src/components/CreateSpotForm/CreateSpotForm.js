@@ -6,60 +6,66 @@ import './CreateSpotForm.css'
 
 // Form for Creating New Spot
 function CreateSpotForm() {
-  
+
   // list of state variables
   const dispatch = useDispatch();
   const history = useHistory();
-  // const [inputErrors, setInputErrors] = useState([]);
+  
+  const [inputErrors, setInputErrors] = useState([]);
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [region, setRegion] = useState("");
   const [country, setCountry] = useState("");
-  const [latitude, setLatitude] = useState(0.0000000);
-  const [longitude, setLongitude] = useState(0.0000000);
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
+  const [submitted, setSubmitted] = useState(false)
   
   // list of input functions
   const updateAddress = (e) => setAddress(e.target.value)
   const updateCity = (e) => setCity(e.target.value)
   const updateRegion = (e) => setRegion(e.target.value)
   const updateCountry = (e) => setCountry(e.target.value)
-  const updateLatitude = (e) => setLatitude(e.target.value)
-  const updateLongitude = (e) => setLongitude(e.target.value)
+  const updateLat = (e) => setLat(e.target.value)
+  const updateLng = (e) => setLng(e.target.value)
   const updateName = (e) => setName(e.target.value)
   const updateDescription = (e) => setDescription(e.target.value)
   const updatePrice = (e) => setPrice(e.target.value)
   
-  // useEffect(() => {
-  //   let errors = []
-  //   if (name.length <= 2) errors.push("Please provide a name with at least 3 characters")
-  //   if (description.length <= 12) errors.push("Please provide a brief description of your listing that is at least 12 characters long")
-  //   if (price <= 0) errors.push("Please provide a valid price per night")
-  //   setInputErrors(errors)
-  // }, [name, description, price, latitude, longitude])
+  useEffect(() => {
+    let errors = []
+    if (address.length <= 5) errors.push("Please provide a valid address")
+    if (name.length <= 2) errors.push("Please provide a valid name")
+    if (city.length <= 2) errors.push("Please provide a valid city")
+    if (region.length <= 1) errors.push("Please provide a valid state")
+    if (country.length <= 1) errors.push("Please provide a valid country")
+    if (lat < -90 || lat > 90) errors.push("Please provide a valid latitude")
+    if (lng < -180 || lng > 180) errors.push("please provide a valid longitude")
+    if (description.length <= 12) errors.push("Please provide a brief description of your listing that is at least 12 characters long")
+    if (price <= 0) errors.push("Please provide a valid numerical price per night")
+    setInputErrors(errors)
+  }, [address, name, city, region, country, lat, lng, description, price])
   
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (inputErrors.length) return;
     
     const payload = {
       address,
       city,
       state: region,
       country,
-      lat: latitude,
-      lng: longitude,
+      lat,
+      lng,
       name,
       description,
       price
     }
     
-    const newSpot = await dispatch(createNewSpot(payload))
-    
-    if (newSpot) {
-      history.push('/')
-    }
+    dispatch(createNewSpot(payload)).then(() => history.push('/create/image'))
   }
 
   // Component JSX
@@ -68,8 +74,10 @@ function CreateSpotForm() {
       <form className="create-spot-form">
         <div className="create-spot-form-greeting">
           Ready to join our growing family of hosts?
+          <br />
+          Please fill out the provided fields and we'll get you set up!
         </div>
-        {/* <div className="create-spot-errors">
+        <div className="create-spot-errors">
           <ul>
             {inputErrors.map((error) => (
               <li>
@@ -77,7 +85,7 @@ function CreateSpotForm() {
               </li>
             ))}
           </ul>
-        </div> */}
+        </div>
         <label>
           Address
           <input className="create-spot-form-input"
@@ -112,15 +120,15 @@ function CreateSpotForm() {
           Latitude
           <input className="create-spot-form-input"
             type="text"
-            value={latitude}
-            onChange={updateLatitude}/>
+            value={lat}
+            onChange={updateLat}/>
         </label>
         <label>
           Longitude
           <input className="create-spot-form-input"
             type="text"
-            value={longitude}
-            onChange={updateLongitude}/>
+            value={lng}
+            onChange={updateLng}/>
         </label>
         <label>
           Name
@@ -143,7 +151,7 @@ function CreateSpotForm() {
             value={price}
             onChange={updatePrice}/>
         </label>
-        <button 
+        <button id="create-spot-submit-button"
         // disabled={!!inputErrors.length}
         onClick={handleSubmit}>Add your listing!</button>
       </form>

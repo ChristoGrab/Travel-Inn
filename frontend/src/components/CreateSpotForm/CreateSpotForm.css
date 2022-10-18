@@ -4,17 +4,20 @@
 }
 
 .create-spot-form-greeting {
-  font-size: 20px; 
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .create-spot-form {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  align-items: center;
   gap: 5px;
   border: 1px solid lightgray;
   padding: 30px 40px;
   border-radius: 8%;
+  font-family: sans-serif;
 }
 
 .create-spot-form-input {
@@ -25,17 +28,26 @@
   border: 1px solid lightgray;
 }
 
-#create-spot-button {
+#create-spot-submit-button {
   background-color: white;
   border: 1px solid lightgray;
-  border-radius: 20%;
+  border-radius: 10%;
   box-shadow: 1px 1px 1px black;
-}
-
-#create-spot-button:hover {
-  box-shadow: 1px 1px 1px red;
+  color: #ff385c;
+  box-sizing: border-box;
 }
 
 .create-spot-errors {
   color: #ff385c;
+}
+
+#create-spot-button {
+  background-color: white;
+  border: none;
+  height: 40px;
+  border-radius: 10%;
+}
+
+#create-spot-button:hover {
+  background-color: lightgrey;
 }

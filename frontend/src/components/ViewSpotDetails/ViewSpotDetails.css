@@ -10,10 +10,12 @@
   justify-content: space-evenly;
 }
 
-.spot-details-image-list {
+.spot-details-image-list > img {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  max-height: 300px;
+  max-width: 400px;
 }
 
 .spot-details-description {

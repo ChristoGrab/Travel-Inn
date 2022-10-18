@@ -9,6 +9,7 @@ import CreateSpotForm from './components/CreateSpotForm/CreateSpotForm'
 import ViewSpotDetails from './components/ViewSpotDetails/index'
 import EditSpotForm from './components/EditSpotForm'
 import DeleteModal from "./components/DeleteSpotModal/DeleteSpot";
+import AddPreviewImage from "./components/CreateSpotForm/AddPreviewImage";
 
 function App() {
 
@@ -29,6 +30,9 @@ function App() {
           </Route>
           <Route path="/create" exact>
             <CreateSpotForm />
+          </Route>
+          <Route path="/create/image">
+            <AddPreviewImage />
           </Route>
           <Route path="/" exact>
             <SpotCard />

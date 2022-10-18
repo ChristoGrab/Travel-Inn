@@ -37,6 +37,13 @@ const editSpot = (spot) => {
   }
 }
 
+const deleteSpot = (id) => {
+  return {
+    type: DELETE_SPOT,
+    id
+  }
+}
+
 const addImage = (image) => {
   return {
     type: ADD_IMAGE,
@@ -94,17 +101,28 @@ export const updateSpot = (spotData, spotId) => async (dispatch) => {
   else return response;
 }
 
-export const createImage = (image, spotId) => async (dispatch) => {
+export const deleteSpotThunk = (id) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${id}`, {
+    method: "DELETE"
+  })
+  
+  if (response.ok) {
+    dispatch(deleteSpot(id))
+  }
+}
+
+export const createImageThunk = (payload, spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}/images`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(image)
+    body: JSON.stringify(payload)
   })
   
   if (response.ok) {
     const newImage = await response.json();
+    console.log("New image in image thunk: ", newImage)
     dispatch(addImage(newImage))
   }
 }
@@ -169,15 +187,13 @@ const spotsReducer = (state = initialState, action) => {
   
   case DELETE_SPOT: {
     const allSpotsObject = {
-      ...state.spots.allSpots
+      ...state.spots
     }
     delete allSpotsObject[action.id]
     return {
       ...state,
-      spots: {
-        allSpots: allSpotsObject,
+        spots: allSpotsObject,
         singleSpot: {}
-      }
     }
   }
 
@@ -186,7 +202,7 @@ const spotsReducer = (state = initialState, action) => {
       // create object to update singlespot, and its image array
       const singleSpotObject = {
         ...state.singleSpot,
-        SpotImages: [...state.singleSpot.SpotImages, action.image]
+        SpotImages: [action.image]
       }
       
       // return a copy of state with singleSpot set to our mutated

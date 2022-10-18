@@ -9,12 +9,14 @@ function EditSpotForm() {
   const history = useHistory();
   const { spotId } = useParams();
   
+  // list of state variables
+  const [inputErrors, setInputErrors] = useState([]);
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [region, setRegion] = useState("");
   const [country, setCountry] = useState("");
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
@@ -23,11 +25,25 @@ function EditSpotForm() {
   const updateCity = (e) => setCity(e.target.value)
   const updateRegion = (e) => setRegion(e.target.value)
   const updateCountry = (e) => setCountry(e.target.value)
-  const updateLatitude = (e) => setLatitude(e.target.value)
-  const updateLongitude = (e) => setLongitude(e.target.value)
+  const updateLat = (e) => setLat(e.target.value)
+  const updateLng = (e) => setLng(e.target.value)
   const updateName = (e) => setName(e.target.value)
   const updateDescription = (e) => setDescription(e.target.value)
   const updatePrice = (e) => setPrice(e.target.value)
+  
+  useEffect(() => {
+    let errors = []
+    if (address.length <= 5) errors.push("Please provide a valid address")
+    if (name.length <= 2) errors.push("Please provide a valid name")
+    if (city.length <= 2) errors.push("Please provide a valid city")
+    if (region.length <= 1) errors.push("Please provide a valid state")
+    if (country.length <= 1) errors.push("Please provide a valid country")
+    if (lat < -90 || lat > 90) errors.push("Please provide a valid latitude")
+    if (lng < -180 || lng > 180) errors.push("please provide a valid longitude")
+    if (description.length <= 12) errors.push("Please provide a brief description of your listing that is at least 12 characters long")
+    if (price <= 0) errors.push("Please provide a valid numerical price per night")
+    setInputErrors(errors)
+  }, [address, name, city, region, country, lat, lng, description, price])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,14 +53,12 @@ function EditSpotForm() {
       city,
       state: region,
       country,
-      lat: latitude,
-      lng: longitude,
+      lat,
+      lng,
       name,
       description,
       price
     }
-    
-    console.log(payload)
 
     const updatedSpot = await dispatch(updateSpot(payload, spotId))
 
@@ -56,6 +70,15 @@ function EditSpotForm() {
       <form>
         <div>
           Want to make some edits to your listing info? You're in the right place
+        </div>
+        <div className="edit-spot-errors">
+          <ul>
+            {inputErrors.map((error) => (
+              <li>
+                {error}
+              </li>
+            ))}
+          </ul>
         </div>
         <label>
           Address
@@ -91,15 +114,15 @@ function EditSpotForm() {
           Latitude
           <input
             type="text"
-            value={latitude}
-            onChange={updateLatitude}/>
+            value={lat}
+            onChange={updateLat}/>
         </label>
         <label>
           Longitude
           <input
             type="text"
-            value={longitude}
-            onChange={updateLongitude}/>
+            value={lng}
+            onChange={updateLng}/>
         </label>
         <label>
           Name
