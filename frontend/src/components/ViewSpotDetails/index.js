@@ -17,6 +17,7 @@ function ViewSpotDetails() {
 
   let imageList = [];
   if (!mySpot.Owner) return null;
+  if (!currentUser.id) return null;
 
   // need to create a conditional for mapping images, otherwise
   // runs into a timing issue with dispatch.
