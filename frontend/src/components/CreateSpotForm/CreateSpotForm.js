@@ -21,6 +21,7 @@ function CreateSpotForm() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
+  const [submitted, setSubmitted] = useState(false)
   
   // list of input functions
   const updateAddress = (e) => setAddress(e.target.value)
@@ -64,11 +65,7 @@ function CreateSpotForm() {
       price
     }
     
-    const newSpot = await dispatch(createNewSpot(payload))
-    
-    if (newSpot) {
-      history.push('/')
-    }
+    dispatch(createNewSpot(payload)).then(() => history.push('/create/image'))
   }
 
   // Component JSX

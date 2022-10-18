@@ -111,13 +111,13 @@ export const deleteSpotThunk = (id) => async (dispatch) => {
   }
 }
 
-export const createImage = (image, spotId) => async (dispatch) => {
+export const createImageThunk = (payload, spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}/images`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(image)
+    body: JSON.stringify(payload)
   })
   
   if (response.ok) {
@@ -188,9 +188,7 @@ const spotsReducer = (state = initialState, action) => {
     const allSpotsObject = {
       ...state.spots
     }
-    console.log("AllSpotsObj before delete: ", allSpotsObject)
     delete allSpotsObject[action.id]
-    console.log("And after delete: ", allSpotsObject)
     return {
       ...state,
         spots: allSpotsObject,

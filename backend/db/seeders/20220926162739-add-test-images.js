@@ -14,7 +14,7 @@ module.exports = {
    await queryInterface.bulkInsert('SpotImages', [
     {
       spotId: 1,
-      url: 'image1.url',
+      url: 'https://i.picsum.photos/id/1040/4496/3000.jpg?hmac=kvZONlBpTcZ16PuE_g2RWxlicQ5JKVq2lqqZndfafBY',
       preview: true
     },
     {
@@ -24,7 +24,7 @@ module.exports = {
     },
     {
       spotId: 2,
-      url: 'image3.url',
+      url: 'https://i.picsum.photos/id/164/1200/800.jpg?hmac=wkqGUkaeW3kiAsHq_VwxSWWossIMAwFV4eUfFzuDkew',
       preview: true
     },
     {
@@ -34,8 +34,8 @@ module.exports = {
     },
     {
       spotId: 3,
-      url: 'image5.url',
-      preview: false
+      url: 'https://i.picsum.photos/id/215/3264/2448.jpg?hmac=u-g_DAEnfO1tx6Y9o80X1qzqC7rpmPHJ94JhqVa8SCI',
+      preview: true
     }    
    ])
    

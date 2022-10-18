@@ -1,16 +1,20 @@
 import { useParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getOneSpot } from '../../store/spots';
 import './ViewSpotDetails.css';
 
 function ViewSpotDetails() {
   const dispatch = useDispatch();
   const { spotId } = useParams();
+  
+  //set a state variable to prevent page loading before data is ready
+  //to avoid rendering previous state data
+  const [dataLoaded, setDataLoaded] = useState(false)
 
   useEffect(() => {
-    dispatch(getOneSpot(spotId))
-  }, [dispatch, spotId])
+    dispatch(getOneSpot(spotId)).then(() => setDataLoaded(true))
+  }, [dispatch, dataLoaded, spotId])
 
   const mySpot = useSelector(state => state.spots.singleSpot);
   const currentUser = useSelector(state => state.session.user);
@@ -33,6 +37,8 @@ function ViewSpotDetails() {
 
 
   return (
+    <>
+    {dataLoaded && (
     <div className="spot-details-container">
       <div className="spot-details-header">
         <div>{mySpot.name}</div>
@@ -42,8 +48,8 @@ function ViewSpotDetails() {
           <div>{mySpot.city}, {mySpot.state}, {mySpot.country}</div>
         </div>
       </div>
-      <div className="spot-details-image-list">
-        <ul>
+      <div className="spot-details-image-list-div">
+        <ul className='spot-details-image-list'>
           {imageList.map(img => (
             <img key={img.id} src={img.url} alt={img.name}></img>
           ))}
@@ -53,7 +59,7 @@ function ViewSpotDetails() {
         {mySpot.description}
       </div>
       <div>
-        {currentUserId === spotOwnerId && (
+        {currentUserId && currentUserId === spotOwnerId && (
           <div className="listing-owner-container">
             <div className="edit-listing-button">
               <Link to={`/spots/${mySpot.id}/edit`}>Edit your listing</Link>
@@ -65,7 +71,8 @@ function ViewSpotDetails() {
         )}
       </div>
     </div>
-
+    )}
+    </>
   )
 }
 
