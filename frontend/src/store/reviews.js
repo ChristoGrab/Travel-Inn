@@ -49,16 +49,13 @@ export const loadSpotReviewsThunk = (spotId) => async (dispatch) => {
   
   // need to handle error response for new spots without reviews
   else {
-    console.log("No reviews found...")
     const noData = await response.json()
-    console.log("No review found response: ", noData)
     return noData;
   }
 }
 
 export const loadUserReviewsThunk = () => async (dispatch) => {
   const response = await csrfFetch('/api/reviews/current')
-  console.log("This is my response for loading user reviews: ", response)
 
   if (response.ok) {
     const data = await response.json();

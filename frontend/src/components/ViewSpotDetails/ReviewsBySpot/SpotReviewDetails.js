@@ -1,13 +1,28 @@
+import { useParams, Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux'
+import { deleteReviewThunk } from '../../../store/reviews';
 import './ReviewsBySpot.css'
 
 function SpotReviewDetails(review) {
+  
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.session.user)
+  
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    
+    dispatch(deleteReviewThunk(review.review.id))
+  }
 
-  // console.log("Review in each card: ", review)
+  console.log("Review in each card: ", review)
   return (
   <div className="spot-review-details">
-    {/* <p>{review.review.User.firstName}</p> */}
     <p>★ {review.review.stars}</p>
     <p>{review.review.review}</p>
+    { user && user.id === review.review.User.id && (
+      <button onClick={handleDelete}
+      >Delete your Review</button>
+    )}
   </div>
   )
 }
