@@ -1,6 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import { createReviewThunk } from '../../store/reviews';
 
 function CreateReviewForm () {
+  
+  const { spotId } = useParams();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  
+  const sessionUser = useSelector((state) => state.session.user)
   
   const [review, setReview] = useState("");
   const [stars, setStars] = useState("")
