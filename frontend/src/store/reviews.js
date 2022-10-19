@@ -30,6 +30,14 @@ const deleteSpot = (id) => {
 
 // Action Thunks
 
+export const loadSpotReviewsThunk = (spotId) => async (dispatch) => {
+  const response = await csrfFetch('/api/spots/${spotId}/reviews')
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(loadSpotReviews(data))
+  }
+}
 
 
 // ------ Reviews Reducer ------ //
@@ -55,7 +63,7 @@ const reviewsReducer = (state = initialState, action) => {
       action.reviews.Reviews.forEach(review => {
         reviewsObj.spot[review.id] = review});
 
-      return reviewsObj
+      return reviewsObj;
     }
 
     default:
