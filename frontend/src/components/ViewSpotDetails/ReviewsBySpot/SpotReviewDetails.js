@@ -8,6 +8,8 @@ function SpotReviewDetails(review) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user)
   
+  if (!review.review.ReviewImages) return null;
+  
   const handleDelete = async (e) => {
     e.preventDefault();
     
