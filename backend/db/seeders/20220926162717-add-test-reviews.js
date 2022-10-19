@@ -35,6 +35,24 @@ module.exports = {
       spotId: 1,
       review: "Pretty good time",
       stars: 3
+    },
+    {
+      userId: 5,
+      spotId: 1,
+      review: "It was out of this world, loved the stay!",
+      stars: 5
+    },
+    {
+      userId: 4,
+      spotId: 1,
+      review: "Great host, not much to do in the area but peaceful stay",
+      stars: 4
+    },
+    {
+      userId: 4,
+      spotId: 2,
+      review: "LOVED IT!!! Everything was perfect",
+      stars: 5
     }
    ])
   },
