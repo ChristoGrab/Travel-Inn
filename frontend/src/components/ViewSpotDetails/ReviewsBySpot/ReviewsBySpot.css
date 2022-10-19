@@ -1,0 +1,16 @@
+.spot-review-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.spot-review-ratings {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+
+.spot-review-details {
+  display: flex;
+  flex-direction: column;
+}
