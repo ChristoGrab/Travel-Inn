@@ -37,6 +37,17 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 
 // GET ALL REVIEWS BY A SPOT'S ID //
 router.get('/:spotId/reviews', async (req, res) => {
+  
+  const spot = await Spot.findByPk(req.params.spotId)
+  
+  if (!spot) {
+    res.status(404)
+    return res.json({
+      "message": "Spot couldn't be found",
+      "statusCode": 404
+    })
+  }
+  
   const spotReviews = await Review.findAll({
     where: {
       spotId: req.params.spotId
@@ -52,15 +63,6 @@ router.get('/:spotId/reviews', async (req, res) => {
       }
     ]
   })
-
-  // An empty array is still a truthy value, so we need to check for length if there are no spots
-  if (!spotReviews.length) {
-    res.status(404)
-    return res.json({
-      "message": "Spot couldn't be found",
-      "statusCode": 404
-    })
-  }
 
   return res.json({ "Reviews": spotReviews })
 

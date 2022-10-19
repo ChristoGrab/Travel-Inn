@@ -14,13 +14,20 @@ function CreateReviewForm () {
   const [review, setReview] = useState("");
   const [stars, setStars] = useState("")
   const [inputErrors, setInputErrors] = useState([]);
+  const [formSubmitted, setFormSubmitted] = useState([]);
   
   const updateReview = (e) => (e.target.value)
   const updateStars = (e) => (e.target.value)
   
+  useEffect(() => {
+    let errors = [];
+    if (review.length)
+  })
+  
   return (
     <>
-    <form>
+    <form onSubmit={handleSubmit}>
+      <h2 className="create-review-header">Share some thoughts on your stay here!</h2>
     <label>
           Review
           <input

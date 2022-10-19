@@ -16,9 +16,10 @@ function ViewSpotDetails() {
 
   useEffect(() => {
     dispatch(getOneSpot(spotId))
-      .then(() => dispatch(loadSpotReviewsThunk(spotId)))
-      .catch((e) => console.log(e))
-      .finally(() => setDataLoaded(true))
+    dispatch(loadSpotReviewsThunk(spotId))
+      // .then(() => dispatch(loadSpotReviewsThunk(spotId)))
+      // .catch((e) => console.log(e))
+      // .finally(() => setDataLoaded(true))
   }, [dispatch, dataLoaded, spotId])
 
   const mySpot = useSelector(state => state.spots.singleSpot);
@@ -39,11 +40,12 @@ function ViewSpotDetails() {
   }
 
   console.log("THis is the reviewsObj in my component: ", reviewsObj)
+  
+  if (!mySpot.SpotImages) return null;
 
 
   return (
     <>
-      {dataLoaded && (
         <div className="spot-details-container">
           <div className="spot-details-header">
             <div>{mySpot.name}</div>
@@ -76,8 +78,8 @@ function ViewSpotDetails() {
             )}
           </div>
         </div>
-      )}
-      {dataLoaded && reviewsObj && (
+
+      {(!!Object.values(reviewsObj).length) && (
         <ReviewsBySpot reviews={reviewsObj} />
       )}
     </>
