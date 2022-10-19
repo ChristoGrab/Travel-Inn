@@ -16,17 +16,26 @@ function CreateReviewForm () {
   const [inputErrors, setInputErrors] = useState([]);
   const [formSubmitted, setFormSubmitted] = useState([]);
   
-  const updateReview = (e) => (e.target.value)
-  const updateStars = (e) => (e.target.value)
+  const updateReview = (e) => setReview(e.target.value)
+  const updateStars = (e) => setStars(e.target.value)
   
-  useEffect(() => {
-    let errors = [];
-    if (review.length)
-  })
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    const payload = {
+      review,
+      stars: parseInt(stars)
+    }
+    
+    console.log("Is this a number? ", typeof payload.stars === "number")
+    dispatch(createReviewThunk(payload, spotId))
+    
+    history.push(`/spots/${spotId}`)
+  }
   
   return (
     <>
-    <form onSubmit={handleSubmit}>
+    <form>
       <h2 className="create-review-header">Share some thoughts on your stay here!</h2>
     <label>
           Review
@@ -49,7 +58,11 @@ function CreateReviewForm () {
             <option value={5}>5</option>
             </select>
         </label>
+        <button className='submit-review-button'
+        onClick={handleSubmit}>Submit Review</button>
     </form>
     </>
   )
 }
+
+export default CreateReviewForm;

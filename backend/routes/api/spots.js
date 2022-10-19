@@ -72,7 +72,6 @@ router.get('/:spotId/reviews', async (req, res) => {
 router.get('/:spotId/bookings', requireAuth, async (req, res) => {
   const idCheck = await Spot.findByPk(req.params.spotId)
 
-
   // If query array is empty spot doesn't exist
   if (!idCheck) {
     res.status(404)
@@ -342,13 +341,13 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
     }
   })
 
-  if (hasReview === true) {
-    res.status(403);
-    return res.json({
-      "message": "You have already left a review for this spot",
-      "statusCode": 403
-    })
-  }
+  // if (hasReview === true) {
+  //   res.status(403);
+  //   return res.json({
+  //     "message": "You have already left a review for this spot",
+  //     "statusCode": 403
+  //   })
+  // }
 
   const { review, stars } = req.body;
 
@@ -362,6 +361,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
   res.status(201);
   return res.json(newReview);
 })
+
 
 // CREATE A BOOKING FROM A SPOT BASED ON THE SPOT'S ID
 router.post('/:spotId/bookings', requireAuth, async (req, res) => {
