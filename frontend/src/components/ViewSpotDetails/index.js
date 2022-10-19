@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getOneSpot } from '../../store/spots';
 import { loadSpotReviewsThunk } from '../../store/reviews';
+import ReviewsBySpot from './ReviewsBySpot'
 import './ViewSpotDetails.css';
 
 function ViewSpotDetails() {
@@ -15,12 +16,14 @@ function ViewSpotDetails() {
 
   useEffect(() => {
     dispatch(getOneSpot(spotId))
-    // .then(() => dispatch(loadSpotReviewsThunk(spotId)))
+    .then(() => dispatch(loadSpotReviewsThunk(spotId)))
     .then(() => setDataLoaded(true))
   }, [dispatch, dataLoaded, spotId])
 
   const mySpot = useSelector(state => state.spots.singleSpot);
   const currentUser = useSelector(state => state.session.user);
+  const reviewsObj = useSelector(state => state.reviews.spot)
+
 
   let imageList = [];
   if (!mySpot.Owner) return null;
@@ -31,6 +34,9 @@ function ViewSpotDetails() {
   if (mySpot.SpotImages) {
     mySpot.SpotImages.forEach(img => imageList.push(img))
   }
+  
+  console.log("THis is the reviewsObj in my component: ", reviewsObj)
+  
 
   let currentUserId;
   let spotOwnerId;
@@ -73,6 +79,7 @@ function ViewSpotDetails() {
           </div>
         )}
       </div>
+      <ReviewsBySpot reviews={reviewsObj} />
     </div>
     )}
     </>

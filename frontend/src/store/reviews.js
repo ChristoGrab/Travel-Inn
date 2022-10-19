@@ -7,10 +7,11 @@ const DELETE_REVIEW = "/review/delete";
 const CREATE_REVIEW = '/review/create';
 
 // Action Creators
-const loadSpotReviews = (spot) => {
+const loadSpotReviews = (reviews) => {
+  console.log("this is the data being sent to the reducer: ", reviews)
   return {
     type: LOAD_SPOT_REVIEWS,
-    spot
+    reviews
   }
 }
 
@@ -31,10 +32,11 @@ const deleteSpot = (id) => {
 // Action Thunks
 
 export const loadSpotReviewsThunk = (spotId) => async (dispatch) => {
-  const response = await csrfFetch('/api/spots/${spotId}/reviews')
-
+  const response = await csrfFetch(`/api/spots/${spotId}/reviews`)
+  console.log("I have been sent")
   if (response.ok) {
     const data = await response.json();
+    console.log("this is the data being sent to action: ", data)
     dispatch(loadSpotReviews(data))
   }
 }
@@ -60,6 +62,7 @@ const reviewsReducer = (state = initialState, action) => {
         spot: {}
       };
 
+      // console.log(reviewsObj)
       action.reviews.Reviews.forEach(review => {
         reviewsObj.spot[review.id] = review});
 
