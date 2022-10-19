@@ -37,6 +37,17 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 
 // GET ALL REVIEWS BY A SPOT'S ID //
 router.get('/:spotId/reviews', async (req, res) => {
+  
+  const spot = await Spot.findByPk(req.params.spotId)
+  
+  if (!spot) {
+    res.status(404)
+    return res.json({
+      "message": "Spot couldn't be found",
+      "statusCode": 404
+    })
+  }
+  
   const spotReviews = await Review.findAll({
     where: {
       spotId: req.params.spotId
@@ -53,15 +64,6 @@ router.get('/:spotId/reviews', async (req, res) => {
     ]
   })
 
-  // An empty array is still a truthy value, so we need to check for length if there are no spots
-  if (!spotReviews.length) {
-    res.status(404)
-    return res.json({
-      "message": "Spot couldn't be found",
-      "statusCode": 404
-    })
-  }
-
   return res.json({ "Reviews": spotReviews })
 
 })
@@ -69,7 +71,6 @@ router.get('/:spotId/reviews', async (req, res) => {
 // GET ALL BOOKINGS FOR A SPOT BASED ON THE SPOT'S ID
 router.get('/:spotId/bookings', requireAuth, async (req, res) => {
   const idCheck = await Spot.findByPk(req.params.spotId)
-
 
   // If query array is empty spot doesn't exist
   if (!idCheck) {
@@ -340,13 +341,13 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
     }
   })
 
-  if (hasReview === true) {
-    res.status(403);
-    return res.json({
-      "message": "You have already left a review for this spot",
-      "statusCode": 403
-    })
-  }
+  // if (hasReview === true) {
+  //   res.status(403);
+  //   return res.json({
+  //     "message": "You have already left a review for this spot",
+  //     "statusCode": 403
+  //   })
+  // }
 
   const { review, stars } = req.body;
 
@@ -360,6 +361,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
   res.status(201);
   return res.json(newReview);
 })
+
 
 // CREATE A BOOKING FROM A SPOT BASED ON THE SPOT'S ID
 router.post('/:spotId/bookings', requireAuth, async (req, res) => {

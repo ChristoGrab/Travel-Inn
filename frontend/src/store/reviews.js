@@ -108,7 +108,7 @@ const reviewsReducer = (state = initialState, action) => {
       // original...
 
       const newReviewObj = {
-        ...state,
+        // don't spread state when loading data!!
         spot: {}
       };
 
@@ -122,7 +122,6 @@ const reviewsReducer = (state = initialState, action) => {
     case LOAD_USER_REVIEWS: {
 
       const newReviewsObj = {
-        ...state,
         user: {}
       };
 

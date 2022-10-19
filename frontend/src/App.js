@@ -10,6 +10,7 @@ import ViewSpotDetails from './components/ViewSpotDetails/index'
 import EditSpotForm from './components/EditSpotForm'
 import DeleteModal from "./components/DeleteSpotModal/DeleteSpot";
 import AddPreviewImage from "./components/CreateSpotForm/AddPreviewImage";
+import CreateReviewForm from "./components/CreateReviewForm";
 
 function App() {
 
@@ -45,6 +46,9 @@ function App() {
           </Route>
           <Route path='/spots/:spotId/delete'>
             <DeleteModal />
+          </Route>
+          <Route path='/spots/:spotId/review/new' exact>
+            <CreateReviewForm />
           </Route>
         </Switch>
       )}

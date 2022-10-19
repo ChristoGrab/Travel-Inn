@@ -16,15 +16,13 @@ function ViewSpotDetails() {
 
   useEffect(() => {
     dispatch(getOneSpot(spotId))
-      .then(() => dispatch(loadSpotReviewsThunk(spotId)))
-      .catch((e) => console.log(e))
-      .finally(() => setDataLoaded(true))
+    dispatch(loadSpotReviewsThunk(spotId))
   }, [dispatch, dataLoaded, spotId])
 
   const mySpot = useSelector(state => state.spots.singleSpot);
   const currentUser = useSelector(state => state.session.user);
   const reviewsObj = useSelector(state => state.reviews.spot)
-  
+
 
   console.log("Spot data from useSelector: ", mySpot);
   console.log("User data from useSelector: ", currentUser)
@@ -40,46 +38,50 @@ function ViewSpotDetails() {
 
   console.log("THis is the reviewsObj in my component: ", reviewsObj)
 
+  if (!mySpot.SpotImages) return null;
 
   return (
     <>
-      {dataLoaded && (
-        <div className="spot-details-container">
-          <div className="spot-details-header">
-            <div>{mySpot.name}</div>
-            <div className="spot-details-">
-              <div>★ {mySpot.avgStarRating}</div>
-              <div>{mySpot.numReviews} Ratings</div>
-              <div>{mySpot.city}, {mySpot.state}, {mySpot.country}</div>
-            </div>
-          </div>
-          <div className="spot-details-image-list-div">
-            <ul className='spot-details-image-list'>
-              {imageList.map(img => (
-                <img key={img.id} src={img.url} alt={img.name}></img>
-              ))}
-            </ul>
-          </div>
-          <div className="spot-details-description">
-            {mySpot.description}
-          </div>
-          <div>
-            {currentUser && currentUser.id === mySpot.Owner.id && (
-              <div className="listing-owner-container">
-                <div className="edit-listing-button">
-                  <Link to={`/spots/${mySpot.id}/edit`}>Edit your listing</Link>
-                </div>
-                <div className="delete-listing-button">
-                  <Link to={`/spots/${mySpot.id}/delete`}>Delete your listing</Link>
-                </div>
-              </div>
-            )}
+      <div className="spot-details-container">
+        <div className="spot-details-header">
+          <div>{mySpot.name}</div>
+          <div className="spot-details-">
+            <div>★ {mySpot.avgStarRating}</div>
+            <div>{mySpot.numReviews} Ratings</div>
+            <div>{mySpot.city}, {mySpot.state}, {mySpot.country}</div>
           </div>
         </div>
-      )}
-      {dataLoaded && reviewsObj && (
+        <div className="spot-details-image-list-div">
+          <ul className='spot-details-image-list'>
+            {imageList.map(img => (
+              <img key={img.id} src={img.url} alt={img.name}></img>
+            ))}
+          </ul>
+        </div>
+        <div className="spot-details-description">
+          {mySpot.description}
+        </div>
+        <div>
+          {currentUser && currentUser.id === mySpot.Owner.id && (
+            <div className="listing-owner-container">
+              <div className="edit-listing-button">
+                <Link to={`/spots/${mySpot.id}/edit`}>Edit your listing</Link>
+              </div>
+              <div className="delete-listing-button">
+                <Link to={`/spots/${mySpot.id}/delete`}>Delete your listing</Link>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      {(!!Object.values(reviewsObj).length) && (
         <ReviewsBySpot reviews={reviewsObj} />
       )}
+      <div className="create-new-review-link">
+        {currentUser && currentUser.id !== mySpot.Owner.id && (
+          <Link to={`/spots/${mySpot.id}/review/new`}>Create A Review</Link>
+        )}
+      </div>
     </>
   )
 }
