@@ -2,22 +2,21 @@ import SpotReviewDetails from './SpotReviewDetails'
 
 function ReviewsBySpot({reviews}) {
 
-  console.log("This is the props in viewReviews: ", reviews)
-  
+  // push the reviews for the spot into an array
   const reviewsArray = []
-
   for (let review in reviews) {
     reviewsArray.push(reviews[review])
   }
-  
+
+  // some good old mod 1 logic to calculate reviews
   let reviewNums = reviewsArray.length;
   let avgRating = 0
-  
+
   for (let i = 0; i < reviewsArray.length; i++) {
   avgRating += reviewsArray[i].stars
   }
 
-  avgRating = avgRating/reviewNums
+  avgRating = avgRating / reviewNums
 
   return (
     <div>
