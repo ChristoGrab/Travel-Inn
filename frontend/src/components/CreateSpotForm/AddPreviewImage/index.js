@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createImageThunk } from '../../../store/spots'
@@ -8,11 +8,9 @@ function AddPreviewImage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [url, setUrl] = useState('');
-  // const [dataLoaded, setDataLoaded] = useState(false)
   const updateUrl = (e) => setUrl(e.target.value);
   const newSpot = useSelector(state => state.spots.singleSpot)
 
-  console.log("adding preview image: ", newSpot)
   if (!newSpot.id) return null;
 
   
@@ -31,8 +29,6 @@ function AddPreviewImage() {
       preview: true,
       spotId
     }
-    
-    console.log("SpotId in handleSubmit for SpotImage: ", spotId)
 
     dispatch(createImageThunk(payload, spotId)).then(() => history.push('/'))
   }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateSpot } from '../../store/spots'
 
 function EditSpotForm() {
@@ -15,8 +15,6 @@ function EditSpotForm() {
   const [city, setCity] = useState("");
   const [region, setRegion] = useState("");
   const [country, setCountry] = useState("");
-  const [lat, setLat] = useState(0);
-  const [lng, setLng] = useState(0);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
@@ -25,8 +23,6 @@ function EditSpotForm() {
   const updateCity = (e) => setCity(e.target.value)
   const updateRegion = (e) => setRegion(e.target.value)
   const updateCountry = (e) => setCountry(e.target.value)
-  const updateLat = (e) => setLat(e.target.value)
-  const updateLng = (e) => setLng(e.target.value)
   const updateName = (e) => setName(e.target.value)
   const updateDescription = (e) => setDescription(e.target.value)
   const updatePrice = (e) => setPrice(e.target.value)
@@ -38,12 +34,10 @@ function EditSpotForm() {
     if (city.length <= 2) errors.push("Please provide a valid city")
     if (region.length <= 1) errors.push("Please provide a valid state")
     if (country.length <= 1) errors.push("Please provide a valid country")
-    if (lat < -90 || lat > 90) errors.push("Please provide a valid latitude")
-    if (lng < -180 || lng > 180) errors.push("please provide a valid longitude")
     if (description.length <= 12) errors.push("Please provide a brief description of your listing that is at least 12 characters long")
     if (price <= 0) errors.push("Please provide a valid numerical price per night")
     setInputErrors(errors)
-  }, [address, name, city, region, country, lat, lng, description, price])
+  }, [address, name, city, region, country, description, price])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,15 +47,12 @@ function EditSpotForm() {
       city,
       state: region,
       country,
-      lat,
-      lng,
       name,
       description,
       price
     }
 
-    const updatedSpot = await dispatch(updateSpot(payload, spotId))
-
+    dispatch(updateSpot(payload, spotId))
     history.push(`/spots/${spotId}`)
   }
 
@@ -109,20 +100,6 @@ function EditSpotForm() {
             type="text"
             value={country}
             onChange={updateCountry}/>
-        </label>
-        <label>
-          Latitude
-          <input
-            type="text"
-            value={lat}
-            onChange={updateLat}/>
-        </label>
-        <label>
-          Longitude
-          <input
-            type="text"
-            value={lng}
-            onChange={updateLng}/>
         </label>
         <label>
           Name

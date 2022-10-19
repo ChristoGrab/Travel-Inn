@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getOneSpot } from '../../store/spots';
+import { loadSpotReviewsThunk } from '../../store/reviews';
 import './ViewSpotDetails.css';
 
 function ViewSpotDetails() {
@@ -13,7 +14,9 @@ function ViewSpotDetails() {
   const [dataLoaded, setDataLoaded] = useState(false)
 
   useEffect(() => {
-    dispatch(getOneSpot(spotId)).then(() => setDataLoaded(true))
+    dispatch(getOneSpot(spotId))
+    // .then(() => dispatch(loadSpotReviewsThunk(spotId)))
+    .then(() => setDataLoaded(true))
   }, [dispatch, dataLoaded, spotId])
 
   const mySpot = useSelector(state => state.spots.singleSpot);
@@ -44,7 +47,7 @@ function ViewSpotDetails() {
         <div>{mySpot.name}</div>
         <div className="spot-details-">
           <div>★ {mySpot.avgStarRating}</div>
-          <div>{mySpot.numReviews}</div>
+          <div>{mySpot.numReviews} Ratings</div>
           <div>{mySpot.city}, {mySpot.state}, {mySpot.country}</div>
         </div>
       </div>
