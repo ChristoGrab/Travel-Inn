@@ -43,9 +43,18 @@ export const loadSpotReviewsThunk = (spotId) => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json();
-
+    console.log("Successful review data: ", data)
     dispatch(loadSpotReviews(data))
   }
+  
+  // need to handle error response for new spots without reviews
+  else {
+    console.log("No reviews found...")
+    const noData = await response.json()
+    console.log("No review found response: ", noData)
+    return noData;
+  }
+
 }
 
 export const loadUserReviewsThunk = () => async (dispatch) => {
