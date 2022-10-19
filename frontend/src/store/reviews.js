@@ -15,6 +15,13 @@ const loadSpotReviews = (reviews) => {
   }
 }
 
+const loadUserReviews = (reviews) => {
+  return {
+    type: LOAD_USER_REVIEWS,
+    reviews
+  }
+}
+
 const createReview = (review) => {
   return {
     type: CREATE_REVIEW,
@@ -33,11 +40,22 @@ const deleteSpot = (id) => {
 
 export const loadSpotReviewsThunk = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}/reviews`)
-  console.log("I have been sent")
+
   if (response.ok) {
     const data = await response.json();
-    console.log("this is the data being sent to action: ", data)
+
     dispatch(loadSpotReviews(data))
+  }
+}
+
+export const loadUserReviewsThunk = () => async (dispatch) => {
+  const response = await csrfFetch('/api/reviews/current')
+  console.log("This is my response for loading user reviews: ", response)
+
+  if (response.ok) {
+    const data = await response.json();
+
+    dispatch(loadUserReviews(data))
   }
 }
 
@@ -67,6 +85,27 @@ const reviewsReducer = (state = initialState, action) => {
         reviewsObj.spot[review.id] = review});
 
       return reviewsObj;
+    }
+
+    case LOAD_USER_REVIEWS: {
+
+      const reviewsObj = {
+        ...state,
+        user: {}
+      };
+
+      action.reviews.Reviews.forEach(review => {
+        reviewsObj.user[review.id] = review})
+        console.log("user reviews in state: ", reviewsObj)
+      return reviewsObj;
+    }
+    
+    case CREATE_REVIEW: {
+      return state;
+    }
+    
+    case DELETE_REVIEW: {
+      return state;
     }
 
     default:

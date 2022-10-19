@@ -9,7 +9,7 @@ import './ViewSpotDetails.css';
 function ViewSpotDetails() {
   const dispatch = useDispatch();
   const { spotId } = useParams();
-  
+
   //set a state variable to prevent page loading before data is ready
   //to avoid rendering previous state data
   const [dataLoaded, setDataLoaded] = useState(false)
@@ -26,6 +26,9 @@ function ViewSpotDetails() {
 
 
   let imageList = [];
+
+  // needed these to prevent page crash but now need to find a way
+  // to render page even if currentUser does not have id...
   if (!mySpot.Owner) return null;
   if (!currentUser.id) return null;
 
@@ -34,9 +37,9 @@ function ViewSpotDetails() {
   if (mySpot.SpotImages) {
     mySpot.SpotImages.forEach(img => imageList.push(img))
   }
-  
-  console.log("THis is the reviewsObj in my component: ", reviewsObj)
-  
+
+  // console.log("THis is the reviewsObj in my component: ", reviewsObj)
+
 
   let currentUserId;
   let spotOwnerId;
