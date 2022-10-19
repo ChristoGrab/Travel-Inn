@@ -15,6 +15,13 @@ const loadSpotReviews = (reviews) => {
   }
 }
 
+const loadUserReviews = (reviews) => {
+  return {
+    type: LOAD_USER_REVIEWS,
+    reviews
+  }
+}
+
 const createReview = (review) => {
   return {
     type: CREATE_REVIEW,
@@ -22,10 +29,10 @@ const createReview = (review) => {
   }
 }
 
-const deleteSpot = (id) => {
+const deleteReview = (reviewId) => {
   return {
     type: DELETE_REVIEW,
-    id
+    reviewId
   }
 }
 
@@ -33,14 +40,57 @@ const deleteSpot = (id) => {
 
 export const loadSpotReviewsThunk = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}/reviews`)
-  console.log("I have been sent")
+
   if (response.ok) {
     const data = await response.json();
-    console.log("this is the data being sent to action: ", data)
+    console.log("Successful review data: ", data)
     dispatch(loadSpotReviews(data))
+  }
+  
+  // need to handle error response for new spots without reviews
+  else {
+    console.log("No reviews found...")
+    const noData = await response.json()
+    console.log("No review found response: ", noData)
+    return noData;
   }
 }
 
+export const loadUserReviewsThunk = () => async (dispatch) => {
+  const response = await csrfFetch('/api/reviews/current')
+  console.log("This is my response for loading user reviews: ", response)
+
+  if (response.ok) {
+    const data = await response.json();
+
+    dispatch(loadUserReviews(data))
+  }
+}
+
+export const createReviewThunk = (review, spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(review)
+  })
+  
+  if (response.ok) {
+    const newReview = await response.json();
+    dispatch(createReview(newReview))
+  }
+}
+
+export const deleteReviewThunk = (reviewId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+    method: "DELETE"
+  })
+  
+  if (response.ok) {
+    dispatch(deleteReview(reviewId))
+  }
+}
 
 // ------ Reviews Reducer ------ //
 
@@ -57,16 +107,56 @@ const reviewsReducer = (state = initialState, action) => {
       // fully understand why just spreading will mutate
       // original...
 
-      const reviewsObj = {
+      const newReviewObj = {
         ...state,
         spot: {}
       };
 
       // console.log(reviewsObj)
       action.reviews.Reviews.forEach(review => {
-        reviewsObj.spot[review.id] = review});
+        newReviewObj.spot[review.id] = review});
 
-      return reviewsObj;
+      return newReviewObj;
+    }
+
+    case LOAD_USER_REVIEWS: {
+
+      const newReviewsObj = {
+        ...state,
+        user: {}
+      };
+
+      action.reviews.Reviews.forEach(review => {
+        newReviewsObj.user[review.id] = review})
+        console.log("user reviews in state: ", newReviewsObj)
+      return newReviewsObj;
+    }
+    
+    case CREATE_REVIEW: {
+      
+      // spread state and spread nested spot state as well
+      const newReviewObject = {
+        ...state,
+        spot: {...state.spot}
+      }
+      
+      // create new key from action and set it to value of action.
+      newReviewObject.spot[action.review.id] = action.review
+      return newReviewObject;
+    }
+    
+    case DELETE_REVIEW: {
+      // copy both nested objects
+      const newReviewObject = {
+        ...state,
+        spot: {...state.spot},
+        user: {...state.user}
+      }
+      // delete the id key from both spot and user
+      delete newReviewObject.spot[action.reviewId]
+      delete newReviewObject.user[action.reviewId]
+
+      return newReviewObject;
     }
 
     default:

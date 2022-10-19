@@ -9,79 +9,77 @@ import './ViewSpotDetails.css';
 function ViewSpotDetails() {
   const dispatch = useDispatch();
   const { spotId } = useParams();
-  
+
   //set a state variable to prevent page loading before data is ready
   //to avoid rendering previous state data
   const [dataLoaded, setDataLoaded] = useState(false)
 
   useEffect(() => {
     dispatch(getOneSpot(spotId))
-    .then(() => dispatch(loadSpotReviewsThunk(spotId)))
-    .then(() => setDataLoaded(true))
+      .then(() => dispatch(loadSpotReviewsThunk(spotId)))
+      .catch((e) => console.log(e))
+      .finally(() => setDataLoaded(true))
   }, [dispatch, dataLoaded, spotId])
 
   const mySpot = useSelector(state => state.spots.singleSpot);
   const currentUser = useSelector(state => state.session.user);
   const reviewsObj = useSelector(state => state.reviews.spot)
+  
 
+  console.log("Spot data from useSelector: ", mySpot);
+  console.log("User data from useSelector: ", currentUser)
+  console.log("Reviews data from useSelector: ", reviewsObj)
 
   let imageList = [];
-  if (!mySpot.Owner) return null;
-  if (!currentUser.id) return null;
 
   // need to create a conditional for mapping images, otherwise
   // runs into a timing issue with dispatch.
   if (mySpot.SpotImages) {
     mySpot.SpotImages.forEach(img => imageList.push(img))
   }
-  
+
   console.log("THis is the reviewsObj in my component: ", reviewsObj)
-  
-
-  let currentUserId;
-  let spotOwnerId;
-
-  if (currentUser.id) currentUserId = currentUser.id;
-  if (mySpot.Owner.id) spotOwnerId = mySpot.Owner.id;
 
 
   return (
     <>
-    {dataLoaded && (
-    <div className="spot-details-container">
-      <div className="spot-details-header">
-        <div>{mySpot.name}</div>
-        <div className="spot-details-">
-          <div>★ {mySpot.avgStarRating}</div>
-          <div>{mySpot.numReviews} Ratings</div>
-          <div>{mySpot.city}, {mySpot.state}, {mySpot.country}</div>
-        </div>
-      </div>
-      <div className="spot-details-image-list-div">
-        <ul className='spot-details-image-list'>
-          {imageList.map(img => (
-            <img key={img.id} src={img.url} alt={img.name}></img>
-          ))}
-        </ul>
-      </div>
-      <div className="spot-details-description">
-        {mySpot.description}
-      </div>
-      <div>
-        {currentUserId && currentUserId === spotOwnerId && (
-          <div className="listing-owner-container">
-            <div className="edit-listing-button">
-              <Link to={`/spots/${mySpot.id}/edit`}>Edit your listing</Link>
-            </div>
-            <div className="delete-listing-button">
-              <Link to={`/spots/${mySpot.id}/delete`}>Delete your listing</Link>
+      {dataLoaded && (
+        <div className="spot-details-container">
+          <div className="spot-details-header">
+            <div>{mySpot.name}</div>
+            <div className="spot-details-">
+              <div>★ {mySpot.avgStarRating}</div>
+              <div>{mySpot.numReviews} Ratings</div>
+              <div>{mySpot.city}, {mySpot.state}, {mySpot.country}</div>
             </div>
           </div>
-        )}
-      </div>
-      <ReviewsBySpot reviews={reviewsObj} />
-    </div>
-    )}
+          <div className="spot-details-image-list-div">
+            <ul className='spot-details-image-list'>
+              {imageList.map(img => (
+                <img key={img.id} src={img.url} alt={img.name}></img>
+              ))}
+            </ul>
+          </div>
+          <div className="spot-details-description">
+            {mySpot.description}
+          </div>
+          <div>
+            {currentUser && currentUser.id === mySpot.Owner.id && (
+              <div className="listing-owner-container">
+                <div className="edit-listing-button">
+                  <Link to={`/spots/${mySpot.id}/edit`}>Edit your listing</Link>
+                </div>
+                <div className="delete-listing-button">
+                  <Link to={`/spots/${mySpot.id}/delete`}>Delete your listing</Link>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+      {dataLoaded && reviewsObj && (
+        <ReviewsBySpot reviews={reviewsObj} />
+      )}
     </>
   )
 }
