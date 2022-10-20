@@ -19,6 +19,8 @@ function CreateSpotForm() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
+  const [url, setUrl] = useState("");
+  const [formSubmitted, setFormSubmitted] = useState(false)
   
   // list of input functions
   const updateAddress = (e) => setAddress(e.target.value)
@@ -28,6 +30,7 @@ function CreateSpotForm() {
   const updateName = (e) => setName(e.target.value)
   const updateDescription = (e) => setDescription(e.target.value)
   const updatePrice = (e) => setPrice(e.target.value)
+  const updateUrl = (e) => setUrl(e.target.value)
   
   useEffect(() => {
     let errors = []
@@ -43,7 +46,7 @@ function CreateSpotForm() {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    setFormSubmitted(true)
     if (inputErrors.length) return;
     
     const payload = {
@@ -54,6 +57,11 @@ function CreateSpotForm() {
       name,
       description,
       price
+    }
+    
+    const imgPayload = {
+      url,
+      preview: true
     }
     
     dispatch(createNewSpot(payload)).then(() => history.push('/create/image'))
@@ -68,15 +76,16 @@ function CreateSpotForm() {
           <br />
           Please fill out the provided fields and we'll get you set up!
         </div>
-        <div className="create-spot-errors">
-          <ul>
+        {formSubmitted && <div className="create-spot-errors">
+          <h4>Uh oh! Looks like there were some errors. Please double check your inputs and try again</h4>
+          <ul className="spot-errors-list">
             {inputErrors.map((error) => (
               <li>
                 {error}
               </li>
             ))}
-          </ul>
-        </div>
+          </ul> 
+        </div>}
         <label>
           Address
           <input className="create-spot-form-input"

@@ -41,6 +41,10 @@
   color: #ff385c;
 }
 
+.spot-errors-list {
+  list-style: none;
+}
+
 #create-spot-button {
   background-color: white;
   border: none;

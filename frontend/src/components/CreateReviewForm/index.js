@@ -21,19 +21,17 @@ function CreateReviewForm () {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const payload = {
       review,
       stars: parseInt(stars)
     }
-    
-    console.log("Am I a number? ", parseInt(stars))
-    
+
     dispatch(createReviewThunk(payload, spotId))
-    
+
     history.push(`/spots/${spotId}`)
   }
-  
+
   return (
     <>
     <form>
