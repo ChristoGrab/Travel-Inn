@@ -21,3 +21,9 @@
   width: 40px;
   border-radius: 5px;
 }
+
+.manage-account-link {
+  text-decoration: none;
+  color: black;
+  box-sizing: border-box;
+}

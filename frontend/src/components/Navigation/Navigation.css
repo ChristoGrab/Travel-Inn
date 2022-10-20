@@ -14,9 +14,9 @@
 #app-name {
   color: #ff385c;
   text-decoration: none;
-  font-size: x-large;
+  font-size: xx-large;
   font-weight: bold;
-  font-family: Roboto, Helvetica Neue, sans-serif;
+  font-family: Helvetica, sans-serif;
 }
 
 .navbar-links {

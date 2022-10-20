@@ -72,13 +72,14 @@ function CreateSpotForm() {
         const data = await response.json();
         if (data && data.errors) {
           setInputErrors(data.errors);
-        }
-      })
+        };
+      });
 
     if (newSpot) {
-
-    dispatch(createImageThunk(imgPayload, newSpot.id))
-    .then(() => history.push(`/user/profile`))
+      
+    dispatch(createImageThunk(imgPayload, newSpot.id));
+    
+    history.push(`/user/profile`)
     }
   }
 

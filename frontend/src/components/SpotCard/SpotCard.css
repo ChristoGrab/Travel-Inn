@@ -1,7 +1,25 @@
+.spot-card-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: fit-content;
+  justify-content: space-evenly;
+  gap: 5%;
+  list-style: none;
+}
+
+.spot-card-box {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .spot-card-title {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
+  align-items: flex-start;
+  color: black;
 }
 
 .spot-card-details {
@@ -19,19 +37,16 @@
   margin: auto;
 }
 
+.spot-card-image-box {
+  display: flex;
+  justify-content: center;
+}
+
 .spot-card-image {
   height: 325px;
   width: 350px;
-}
-
-.spot-card-list {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 5%;
-  list-style: none;
-  padding: 5px;
-  box-sizing: border-box;
+  border-radius: 3%;
+  box-sizing: content-box;
 }
 
 .spot-card-info {
@@ -43,8 +58,12 @@
   flex: 1 0 100%;
 }
 
-.spot-card-price {
+.spot-card-footer {
   color: black;
+}
+.spot-card-price {
+
+  font-weight: bold;
 }
 
 .spot-card-link {

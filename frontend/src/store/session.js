@@ -22,7 +22,7 @@ const removeUser = () => {
 
 // ------ SESSION THUNK CREATORS ------ //
 
-// login thunk
+// Login Thunk
 export const login = (user) => async (dispatch) => {
   const { credential, password } = user;
   // console.log("Credentials being sent: ", credential, password)
@@ -33,17 +33,23 @@ export const login = (user) => async (dispatch) => {
       password
     }),
   });
-  
-  const data = await response.json();
-  // console.log("Data being returned: ", data)
-  dispatch(setUser(data));
-  return response;
-};
+
+  // if no errors, return user data and dispatch login action
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(setUser(data));
+    return data
+  // otherwise, return error message from backend
+  } else {
+    const errorData = await response.json();
+    return errorData
+  };
+}
 
 // restore session thunk
 export const restoreUser = () => async dispatch => {
   const response = await csrfFetch('/api/session');
-  
+
   const data = await response.json();
   dispatch(setUser(data));
   return response;
@@ -62,7 +68,7 @@ export const signup = (user) => async dispatch => {
       lastName
     })
   })
-  
+
   const data = await response.json();
   dispatch(setUser(data))
   return response;
@@ -73,7 +79,7 @@ export const logout = () => async dispatch => {
   const response = await csrfFetch('/api/session', {
     method: "DELETE",
   });
-  
+
   dispatch(removeUser());
   return response;
 }
@@ -84,17 +90,17 @@ const initialState = { user: null };
 const sessionReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
-    
+
     case START_SESSION:
       newState = Object.assign({}, state);
       newState.user = action.payload;
       return newState;
-      
+
     case STOP_SESSION:
       newState = Object.assign({}, state);
       newState.user = null;
       return newState;
-      
+
     default:
       return state;
   }
