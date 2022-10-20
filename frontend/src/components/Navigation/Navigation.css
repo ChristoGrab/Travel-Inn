@@ -3,11 +3,12 @@
   flex-direction: row;
   width: 100%;
   justify-content: space-around;
-  position: sticky;
-  padding-bottom: 25px;
+  position: fixed;
+  padding-bottom: 10px;
+  z-index: 9999;
   top: 0;
+  left: 0;
   background-color: white;
-  padding: 0 80px;
 }
 
 #app-name {
