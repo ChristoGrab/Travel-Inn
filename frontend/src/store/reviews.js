@@ -49,10 +49,10 @@ export const loadSpotReviewsThunk = (spotId) => async (dispatch) => {
   }
   
   // need to handle error response for new spots without reviews
-  else {
-    const noData = await response.json()
-    return noData;
-  }
+  // else {
+  //   const noData = await response.json()
+  //   return noData;
+  // }
 }
 
 export const loadUserReviewsThunk = () => async (dispatch) => {
@@ -99,11 +99,6 @@ const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
 
     case LOAD_SPOT_REVIEWS: {
-
-      // create an object, spread state, overwrite spot
-      // this removes memory reference? Still don't
-      // fully understand why just spreading will mutate
-      // original...
 
       const newReviewObj = {
         // don't spread state when loading data!!
