@@ -1,17 +1,34 @@
-.login-form-container {
+.login-form {
   width: 66%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   flex-wrap: wrap;
+  box-sizing: border-box;
 }
 
-.login-form-input {
+.form-input {
   padding: 1%;
 }
 
 .login-form-button {
   border-radius: 10%;
   padding: 0 3%;
+}
+
+#modal-content {
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f7f7f7;
+  border-radius: 5px;
+  border: 1px solid rgba(211, 211, 211, 0.6)
+}
+
+.form-label {
+  padding: 2%;
+  margin: 5px 0 10px 0;
 }
