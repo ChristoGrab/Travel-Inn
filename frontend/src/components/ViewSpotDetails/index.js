@@ -17,6 +17,7 @@ function ViewSpotDetails() {
   useEffect(() => {
     dispatch(getOneSpot(spotId))
     dispatch(loadSpotReviewsThunk(spotId))
+    setDataLoaded(true)
   }, [dispatch, dataLoaded, spotId])
 
   const mySpot = useSelector(state => state.spots.singleSpot);
@@ -39,6 +40,7 @@ function ViewSpotDetails() {
   // console.log("THis is the reviewsObj in my component: ", reviewsObj)
 
   if (!mySpot.SpotImages) return null;
+  if (!reviewsObj) return null;
 
   return (
     <>

@@ -3,42 +3,63 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { createReviewThunk } from '../../store/reviews';
 
-function CreateReviewForm () {
-  
+function CreateReviewForm() {
+
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  
+
   const sessionUser = useSelector((state) => state.session.user)
-  
+
+  // list of state variables
   const [review, setReview] = useState("");
-  const [stars, setStars] = useState(1)
+  const [stars, setStars] = useState(3)
   const [inputErrors, setInputErrors] = useState([]);
-  const [formSubmitted, setFormSubmitted] = useState([]);
-  
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  // list of input functions
   const updateReview = (e) => setReview(e.target.value)
   const updateStars = (e) => setStars(e.target.value)
-  
+
+  // list of input errors
+  useEffect(() => {
+    let errors = []
+    if (review.length <= 5) errors.push("Please provide some specific feedback for your host!");
+    setInputErrors(errors)
+  }, [review])
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    setFormSubmitted(true)
+    if (inputErrors.length) return;
+
     const payload = {
       review,
       stars: parseInt(stars)
     }
-    
-    console.log("Am I a number? ", parseInt(stars))
-    
+
     dispatch(createReviewThunk(payload, spotId))
-    
+
     history.push(`/spots/${spotId}`)
   }
-  
+
+  console.log("Form submitted status on page load: ", formSubmitted)
   return (
-    <>
-    <form>
-      <h2 className="create-review-header">Share some thoughts on your stay here!</h2>
-    <label>
+    <div>
+      <form>
+        <div
+          className="create-review-form-greeting">
+          Share some thoughts on your stay here!
+        </div>
+          <ul className="spot-errors-list">
+            {inputErrors.map((error, idx) => (
+              <li key={idx}>
+                {error}
+              </li>
+            ))}
+          </ul>
+        <label>
           Review
           <input
             type="text"
@@ -48,21 +69,21 @@ function CreateReviewForm () {
         </label>
         <label>
           Stars
-          <select 
-          id="stars"
-          value={stars}
-          onChange={updateStars} >
+          <select
+            id="stars"
+            value={stars}
+            onChange={updateStars}>
             <option value={1}>1</option>
             <option value={2}>2</option>
             <option value={3}>3</option>
             <option value={4}>4</option>
             <option value={5}>5</option>
-            </select>
+          </select>
         </label>
         <button className='submit-review-button'
-        onClick={handleSubmit}>Submit Review</button>
-    </form>
-    </>
+          onClick={handleSubmit}>Submit Review</button>
+      </form>
+    </div>
   )
 }
 

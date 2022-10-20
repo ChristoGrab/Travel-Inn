@@ -1,0 +1,29 @@
+.profile-dropdown {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  position: fixed;
+  top: 25px;
+  right: 17%;
+  background-color: white;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 9999;
+  border: 1px solid #efefef
+}
+
+#profile-button {
+  background-color: white;
+  border: 1px solid #efefef;
+  width: 40px;
+  border-radius: 5px;
+}
+
+.manage-account-link {
+  text-decoration: none;
+  color: black;
+  box-sizing: border-box;
+}

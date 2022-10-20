@@ -32,3 +32,8 @@
   padding: 2%;
   margin: 5px 0 10px 0;
 }
+
+#login-error {
+  list-style: none;
+  color: #ff385c;
+}

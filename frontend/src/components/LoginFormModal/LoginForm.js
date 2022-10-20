@@ -8,14 +8,21 @@ function LoginForm() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
+  const [formSubmitted, setFormSubmitted] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setFormSubmitted(true)
+    
     setErrors([]);
-    return dispatch(sessionActions.login({ credential, password })).catch(
-      async (res) => {
+    
+    dispatch(sessionActions.login({ credential, password }))
+    .catch( async (res) => {
         const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
+        console.log("Data from login", data)
+        if (data && data.errors) setErrors(data.errors)
+        console.log(data.errors)
+        console.log(errors)
       }
     );
   };
@@ -23,11 +30,10 @@ function LoginForm() {
   return (
     <form className='login-form'
     onSubmit={handleSubmit}>
-      <ul>
-        {errors.map((error, idx) => (
-          <li key={idx}>{error}</li>
-        ))}
-      </ul>
+      <h3>Log In</h3>
+        {errors && (
+          <li id="login-error">{errors}</li>
+        )}
       <label className="form-label">
         Username or Email
         <input

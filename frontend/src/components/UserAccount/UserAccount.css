@@ -5,3 +5,18 @@
   margin: auto;
   align-items: flex-start;
 }
+
+.user-spot-links {
+  text-decoration: none;
+  color: white;
+  background-color: #ff385c;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.user-spots-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+

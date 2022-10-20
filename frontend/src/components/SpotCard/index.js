@@ -21,13 +21,13 @@ function SpotCard() {
   return (
     <div className="spot-card-container">
       {dataLoaded && (
-        <ul className="spot-card-list">
+        <div className="spot-card-list">
           {spotsArray.map(spot => (
-          <li key={spot.id}>
+          <li key={spot.id} className='spot-card-box'>
             <SpotCardInfo spot={spot}/>
           </li>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   )

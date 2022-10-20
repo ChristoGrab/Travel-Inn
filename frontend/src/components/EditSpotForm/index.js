@@ -4,11 +4,11 @@ import { useDispatch } from 'react-redux';
 import { updateSpot } from '../../store/spots'
 
 function EditSpotForm() {
-  
+
   const dispatch = useDispatch();
   const history = useHistory();
   const { spotId } = useParams();
-  
+
   // list of state variables
   const [inputErrors, setInputErrors] = useState([]);
   const [address, setAddress] = useState("");
@@ -18,7 +18,9 @@ function EditSpotForm() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
-  
+  const [formSubmitted, setFormSubmitted] = useState(false)
+
+  // list of input functions
   const updateAddress = (e) => setAddress(e.target.value)
   const updateCity = (e) => setCity(e.target.value)
   const updateRegion = (e) => setRegion(e.target.value)
@@ -26,7 +28,8 @@ function EditSpotForm() {
   const updateName = (e) => setName(e.target.value)
   const updateDescription = (e) => setDescription(e.target.value)
   const updatePrice = (e) => setPrice(e.target.value)
-  
+
+  // list of input errors
   useEffect(() => {
     let errors = []
     if (address.length <= 5) errors.push("Please provide a valid address")
@@ -35,12 +38,14 @@ function EditSpotForm() {
     if (region.length <= 1) errors.push("Please provide a valid state")
     if (country.length <= 1) errors.push("Please provide a valid country")
     if (description.length <= 12) errors.push("Please provide a brief description of your listing that is at least 12 characters long")
-    if (price <= 0) errors.push("Please provide a valid numerical price per night")
+    if (price <= 1 || price >= 10000) errors.push("Please provide a $ price per night between 1 and 10000")
     setInputErrors(errors)
   }, [address, name, city, region, country, description, price])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFormSubmitted(true)
+    if (inputErrors.length) return;
 
     const payload = {
       address,
@@ -59,25 +64,26 @@ function EditSpotForm() {
   return (
     <div>
       <form>
-        <div>
+        <div className="edit-spot-form-greeting">
           Want to make some edits to your listing info? You're in the right place
         </div>
-        <div className="edit-spot-errors">
+        {formSubmitted && <div className="edit-spot-errors">
+          <h4>Uh oh! Looks like there were some errors. Please double check your inputs and try again</h4>
           <ul>
-            {inputErrors.map((error) => (
-              <li>
+            {inputErrors.map((error, idx) => (
+              <li key={idx}>
                 {error}
               </li>
             ))}
           </ul>
-        </div>
+        </div>}
         <label>
           Address
           <input
             type="text"
             required
             value={address}
-            onChange={updateAddress}/>
+            onChange={updateAddress} />
         </label>
         <label>
           City
@@ -85,46 +91,45 @@ function EditSpotForm() {
             type="text"
             required
             value={city}
-            onChange={updateCity}/>
+            onChange={updateCity} />
         </label>
         <label>
           State
           <input
             type="text"
             value={region}
-            onChange={updateRegion}/>
+            onChange={updateRegion} />
         </label>
         <label>
           Country
           <input
             type="text"
             value={country}
-            onChange={updateCountry}/>
+            onChange={updateCountry} />
         </label>
         <label>
           Name
           <input
             type="text"
             value={name}
-            onChange={updateName}/>
+            onChange={updateName} />
         </label>
         <label>
           Description
           <textarea
             type="text"
             value={description}
-            onChange={updateDescription}/>
+            onChange={updateDescription} />
         </label>
         <label>
           Price
           <input
             type="text"
             value={price}
-            onChange={updatePrice}/>
+            onChange={updatePrice} />
         </label>
-        <button 
-        // disabled={!!inputErrors.length}
-        onClick={handleSubmit}>Add your listing!</button>
+        <button
+          onClick={handleSubmit}>Add your listing!</button>
       </form>
     </div>
   )

@@ -27,19 +27,21 @@ function SignupForm() {
       return dispatch(sessionActions.signup({ email, username, password, firstName, lastName }))
         .catch(async (res) => {
           const data = await res.json();
+          console.log(data)
           if (data && data.errors) setErrors(data.errors);
         });
     }
 
-    return setErrors(['Confirm Password field must be the same as the Password field']);
+    return setErrors(['Password fields must match']);
   };
 
   return (
     <div >
       
       <form className="signup-form" onSubmit={handleSubmit}>
-        <ul>
-          {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+        <h3>Sign Up</h3>
+        <ul className='form-errors'>
+          {errors.map((error, idx) => <li className="form-error" key={idx}>{error}</li>)}
         </ul>
         <label>
           Email

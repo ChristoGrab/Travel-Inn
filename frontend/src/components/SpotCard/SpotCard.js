@@ -10,13 +10,15 @@ function SpotCardInfo({ spot }) {
           <img src={spot.previewImage} alt={spot.name} className="spot-card-image"></img>
         </div>
         <div className="spot-card-title">
-          <h3>{spot.city}, {spot.state}</h3>
+          <h4>{spot.city}, {spot.state}</h4>
           <p>★ {spot.avgRating}</p>
         </div>
         <div className="spot-card-details">
-          <p>{spot.name}</p>
-          <p>{spot.description}</p>
-          <p className="spot-card-price">${spot.price}</p>
+          <div className="spot-card-name">{spot.name}</div>
+          <div className="spot-card-description">{spot.description}</div>
+        </div>
+        <div className="spot-card-footer">
+          <span className="spot-card-price">${spot.price}</span> night
         </div>
       </div>
     </Link>
