@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
-import SignupFormPage from "./components/SignupFormPage";
+import SignupForm from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SpotCard from "./components/SpotCard";
@@ -29,9 +29,6 @@ function App() {
         <Switch>
           <Route path="/" exact>
             <SpotCard />
-          </Route>
-          <Route path="/signup">
-            <SignupFormPage />
           </Route>
           <Route path="/user/profile" exact>
             <UserDetails />

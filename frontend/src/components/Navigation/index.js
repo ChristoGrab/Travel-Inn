@@ -5,6 +5,7 @@ import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal';
 import CreateSpotButton from '../CreateSpotForm/index'
 import './Navigation.css';
+import SignupFormModal from '../SignupFormPage';
 
 function Navigation({ isLoaded }) {
 
@@ -21,7 +22,7 @@ function Navigation({ isLoaded }) {
     sessionLinks = (
       <>
         <LoginFormModal />
-        <NavLink to="/signup">Sign Up</NavLink>
+        <SignupFormModal />
       </>
     );
   }

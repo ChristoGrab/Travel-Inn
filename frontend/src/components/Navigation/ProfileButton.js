@@ -4,17 +4,17 @@ import { Link } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 
 function ProfileButton({ user }) {
-  
+
   // console.log("User prop in ProfileButton: ", user)
-  
+
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
-  
+
   const openMenu = () => {
     if (showMenu) return;
     setShowMenu(true);
   };
-  
+
   useEffect(() => {
     if (!showMenu) return;
 
@@ -29,7 +29,6 @@ function ProfileButton({ user }) {
 
   const logout = (e) => {
     e.preventDefault();
-    console.log("logout has been initiated")
     dispatch(sessionActions.logout());
   };
 
