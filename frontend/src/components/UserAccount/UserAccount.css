@@ -1,0 +1,7 @@
+.user-page-container {
+  display: flex;
+  width: 75%;
+  flex-direction: column;
+  margin: auto;
+  align-items: flex-start;
+}

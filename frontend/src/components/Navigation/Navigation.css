@@ -1,11 +1,13 @@
 .top-navbar {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  width: 70%;
-  height: 40px;
-  margin: auto;
+  width: 100%;
+  justify-content: space-around;
+  position: sticky;
   padding-bottom: 25px;
+  top: 0;
+  background-color: white;
+  padding: 0 80px;
 }
 
 #app-name {
@@ -27,4 +29,17 @@
   flex-direction: row;
   gap: 10px;
   justify-content: center;
+}
+
+.profile-dropdown {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  position: fixed;
+  background-color: white;
+  border: 1px solid #ff385c;
+  gap: 3px;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
 }
