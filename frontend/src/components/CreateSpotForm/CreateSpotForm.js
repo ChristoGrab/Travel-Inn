@@ -40,7 +40,7 @@ function CreateSpotForm() {
     if (region.length <= 1) errors.push("Please provide a valid state")
     if (country.length <= 1) errors.push("Please provide a valid country")
     if (description.length <= 12) errors.push("Please provide a brief description of your listing that is at least 12 characters long")
-    if (price <= 0) errors.push("Please provide a valid numerical price per night")
+    if (price <= 1 || price >= 10000) errors.push("Please provide a $ price per night between 1 and 10000")
     setInputErrors(errors)
   }, [address, name, city, region, country, description, price])
   

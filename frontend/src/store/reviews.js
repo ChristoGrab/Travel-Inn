@@ -8,7 +8,7 @@ const CREATE_REVIEW = '/review/create';
 
 // Action Creators
 const loadSpotReviews = (reviews) => {
-  console.log("this is the data being sent to the reducer: ", reviews)
+
   return {
     type: LOAD_SPOT_REVIEWS,
     reviews
@@ -16,6 +16,7 @@ const loadSpotReviews = (reviews) => {
 }
 
 const loadUserReviews = (reviews) => {
+console.log("this is the User Review data being sent to the reducer: ", reviews)
   return {
     type: LOAD_USER_REVIEWS,
     reviews
@@ -118,14 +119,14 @@ const reviewsReducer = (state = initialState, action) => {
 
     case LOAD_USER_REVIEWS: {
 
-      const newReviewsObj = {
+      const newReviewObj = {
         user: {}
       };
 
       action.reviews.Reviews.forEach(review => {
-        newReviewsObj.user[review.id] = review})
-        console.log("user reviews in state: ", newReviewsObj)
-      return newReviewsObj;
+        newReviewObj.user[review.id] = review})
+        console.log("user reviews in state: ", newReviewObj)
+      return newReviewObj;
     }
     
     case CREATE_REVIEW: {

@@ -17,6 +17,7 @@ function ViewSpotDetails() {
   useEffect(() => {
     dispatch(getOneSpot(spotId))
     dispatch(loadSpotReviewsThunk(spotId))
+    setDataLoaded(true)
   }, [dispatch, dataLoaded, spotId])
 
   const mySpot = useSelector(state => state.spots.singleSpot);
