@@ -21,3 +21,16 @@
 .spot-details-description {
   display: flex;
 }
+
+.spot-owner-div {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.spot-owner-links {
+  text-decoration: none;
+  color: white;
+  background-color: #ff385c;
+  padding: 10px;
+  border-radius: 5px;
+}

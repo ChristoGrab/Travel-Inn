@@ -15,7 +15,6 @@ function SpotCardInfo({ spot }) {
         </div>
         <div className="spot-card-details">
           <div className="spot-card-name">{spot.name}</div>
-          <div className="spot-card-description">{spot.description}</div>
         </div>
         <div className="spot-card-footer">
           <span className="spot-card-price">${spot.price}</span> night
