@@ -19,8 +19,12 @@ function UserDetails() {
   
 
   const spotsList = Object.values(allSpots);
-  const mySpots = spotsList.filter(spot => spot.ownerId === user.id)
+  
+  // What is this devilry??
+  const mySpots = spotsList?.filter(spot => spot.ownerId === user.id)
 
+  if (!Object.values(userReviews)) return null;
+  
   const reviewsList = Object.values(userReviews); 
   
   return (

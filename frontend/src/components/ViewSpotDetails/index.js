@@ -36,7 +36,7 @@ function ViewSpotDetails() {
     mySpot.SpotImages.forEach(img => imageList.push(img))
   }
 
-  console.log("THis is the reviewsObj in my component: ", reviewsObj)
+  // console.log("THis is the reviewsObj in my component: ", reviewsObj)
 
   if (!mySpot.SpotImages) return null;
 
