@@ -12,7 +12,7 @@ function CreateReviewForm () {
   const sessionUser = useSelector((state) => state.session.user)
   
   const [review, setReview] = useState("");
-  const [stars, setStars] = useState("")
+  const [stars, setStars] = useState(1)
   const [inputErrors, setInputErrors] = useState([]);
   const [formSubmitted, setFormSubmitted] = useState([]);
   
@@ -26,6 +26,8 @@ function CreateReviewForm () {
       review,
       stars: parseInt(stars)
     }
+    
+    console.log("Am I a number? ", parseInt(stars))
     
     dispatch(createReviewThunk(payload, spotId))
     
