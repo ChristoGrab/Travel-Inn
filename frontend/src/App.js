@@ -11,6 +11,7 @@ import EditSpotForm from './components/EditSpotForm'
 import DeleteModal from "./components/DeleteSpotModal/DeleteSpot";
 import AddPreviewImage from "./components/CreateSpotForm/AddPreviewImage";
 import CreateReviewForm from "./components/CreateReviewForm";
+import UserDetails from "./components/UserAccount";
 
 function App() {
 
@@ -26,17 +27,20 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route path="/" exact>
+            <SpotCard />
+          </Route>
           <Route path="/signup">
             <SignupFormPage />
+          </Route>
+          <Route path="/user/profile" exact>
+            <UserDetails />
           </Route>
           <Route path="/create" exact>
             <CreateSpotForm />
           </Route>
           <Route path="/create/image">
             <AddPreviewImage />
-          </Route>
-          <Route path="/" exact>
-            <SpotCard />
           </Route>
           <Route path="/spots/:spotId" exact>
             <ViewSpotDetails />

@@ -20,8 +20,8 @@
 }
 
 .spot-card-image {
-  height: 250px;
-  width: 250px;
+  height: 325px;
+  width: 350px;
 }
 
 .spot-card-list {
@@ -40,6 +40,7 @@
   padding: 10px;
   box-sizing: border-box;
   flex-direction: column;
+  flex: 1 0 100%;
 }
 
 .spot-card-price {

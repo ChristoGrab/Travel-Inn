@@ -27,7 +27,6 @@ function CreateReviewForm () {
       stars: parseInt(stars)
     }
     
-    console.log("Is this a number? ", typeof payload.stars === "number")
     dispatch(createReviewThunk(payload, spotId))
     
     history.push(`/spots/${spotId}`)
