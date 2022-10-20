@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { createNewSpot } from '../../store/spots'
+import { createImageThunk } from '../../store/spots';
 import './CreateSpotForm.css'
 
 // Form for Creating New Spot
@@ -42,8 +43,9 @@ function CreateSpotForm() {
     if (country.length <= 1) errors.push("Please provide a valid country")
     if (description.length <= 12) errors.push("Please provide a brief description of your listing that is at least 12 characters long")
     if (price <= 1 || price >= 10000) errors.push("Please provide a $ price per night between 1 and 10000")
+    if (!url.length) errors.push("Please provide a valid url to display as a preview image")
     setInputErrors(errors)
-  }, [address, name, city, region, country, description, price])
+  }, [address, name, city, region, country, description, price, url])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,7 +67,19 @@ function CreateSpotForm() {
       preview: true
     }
 
-    dispatch(createNewSpot(payload)).then(() => history.push('/create/image'))
+    const newSpot = await dispatch(createNewSpot(payload))
+      .catch(async (response) => {
+        const data = await response.json();
+        if (data && data.errors) {
+          setInputErrors(data.errors);
+        }
+      })
+
+    if (newSpot) {
+
+    dispatch(createImageThunk(imgPayload, newSpot.id))
+    .then(() => history.push(`/user/profile`))
+    }
   }
 
   // Component JSX
@@ -137,6 +151,13 @@ function CreateSpotForm() {
             type="text"
             value={price}
             onChange={updatePrice} />
+        </label>
+        <label>
+          Preview Image url
+          <input className='create-spot-form-input'
+            type='url'
+            value={url}
+            onChange={updateUrl} />
         </label>
         <button id="create-spot-submit-button"
           // disabled={!!inputErrors.length}

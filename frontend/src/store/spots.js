@@ -78,9 +78,11 @@ export const createNewSpot = (spot) => async (dispatch) => {
     body: JSON.stringify(spot)
   })
   
+  // return data for double thunk
   if (response.ok) {
     const newSpot = await response.json();
     dispatch(createSpot(newSpot))
+    return newSpot
   }
 }
 
