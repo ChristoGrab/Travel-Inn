@@ -6,8 +6,20 @@
 
 .spot-details-header {
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.spot-details-title {
+  font-size: 22px;
+}
+
+.spot-details-subtitle {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
 }
 
 .spot-details-image-list > img {

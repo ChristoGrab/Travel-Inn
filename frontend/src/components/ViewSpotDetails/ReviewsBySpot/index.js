@@ -23,7 +23,7 @@ function ReviewsBySpot({reviews}) {
       <div className="spot-review-ratings">
         <h2>★ {avgRating} • {reviewNums} Reviews</h2>
       </div>
-      <ul>
+      <ul className="spot-review-list">
       {reviewsArray.map(review => (
         <div key={review.id} className="spot-review-detail">
           <SpotReviewDetails review={review}/>

@@ -20,6 +20,7 @@ function SpotReviewDetails(review) {
   return (
   <div className="spot-review-details">
     <p>★ {review.review.stars}</p>
+    <p>{review.review.User.firstName}</p>
     <p>{review.review.review}</p>
     { user && user.id === review.review.User.id && (
       <button onClick={handleDelete}

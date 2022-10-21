@@ -47,10 +47,10 @@ function ViewSpotDetails() {
       <div className="spot-details-container">
         <div className="spot-details-header">
           <div className="spot-details-title">{mySpot.name}</div>
-          <div className="spot-details-">
-            <div>★ {mySpot.avgStarRating}</div>
-            <div>{mySpot.numReviews} Ratings</div>
-            <div>{mySpot.city}, {mySpot.state}, {mySpot.country}</div>
+          <div className="spot-details-subtitle">
+            <span>★ {mySpot.avgStarRating}</span>
+            <span>{mySpot.numReviews} Reviews</span>
+            <span>{mySpot.city}, {mySpot.state}, {mySpot.country}</span>
           </div>
         </div>
         <div className="spot-details-image-list-div">
