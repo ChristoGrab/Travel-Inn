@@ -32,6 +32,7 @@ function CreateReviewForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormSubmitted(true)
+    
     if (inputErrors.length) return;
 
     const payload = {
@@ -52,6 +53,7 @@ function CreateReviewForm() {
           className="create-review-form-greeting">
           Share some thoughts on your stay here!
         </div>
+        {formSubmitted && <div className="create-review-errors">
           <ul className="spot-errors-list">
             {inputErrors.map((error, idx) => (
               <li key={idx}>
@@ -59,6 +61,7 @@ function CreateReviewForm() {
               </li>
             ))}
           </ul>
+          </div>}
         <label>
           Review
           <input

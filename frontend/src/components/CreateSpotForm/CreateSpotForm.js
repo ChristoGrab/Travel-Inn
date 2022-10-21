@@ -6,7 +6,7 @@ import { createImageThunk } from '../../store/spots';
 import './CreateSpotForm.css'
 
 // Form for Creating New Spot
-function CreateSpotForm() {
+function CreateSpotForm({hideModal}) {
 
   // list of state variables
   const dispatch = useDispatch();
@@ -36,21 +36,22 @@ function CreateSpotForm() {
   // list of input errors
   useEffect(() => {
     let errors = []
-    if (address.length <= 5) errors.push("Please provide a valid address")
-    if (name.length <= 2) errors.push("Please provide a valid name")
-    if (city.length <= 2) errors.push("Please provide a valid city")
-    if (region.length <= 1) errors.push("Please provide a valid state")
-    if (country.length <= 1) errors.push("Please provide a valid country")
+    if (address.length <= 5) errors.push("Sorry, this address is too short")
+    if (name.length <= 2) errors.push("Sorry, this name is too short")
+    if (city.length <= 2) errors.push("Please provide at least three characters")
+    if (region.length <= 1) errors.push("Please provide at least 2 initials for your state")
+    if (country.length <= 1) errors.push("Please provide at least 2 initials for your country")
     if (description.length <= 12) errors.push("Please provide a brief description of your listing that is at least 12 characters long")
-    if (isNaN(price)) errors.push("Please provide money")
-    if (price <= 1 || price >= 10000) errors.push("Please provide a $ price per night between 1 and 10000")
+    if (isNaN(price) || price <=1 || price >= 10000) errors.push("Please provide a valid price per night within the 1-10000 range")
     if (!url.length) errors.push("Please provide a valid url to display as a preview image")
     setInputErrors(errors)
   }, [address, name, city, region, country, description, price, url])
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
     setFormSubmitted(true)
+
     if (inputErrors.length) return;
 
     const payload = {
@@ -68,22 +69,34 @@ function CreateSpotForm() {
       preview: true
     }
 
+    // reset input errors
+    setInputErrors([])
+
+    // send new spot for validation check in backend
     const newSpot = await dispatch(createNewSpot(payload))
       .catch(async (response) => {
-        
+
         const data = await response.json();
-        
+
+        // if new errors, return them
         if (data && data.errors) {
           setInputErrors(data.errors);
         }
       });
 
-    if (newSpot) {
-      
+    console.log("data has been sent and response has arrived")
+    console.log("newSpot has been created, sending img thunk")
+
+    //ok, now send the picture creation thunk
     dispatch(createImageThunk(imgPayload, newSpot.id));
+    console.log("image has been sent, pushing user to profile page")
+      console.log("input errors: ", inputErrors)
     
+    
+    
+    // 
+    hideModal();
     history.push(`/user/profile`)
-    }
   }
 
   // Component JSX
@@ -96,10 +109,9 @@ function CreateSpotForm() {
           Please fill out the provided fields and we'll get you set up!
         </div>
         {formSubmitted && <div className="create-spot-errors">
-          <h4>Uh oh! Looks like there were some errors. Please double check your inputs and try again</h4>
           <ul className="spot-errors-list">
             {inputErrors.map((error, idx) => (
-              <li key={idx}>
+              <li key={idx} className="error-list-item">
                 {error}
               </li>
             ))}

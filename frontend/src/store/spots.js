@@ -5,8 +5,9 @@ const LOAD_SPOTS = 'spots/load';
 const CREATE_SPOT = 'spots/create';
 const DELETE_SPOT = 'spots/delete';
 const UPDATE_SPOT = 'spots/update';
-const GET_SPOT = 'spots/getOne'
-const ADD_IMAGE = 'spots/addImage'
+const GET_SPOT = 'spots/getOne';
+const ADD_IMAGE = 'spots/addImage';
+const CLEAR_SPOT = 'spots/clear';
 
 // ------ SESSION ACTION CREATORS ------ //
 const loadSpots = (spots) => {
@@ -48,6 +49,12 @@ const addImage = (image) => {
   return {
     type: ADD_IMAGE,
     image
+  }
+}
+
+export const clearSpot = () => {
+  return {
+    type: CLEAR_SPOT
   }
 }
 
@@ -117,7 +124,9 @@ export const deleteSpotThunk = (id) => async (dispatch) => {
   })
   
   if (response.ok) {
+    const data = await response.json();
     dispatch(deleteSpot(id))
+    return data;
   }
 }
 
@@ -221,6 +230,13 @@ const spotsReducer = (state = initialState, action) => {
       return {
         ...state,
         singleSpot: singleSpotObject
+      }
+    }
+    
+    case CLEAR_SPOT: {
+      return {
+        ...state,
+        singleSpot: {}
       }
     }
     

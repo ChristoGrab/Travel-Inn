@@ -34,7 +34,7 @@ function UserDetails() {
   return (
     <div className="user-page-container">
       <div className="user-page-welcome">
-        <h1>Hello {user.username}</h1>
+        <h1>Welcome {user.username}</h1>
       </div>
       <p>These are your current listings with us:</p>
       <ul className="user-spots-list">

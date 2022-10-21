@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getOneSpot } from '../../store/spots';
+import { clearSpot } from '../../store/spots'
 import { loadSpotReviewsThunk } from '../../store/reviews';
 import ReviewsBySpot from './ReviewsBySpot'
 import './ViewSpotDetails.css';
@@ -15,19 +16,17 @@ function ViewSpotDetails() {
   const [dataLoaded, setDataLoaded] = useState(false)
 
   useEffect(() => {
+
     dispatch(getOneSpot(spotId))
     dispatch(loadSpotReviewsThunk(spotId))
     setDataLoaded(true)
+
+    return (() => dispatch(clearSpot()))
   }, [dispatch, dataLoaded, spotId])
 
   const mySpot = useSelector(state => state.spots.singleSpot);
   const currentUser = useSelector(state => state.session.user);
   const reviewsObj = useSelector(state => state.reviews.spot)
-
-
-  console.log("Spot data from useSelector: ", mySpot);
-  console.log("User data from useSelector: ", currentUser)
-  console.log("Reviews data from useSelector: ", reviewsObj)
 
   let imageList = [];
 
