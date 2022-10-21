@@ -23,9 +23,9 @@ function SpotCard() {
       {dataLoaded && (
         <div className="spot-card-list">
           {spotsArray.map(spot => (
-          <li key={spot.id} className='spot-card-box'>
+          <div key={spot.id} className='spot-card-box'>
             <SpotCardInfo spot={spot}/>
-          </li>
+          </div>
           ))}
         </div>
       )}
