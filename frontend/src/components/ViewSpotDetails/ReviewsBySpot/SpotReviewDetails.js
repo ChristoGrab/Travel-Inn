@@ -19,8 +19,10 @@ function SpotReviewDetails(review) {
   console.log("Review in each card: ", review)
   return (
   <div className="spot-review-details">
-    <p>★ {review.review.stars}</p>
-    <p>{review.review.User.firstName}</p>
+    <div className="spot-review-overview">
+    <span>★ {review.review.stars}</span>
+    <span>{review.review.User.firstName}</span>
+    </div>
     <p>{review.review.review}</p>
     { user && user.id === review.review.User.id && (
       <button onClick={handleDelete}
