@@ -1,0 +1,10 @@
+#become-host-button {
+  background-color: white;
+  border: none;
+  border-radius: 15px;
+  font-size: 15px;
+}
+
+#become-host-button:hover {
+  background-color: rgb(240, 240, 240);
+}

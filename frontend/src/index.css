@@ -10,7 +10,7 @@ button:hover {
 body::before {
   display:block;
   content: '';
-  height: 50px;
+  height: 7em;
 }
 
 .form-error {

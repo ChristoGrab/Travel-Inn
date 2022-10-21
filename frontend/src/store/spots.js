@@ -78,11 +78,18 @@ export const createNewSpot = (spot) => async (dispatch) => {
     body: JSON.stringify(spot)
   })
   
-  // return data for double thunk
+  // return data for previewImage thunk to use
+  // will want to change db so previewImage is
+  // part of Spots table.
+
   if (response.ok) {
     const newSpot = await response.json();
     dispatch(createSpot(newSpot))
     return newSpot
+  } else {
+
+    const errorData = await response.json();
+    return errorData;
   }
 }
 
@@ -98,9 +105,10 @@ export const updateSpot = (spotData, spotId) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(editSpot(data))
-  }
-
-  else return response;
+  } else {
+    const errorData = await response.json();
+    return errorData;
+  };
 }
 
 export const deleteSpotThunk = (id) => async (dispatch) => {

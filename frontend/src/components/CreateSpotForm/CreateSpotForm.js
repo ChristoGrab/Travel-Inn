@@ -42,6 +42,7 @@ function CreateSpotForm() {
     if (region.length <= 1) errors.push("Please provide a valid state")
     if (country.length <= 1) errors.push("Please provide a valid country")
     if (description.length <= 12) errors.push("Please provide a brief description of your listing that is at least 12 characters long")
+    if (isNaN(price)) errors.push("Please provide money")
     if (price <= 1 || price >= 10000) errors.push("Please provide a $ price per night between 1 and 10000")
     if (!url.length) errors.push("Please provide a valid url to display as a preview image")
     setInputErrors(errors)
@@ -69,10 +70,12 @@ function CreateSpotForm() {
 
     const newSpot = await dispatch(createNewSpot(payload))
       .catch(async (response) => {
+        
         const data = await response.json();
+        
         if (data && data.errors) {
           setInputErrors(data.errors);
-        };
+        }
       });
 
     if (newSpot) {

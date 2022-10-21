@@ -2,9 +2,9 @@
   display: flex;
   flex-direction: column;
   list-style: none;
-  position: fixed;
-  top: 25px;
-  right: 17%;
+  position: absolute;
+  top: 45px;
+  right: 6%;
   background-color: white;
   gap: 5px;
   justify-content: center;
@@ -16,10 +16,16 @@
 }
 
 #profile-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   background-color: white;
-  border: 1px solid #efefef;
-  width: 40px;
-  border-radius: 5px;
+  border: 2px solid #efefef;
+  width: 75px;
+  height: 40px;
+  border-radius: 15px;
+  box-shadow: .5px 1px #efefef;
 }
 
 .manage-account-link {

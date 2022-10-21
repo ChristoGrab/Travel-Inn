@@ -11,7 +11,7 @@ function UserDetails() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
   const allSpots = useSelector(state => state.spots.spots);
-  const userReviews = useSelector(state => state.reviews.user)
+  // const userReviews = useSelector(state => state.reviews.user)
 
   useEffect(() => {
     dispatch(getAllSpots());
@@ -26,30 +26,26 @@ function UserDetails() {
   const mySpots = spotsList.filter(spot => spot.ownerId === user.id)
   
   // conditional rendering for wonky render errors
-  if (!userReviews) return null;
+  // if (!userReviews) return null;
   
   // now I'm also turning userReviews into an array
-  const reviewsList = Object.values(userReviews); 
+  // const reviewsList = Object.values(userReviews); 
 
   return (
     <div className="user-page-container">
       <div className="user-page-welcome">
-        <h1>Hello {user.firstName}</h1>
+        <h1>Hello {user.username}</h1>
       </div>
       <p>These are your current listings with us:</p>
       <ul className="user-spots-list">
         {mySpots.map(spot => (
           <Link to={`/spots/${spot.id}`} key={spot.id} className='user-spot-links'>{spot.name}</Link>
         ))}
-      </ul>
-      <p>And here are your current reviews:</p>
-      <ul>
-        {reviewsList.map(review => (
-          <li key={review.id}>{review.review}</li>
-        ))}
-      </ul>
+</ul>
     </div>
   )
 }
 
 export default UserDetails;
+
+
