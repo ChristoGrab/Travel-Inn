@@ -21,7 +21,7 @@
   align-items: center;
   justify-content: space-between;
   background-color: white;
-  border: 2px solid #efefef;
+  border: 1.5px solid #efefef;
   width: 75px;
   height: 40px;
   border-radius: 15px;
@@ -31,5 +31,14 @@
 .manage-account-link {
   text-decoration: none;
   color: black;
+  box-sizing: border-box;
+}
+
+#profile-bars {
+  box-sizing: border-box;
+  
+}
+
+#profile-pic {
   box-sizing: border-box;
 }

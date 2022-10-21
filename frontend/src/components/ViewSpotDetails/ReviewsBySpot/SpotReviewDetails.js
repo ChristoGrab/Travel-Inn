@@ -16,16 +16,15 @@ function SpotReviewDetails(review) {
     dispatch(deleteReviewThunk(review.review.id))
   }
 
-  console.log("Review in each card: ", review)
   return (
-  <div className="spot-review-details">
+  <div className="spot-review-details-box">
     <div className="spot-review-overview">
-    <span>★ {review.review.stars}</span>
-    <span>{review.review.User.firstName}</span>
+    <span><i class="fa-solid fa-circle-user"></i> {review.review.User.firstName}</span>
+    <span className="spot-review-stars">★ {review.review.stars}</span>
     </div>
-    <p>{review.review.review}</p>
+    <div className="spot-review-text">{review.review.review}</div>
     { user && user.id === review.review.User.id && (
-      <button onClick={handleDelete}
+      <button className="review-delete-button" onClick={handleDelete}
       >Delete your Review</button>
     )}
   </div>

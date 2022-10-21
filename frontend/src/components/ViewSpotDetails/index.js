@@ -42,7 +42,7 @@ function ViewSpotDetails() {
   if (!reviewsObj) return null;
 
   return (
-    <>
+    <div className='spot-details-outer-container'>
       <div className="spot-details-container">
         <div className="spot-details-header">
           <div className="spot-details-title">{mySpot.name}</div>
@@ -81,12 +81,13 @@ function ViewSpotDetails() {
       {(!!Object.values(reviewsObj).length) && (
         <ReviewsBySpot reviews={reviewsObj} />
       )}
-      <div className="create-new-review-link">
+      <div className="create-new-review-box">
         {currentUser && currentUser.id !== mySpot.Owner.id && (
-          <Link to={`/spots/${mySpot.id}/review/new`}>Create A Review</Link>
+          <Link 
+          className="create-new-review-link" to={`/spots/${mySpot.id}/review/new`}>Create A Review</Link>
         )}
       </div>
-    </>
+    </div>
   )
 }
 
