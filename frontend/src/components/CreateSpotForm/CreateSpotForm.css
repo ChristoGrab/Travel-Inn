@@ -1,3 +1,5 @@
+
+
 .create-spot-form-container {
   display: flex;
   justify-content: center;
@@ -46,7 +48,8 @@
 }
 
 #create-spot-button {
-  background-color: white;
+  background-color: #ff385c;
+  color: white;
   border: none;
   height: 40px;
   border-radius: 10%;

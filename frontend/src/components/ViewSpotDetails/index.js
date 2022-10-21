@@ -46,7 +46,7 @@ function ViewSpotDetails() {
     <>
       <div className="spot-details-container">
         <div className="spot-details-header">
-          <div>{mySpot.name}</div>
+          <div className="spot-details-title">{mySpot.name}</div>
           <div className="spot-details-">
             <div>★ {mySpot.avgStarRating}</div>
             <div>{mySpot.numReviews} Ratings</div>
@@ -66,11 +66,14 @@ function ViewSpotDetails() {
         <div>
           {currentUser && currentUser.id === mySpot.Owner.id && (
             <div className="listing-owner-container">
-              <div className="edit-listing-button">
-                <Link to={`/spots/${mySpot.id}/edit`}>Edit your listing</Link>
+              <div className="spot-owner-div">
+                <Link 
+                className="spot-owner-links" 
+                to={`/spots/${mySpot.id}/edit`}>Edit your listing</Link>
               </div>
-              <div className="delete-listing-button">
-                <Link to={`/spots/${mySpot.id}/delete`}>Delete your listing</Link>
+              <div className="spot-owner-div">
+                <Link className="spot-owner-links" 
+                to={`/spots/${mySpot.id}/delete`}>Delete your listing</Link>
               </div>
             </div>
           )}

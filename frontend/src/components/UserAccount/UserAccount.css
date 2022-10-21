@@ -12,11 +12,13 @@
   background-color: #ff385c;
   padding: 10px;
   border-radius: 5px;
+  width: 150%;
 }
 
 .user-spots-list {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  flex-wrap: wrap;
 }
 

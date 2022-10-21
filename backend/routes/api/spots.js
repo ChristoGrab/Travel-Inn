@@ -159,7 +159,7 @@ router.get('/current', requireAuth, async (req, res) => {
   
   spotsList.forEach(spot => {
     if (spot.avgRating === null) {
-      spot.avgRating = "This spot doesn't have any ratings yet"
+      spot.avgRating = "No Ratings"
     }
   })
 
@@ -286,7 +286,7 @@ router.get('/', async (req, res) => {
   
   spotsList.forEach(spot => {
     if (!spot.avgRating) {
-      spot.avgRating = "This spot doesn't have any ratings yet"
+      spot.avgRating = "No Ratings"
     }
   })
 
