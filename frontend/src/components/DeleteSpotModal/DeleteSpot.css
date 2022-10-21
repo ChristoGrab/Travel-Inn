@@ -1,0 +1,39 @@
+.delete-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.delete-page-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding-top: 2%;
+  gap: 5%;
+}
+
+.confirm-delete-button {
+  background-color: #ff385c;
+  height: 50px;
+  width: 250px;
+  border-radius: 15px;
+  font-weight: bold;
+}
+
+.confirm-delete-button:hover {
+  box-shadow: .5px 1px;
+  background-color: #ff385c;
+}
+
+.abort-delete-button {
+  background-color: white;
+  height: 50px;
+  width: 250px;
+  border-radius: 15px;
+}
+
+.abort-delete-button:hover {
+  background-color: #f7f7f7;
+  box-shadow: .5px 1px 
+}
