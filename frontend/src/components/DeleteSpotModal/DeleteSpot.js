@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+import { getOneSpot } from '../../store/spots';
 import { deleteSpotThunk } from '../../store/spots';
 import './DeleteSpot.css'
 
@@ -10,12 +12,20 @@ function DeleteModal() {
   const history = useHistory();
   // Use parseInt so thunk can interpret Id
   const deleteId = parseInt(spotId)
+  
+  useEffect(() => {
+    dispatch(getOneSpot(deleteId))
+  }, [dispatch, deleteId])
 
   const confirmDelete = async (e) => {
     e.preventDefault();
 
-    dispatch(deleteSpotThunk(deleteId))
-    history.push('/')
+    const response = await dispatch(deleteSpotThunk(deleteId))
+    .catch(async (response) => {
+      const data = await response.json();
+    })
+    
+    if (response) history.push('/user/profile')
   }
 
   const abortDelete = (e) => {

@@ -93,7 +93,6 @@ function CreateSpotForm({hideModal}) {
       console.log("input errors: ", inputErrors)
     
     
-    if (!inputErrors.length)
     
     // 
     hideModal();
@@ -110,7 +109,6 @@ function CreateSpotForm({hideModal}) {
           Please fill out the provided fields and we'll get you set up!
         </div>
         {formSubmitted && <div className="create-spot-errors">
-          <h4>Uh oh! Looks like there were some errors. Please double check your inputs and try again</h4>
           <ul className="spot-errors-list">
             {inputErrors.map((error, idx) => (
               <li key={idx} className="error-list-item">

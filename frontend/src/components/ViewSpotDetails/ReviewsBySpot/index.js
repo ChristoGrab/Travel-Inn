@@ -10,13 +10,14 @@ function ReviewsBySpot({reviews}) {
 
   // some good old mod 1 logic to calculate reviews
   let reviewNums = reviewsArray.length;
-  let avgRating = 0
+  let ratingsSum = 0
 
   for (let i = 0; i < reviewsArray.length; i++) {
-  avgRating += reviewsArray[i].stars
+  ratingsSum += reviewsArray[i].stars
   }
 
-  avgRating = avgRating / reviewNums
+  // divide sum by reviews and round to 2 decimal places
+  let avgRating = (ratingsSum / reviewNums).toFixed(1);
 
   return (
     <div className="spot-review-container">
