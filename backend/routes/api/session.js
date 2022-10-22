@@ -33,7 +33,7 @@ router.post('/', validateLogin, async (req, res, next) => {
     err.status = 401;
     err.title = 'Login failed';
     err.message = "Your username and password don't match our records"
-    err.errors = 'Invalid credentials';
+    err.errors = "These credentials don't match our records";
     return next(err);
   }
   

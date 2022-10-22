@@ -16,14 +16,17 @@ function Navigation({ isLoaded }) {
 
   if (sessionUser) {
     sessionLinks = (
+      <div className="navbar-right">
+      <CreateSpotButton />
       <ProfileButton user={sessionUser} />
+      </div>
     );
   } else {
     sessionLinks = (
-      <button>
+      <div>
         <LoginFormModal />
         <SignupFormModal />
-      </button>
+      </div>
     );
   }
 
@@ -33,7 +36,6 @@ function Navigation({ isLoaded }) {
           <NavLink exact to="/" id="app-name">Travel-Host</NavLink>
           </div>
           <div className='navbar-right'>
-            <CreateSpotButton />
             {isLoaded && sessionLinks}
           </div>
     </div>

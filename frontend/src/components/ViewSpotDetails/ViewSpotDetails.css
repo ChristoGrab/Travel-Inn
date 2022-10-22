@@ -9,12 +9,11 @@
 .spot-details-container {
   display: flex;
   flex-direction: column;
-  border: 3px solid lightgray;
+  /* border: 3px solid lightgray; */
   gap: 1em;
 }
 
 .spot-details-header {
-  border: 1px solid purple;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -25,6 +24,7 @@
 
 .spot-details-title {
   font-size: 22px;
+  font-weight: 600;
 }
 
 .spot-details-subtitle {
@@ -32,25 +32,37 @@
   justify-content: space-around;
   align-items: center;
   gap: 10px;
+  font-size: 15px;
+}
+
+.spot-details-stars {
+  font-weight: bold;
+  margin-bottom: 2px;
+  margin-right: -5px;
+}
+
+.spot-details-location {
+  margin-left: 10px;
 }
 
 .spot-details-image-list {
   display: flex;
   gap: .75%;
   box-sizing: border-box;
+  max-height: 400px;
 }
 
 .spot-details-image-list > img {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  max-height: 300px;
-  max-width: 400px;
+  max-width: 45%;
   border-radius: 10px;
 }
 
 .spot-details-description {
   display: flex;
+  color: #827b7e;
 }
 
 .spot-owner-div {

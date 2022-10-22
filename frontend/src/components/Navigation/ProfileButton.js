@@ -6,8 +6,6 @@ import './ProfileButton.css'
 
 function ProfileButton({ user }) {
 
-  // console.log("User prop in ProfileButton: ", user)
-
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
 

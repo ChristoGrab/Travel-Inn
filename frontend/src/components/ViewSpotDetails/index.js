@@ -47,17 +47,15 @@ function ViewSpotDetails() {
         <div className="spot-details-header">
           <div className="spot-details-title">{mySpot.name}</div>
           <div className="spot-details-subtitle">
-            <span>★ {mySpot.avgStarRating}</span>
-            <span>{mySpot.numReviews} Reviews</span>
-            <span>{mySpot.city}, {mySpot.state}, {mySpot.country}</span>
+            <span className="spot-details-stars">★ {mySpot.avgStarRating}</span>
+            <span>• {mySpot.numReviews} Reviews</span>
+            <span className="spot-details-location"> {mySpot.city}, {mySpot.state}, {mySpot.country}</span>
           </div>
         </div>
-        <div className="spot-details-image-list-div">
-          <ul className='spot-details-image-list'>
+        <div className="spot-details-image-list">
             {imageList.map(img => (
               <img key={img.id} src={img.url} alt={img.name}></img>
             ))}
-          </ul>
         </div>
         <div className="spot-details-description">
           {mySpot.description}

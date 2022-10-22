@@ -25,3 +25,32 @@ body::before {
 .form-textarea {
   border: 1px solid lightgray;
 }
+
+#modal-content {
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f7f7f7;
+  border-radius: 5px;
+  border: 1px solid rgba(211, 211, 211, 0.6)
+}
+
+#modal-content button {
+  background-color: #ff385c;
+  color: white;
+  border-radius: 15px;
+  border: none;
+  height: 40px;
+  width: 200px;
+  margin-top: 20px;
+}
+
+#modal-content button:hover {
+  cursor: pointer;
+}
+
+#modal-content textarea {
+  resize: none;
+}

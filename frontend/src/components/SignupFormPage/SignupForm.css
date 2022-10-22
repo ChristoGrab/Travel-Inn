@@ -9,4 +9,18 @@
   box-sizing: border-box;
 }
 
+#signup-button {
+  background-color: white;
+  border: none;
+  font-size: 18px;
+}
+
+#signup-button:hover {
+  cursor: pointer;
+  background-color: #f7f7f7;
+  border-radius: 15px;
+}
+
+
+
 
