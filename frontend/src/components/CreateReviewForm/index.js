@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { createReviewThunk } from '../../store/reviews';
 
+import "./CreateReviewForm.css"
+
 function CreateReviewForm() {
 
   const { spotId } = useParams();
@@ -47,8 +49,8 @@ function CreateReviewForm() {
 
   console.log("Form submitted status on page load: ", formSubmitted)
   return (
-    <div>
-      <form>
+    <div className="create-review-form-container">
+      <form className='create-review-form'>
         <div
           className="create-review-form-greeting">
           Share some thoughts on your stay here!
@@ -63,16 +65,18 @@ function CreateReviewForm() {
           </ul>
           </div>}
         <label>
-          Review
-          <input
+          
+          <textarea
+          className="create-review-textarea"
             type="text"
             required
             value={review}
             onChange={updateReview} />
         </label>
         <label>
-          Stars
+          Rating
           <select
+          className="review-stars-dropdown"
             id="stars"
             value={stars}
             onChange={updateStars}>

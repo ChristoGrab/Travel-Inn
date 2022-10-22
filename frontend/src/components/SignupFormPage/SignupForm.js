@@ -36,8 +36,6 @@ function SignupForm() {
   };
 
   return (
-    <div >
-      
       <form className="signup-form" onSubmit={handleSubmit}>
         <h3>Sign Up</h3>
         <ul className='form-errors'>
@@ -99,7 +97,6 @@ function SignupForm() {
         </label>
         <button type="submit">Sign Up</button>
       </form>
-    </div>
   );
 }
 

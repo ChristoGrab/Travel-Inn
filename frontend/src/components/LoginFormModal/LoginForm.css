@@ -17,17 +17,6 @@
   padding: 0 3%;
 }
 
-#modal-content {
-  display: flex;
-  flex-direction: column;
-  padding: 2%;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #f7f7f7;
-  border-radius: 5px;
-  border: 1px solid rgba(211, 211, 211, 0.6)
-}
-
 .form-label {
   padding: 2%;
   margin: 5px 0 10px 0;
@@ -36,4 +25,16 @@
 #login-error {
   list-style: none;
   color: #ff385c;
+}
+
+#login-button {
+  background-color: white;
+  border: none;
+  font-size: 18px;
+}
+
+#login-button:hover {
+  cursor: pointer;
+  background-color: #f7f7f7;
+  border-radius: 15px;
 }
