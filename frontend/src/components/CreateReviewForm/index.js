@@ -27,6 +27,7 @@ function CreateReviewForm() {
   useEffect(() => {
     let errors = []
     if (review.length <= 5) errors.push("Please provide some specific feedback for your host!");
+    if (review.toLowerCase().includes("fuck") || review.toLowerCase().includes("shit")) errors.push("Please refrain from using inappropriate language")
     setInputErrors(errors)
   }, [review])
 
@@ -56,13 +57,13 @@ function CreateReviewForm() {
           Share some thoughts on your stay here!
         </div>
         {formSubmitted && <div className="create-review-errors">
-          <ul className="spot-errors-list">
+          <div className="spot-errors-list">
             {inputErrors.map((error, idx) => (
-              <li key={idx}>
+              <li className="form-error" key={idx}>
                 {error}
               </li>
             ))}
-          </ul>
+          </div>
           </div>}
           <textarea
           className="create-review-textarea"
