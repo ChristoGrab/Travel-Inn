@@ -7,11 +7,20 @@
   padding-top: 1.5%;
   position: fixed;
   padding-bottom: 1.5%;
-  z-index: 9999;
+  z-index: 9000;
   top: 0;
   left: 0;
   background-color: white;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .2)
+}
+
+.navbar-left {
+  display: flex;
+}
+
+#logo {
+  height: 50px;
+  width: auto;
 }
 
 #app-name {
@@ -33,6 +42,7 @@
   flex-direction: row;
   gap: 10px;
   justify-content: center;
+  align-items: center;
 }
 
 #logout-button {
@@ -40,5 +50,4 @@
   border: none;
   font-size: 16px;
 }
-
 

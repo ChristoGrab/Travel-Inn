@@ -7,6 +7,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-y: auto;
+  z-index: 9999;
 }
 
 #modal-background {
@@ -20,5 +22,26 @@
 
 #modal-content {
   position: absolute;
-  background-color:white;
+  background-color: white;
+
 }
+
+#modal-content button {
+  background-color: #e21b5f;
+  color: white;
+  border-radius: 15px;
+  border: none;
+  height: 40px;
+  width: 200px;
+  margin-top: 25px;
+}
+
+#modal-content button:hover {
+  cursor: pointer;
+  box-shadow: 2px 2px 3px lightslategray;
+}
+
+#modal-content textarea {
+  resize: none;
+}
+

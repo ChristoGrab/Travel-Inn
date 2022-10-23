@@ -70,4 +70,5 @@
 
 .spot-card-link {
   text-decoration: none;
+  align-self: flex-start;
 }

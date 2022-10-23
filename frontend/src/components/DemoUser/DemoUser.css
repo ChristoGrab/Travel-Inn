@@ -1,0 +1,11 @@
+#demo-user {
+  background-color: white;
+  border: none;
+  font-size: 18px;
+}
+
+#demo-user:hover {
+  background-color: #f7f7f7;
+  cursor: pointer;
+  border-radius: 15px;
+}

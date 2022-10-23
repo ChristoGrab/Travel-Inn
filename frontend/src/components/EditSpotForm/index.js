@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateSpot } from '../../store/spots'
+import "./EditSpotForm.css"
 
 function EditSpotForm() {
 
@@ -63,9 +64,9 @@ function EditSpotForm() {
 
   return (
     <div>
-      <form>
+      <form className="edit-spot-form">
         <div className="edit-spot-form-greeting">
-          Want to make some edits to your listing info? You're in the right place
+          Please provide the updated listing information
         </div>
         {formSubmitted && <div className="edit-spot-errors">
           <h4>Uh oh! Looks like there were some errors. Please double check your inputs and try again</h4>

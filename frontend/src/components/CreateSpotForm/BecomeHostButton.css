@@ -3,6 +3,7 @@
   border: none;
   border-radius: 15px;
   font-size: 15px;
+  padding: 10px;
 }
 
 #become-host-button:hover {

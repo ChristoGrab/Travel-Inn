@@ -37,7 +37,11 @@ function DeleteModal() {
   return (
     <div className='delete-page-container'>
       <h2>Are you sure you want to delete this listing?</h2>
-      <p>Doing so will erase it from our database, and is an irreversible process</p>
+
+      <i class="fa-solid fa-circle-exclamation"
+      
+      id="delete-spot-warning-logo"></i>
+            <p>Doing so will erase it from our database, and is an irreversible process</p>
       <div className='delete-page-buttons'>
         <button
           className="confirm-delete-button"

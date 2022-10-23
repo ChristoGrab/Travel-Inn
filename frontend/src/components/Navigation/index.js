@@ -1,11 +1,14 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal';
 import CreateSpotButton from '../CreateSpotForm/index'
-import './Navigation.css';
 import SignupFormModal from '../SignupFormPage';
+import DemoUser from '../DemoUser'
+
+import './Navigation.css';
+import Logo from '../../assets/TravelInn_Logo.png'
 
 function Navigation({ isLoaded }) {
 
@@ -26,6 +29,7 @@ function Navigation({ isLoaded }) {
       <div>
         <LoginFormModal />
         <SignupFormModal />
+        <DemoUser />
       </div>
     );
   }
@@ -33,7 +37,7 @@ function Navigation({ isLoaded }) {
   return (
     <div className="top-navbar">
         <div className='navbar-left'>
-          <NavLink exact to="/" id="app-name">Travel-Host</NavLink>
+          <Link exact to="/"><img id="logo" src={Logo}></img></Link>
           </div>
           <div className='navbar-right'>
             {isLoaded && sessionLinks}

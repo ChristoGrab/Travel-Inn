@@ -36,14 +36,14 @@ function CreateSpotForm({hideModal}) {
   // list of input errors
   useEffect(() => {
     let errors = []
-    if (address.length <= 5) errors.push("Sorry, this address is too short")
-    if (name.length <= 2) errors.push("Sorry, this name is too short")
-    if (city.length <= 2) errors.push("Please provide at least three characters")
+    if (address.length <= 5) errors.push("Please provide a valid address")
+    if (name.length <= 2) errors.push("Please provide a name for your listing")
+    if (city.length <= 2) errors.push("Please provide a valid city")
     if (region.length <= 1) errors.push("Please provide at least 2 initials for your state")
     if (country.length <= 1) errors.push("Please provide at least 2 initials for your country")
-    if (description.length <= 12) errors.push("Please provide a brief description of your listing that is at least 12 characters long")
-    if (isNaN(price) || price <=1 || price >= 10000) errors.push("Please provide a valid price per night within the 1-10000 range")
-    if (!url.length) errors.push("Please provide a valid url to display as a preview image")
+    if (description.length <= 10) errors.push("Please provide at least a brief description of your listing (10 char min)")
+    if (isNaN(price) || price <1 || price > 10000) errors.push("Please provide a valid price per night within the $1-10000 range")
+    if (!url.length) errors.push("Please provide an image url to display as a preview image")
     setInputErrors(errors)
   }, [address, name, city, region, country, description, price, url])
 
@@ -105,17 +105,15 @@ function CreateSpotForm({hideModal}) {
       <form className="create-spot-form">
         <div className="create-spot-form-greeting">
           Ready to join our growing family of hosts?
-          <br />
-          Please fill out the provided fields and we'll get you set up!
         </div>
         {formSubmitted && <div className="create-spot-errors">
-          <ul className="spot-errors-list">
+          <div className="spot-errors-list">
             {inputErrors.map((error, idx) => (
               <li key={idx} className="error-list-item">
                 {error}
               </li>
             ))}
-          </ul>
+          </div>
         </div>}
         <label>
           Address
