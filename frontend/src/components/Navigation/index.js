@@ -4,8 +4,10 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal';
 import CreateSpotButton from '../CreateSpotForm/index'
-import './Navigation.css';
 import SignupFormModal from '../SignupFormPage';
+import DemoUser from '../DemoUser'
+
+import './Navigation.css';
 import Logo from '../../assets/TravelInn_Logo.png'
 
 function Navigation({ isLoaded }) {
@@ -27,6 +29,7 @@ function Navigation({ isLoaded }) {
       <div>
         <LoginFormModal />
         <SignupFormModal />
+        <DemoUser />
       </div>
     );
   }
