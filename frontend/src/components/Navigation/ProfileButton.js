@@ -39,9 +39,9 @@ function ProfileButton({ user }) {
       </button>
       {showMenu && (
         <ul className="profile-dropdown">
-          <Link to='/user/profile' className="manage-account-link">Manage Account</Link>
+          <Link to='/user/profile' className="manage-account-link">Manage Listings</Link>
           <li>
-            <button onClick={logout}>Log Out</button>
+            <button id="logout-button" onClick={logout}>Log Out</button>
           </li>
         </ul>
       )}

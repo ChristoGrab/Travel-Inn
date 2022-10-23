@@ -7,18 +7,6 @@
   flex-wrap:wrap;
 }
 
-.user-spot-links {
-  display: flex;
-  justify-content: flex-start;
-  text-decoration: none;
-  color: white;
-  background-color: #ff385c;
-  padding: 10px;
-  border-radius: 5px;
-  width: 135%;
-  flex: 1 1 25px;
-}
-
 .user-spots-list {
   display: flex;
   flex-direction: column;
@@ -27,4 +15,22 @@
   padding-left: 0;
   max-height: 95%;
 }
+
+.user-spot-links {
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  color: white;
+  background-color: #e21b5f;
+  padding: 10px;
+  border-radius: 15px;
+  width: 135%;
+  flex: 1 1 25px;
+}
+
+.user-spot-links:hover {
+  box-shadow: 1px 2px 3px lightslategray;
+}
+
+
 

@@ -3,42 +3,51 @@
   flex-direction: column;
   list-style: none;
   position: absolute;
-  top: 45px;
+  top: 55px;
   right: 6%;
   background-color: white;
-  gap: 5px;
+  gap: 10px;
   justify-content: center;
   align-items: center;
   padding: 10px;
   cursor: pointer;
   z-index: 9999;
-  border: 1px solid #efefef
+  border: 1px solid #efefef;
+  box-shadow: 1px 1px 3px lightgray;
+  border-radius: .5em;
 }
 
 #profile-button {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   background-color: white;
   border: 1.5px solid #efefef;
   width: 75px;
   height: 40px;
-  border-radius: 15px;
+  border-radius: 15em;
   box-shadow: .5px 1px #efefef;
+}
+
+#profile-button:hover {
+  box-shadow: 1px 1px 3px lightgray;
 }
 
 .manage-account-link {
   text-decoration: none;
   color: black;
   box-sizing: border-box;
+  border-bottom: 1px solid lightgray;
+  font-size: 16px;
+  padding-bottom: 10px;
 }
 
 #profile-bars {
   box-sizing: border-box;
-  
 }
 
 #profile-pic {
-  box-sizing: border-box;
+  font-size: 26px;
+  margin-left: 5px;
 }
