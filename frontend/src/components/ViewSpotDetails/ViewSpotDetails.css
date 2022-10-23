@@ -97,3 +97,7 @@
   border-radius: 15px;
   padding: 10px;
 }
+
+.create-new-review-link:hover {
+  box-shadow: 2px 2px 3px lightslategray;
+}

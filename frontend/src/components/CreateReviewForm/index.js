@@ -64,27 +64,24 @@ function CreateReviewForm() {
             ))}
           </ul>
           </div>}
-        <label>
-          
           <textarea
           className="create-review-textarea"
             type="text"
             required
             value={review}
             onChange={updateReview} />
-        </label>
-        <label>
+        <label className="create-review-stars">
           Rating
           <select
           className="review-stars-dropdown"
             id="stars"
             value={stars}
             onChange={updateStars}>
-            <option value={1}>1</option>
-            <option value={2}>2</option>
-            <option value={3}>3</option>
-            <option value={4}>4</option>
-            <option value={5}>5</option>
+            <option value={1}>1 - Terrible</option>
+            <option value={2}>2 - Bad</option>
+            <option value={3}>3 - Fair</option>
+            <option value={4}>4 - Good</option>
+            <option value={5}>5 - Excellent</option>
           </select>
         </label>
         <button className='submit-review-button'
