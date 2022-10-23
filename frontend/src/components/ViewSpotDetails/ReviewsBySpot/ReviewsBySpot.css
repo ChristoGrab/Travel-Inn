@@ -33,7 +33,6 @@
   flex-direction: row;
   justify-content: space-around;
   box-sizing: border-box;
-  
 }
 
 .spot-review-stars {
@@ -50,6 +49,7 @@
   border: none;
   border-radius: 15px;
   font-size: 14px;
+  margin-top: 10px;
 }
 
 .review-delete-button:hover {
