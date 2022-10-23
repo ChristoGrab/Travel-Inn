@@ -20,9 +20,10 @@ body::before {
 
 input {
   border: 1px solid lightgray;
-  height: 30px;
+  height: 25px;
   width: 100%;
   border-radius: 5px;
+  box-sizing: border-box;
 }
 
 input:hover {
@@ -32,6 +33,7 @@ input:hover {
 label {
   color: lightslategray;
   font-size: 15px;
+  width: 100%;
 }
 
 .form-textarea {
