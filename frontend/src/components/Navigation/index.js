@@ -6,6 +6,7 @@ import LoginFormModal from '../LoginFormModal';
 import CreateSpotButton from '../CreateSpotForm/index'
 import './Navigation.css';
 import SignupFormModal from '../SignupFormPage';
+import Logo from '../../assets/TravelInn_Logo.png'
 
 function Navigation({ isLoaded }) {
 
@@ -33,6 +34,7 @@ function Navigation({ isLoaded }) {
   return (
     <div className="top-navbar">
         <div className='navbar-left'>
+          <img id="logo" src={Logo}></img>
           <NavLink exact to="/" id="app-name">Travel-Host</NavLink>
           </div>
           <div className='navbar-right'>
