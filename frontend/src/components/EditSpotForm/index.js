@@ -39,7 +39,7 @@ function EditSpotForm() {
     if (region.length <= 1) errors.push("Please provide a valid state")
     if (country.length <= 1) errors.push("Please provide a valid country")
     if (description.length <= 12) errors.push("Please provide a brief description of your listing that is at least 12 characters long")
-    if (price <= 1 || price >= 10000) errors.push("Please provide a $ price per night between 1 and 10000")
+    if (price < 1 || price > 10000) errors.push("Please provide a price per night between $1-10000")
     setInputErrors(errors)
   }, [address, name, city, region, country, description, price])
 
@@ -68,15 +68,14 @@ function EditSpotForm() {
         <div className="edit-spot-form-greeting">
           Please provide the updated listing information
         </div>
-        {formSubmitted && <div className="edit-spot-errors">
-          <h4>Uh oh! Looks like there were some errors. Please double check your inputs and try again</h4>
-          <ul>
+        {formSubmitted && <div className="form-error">
+          <div>
             {inputErrors.map((error, idx) => (
               <li key={idx}>
                 {error}
               </li>
             ))}
-          </ul>
+          </div>
         </div>}
         <label>
           Address
@@ -118,6 +117,7 @@ function EditSpotForm() {
         <label>
           Description
           <textarea
+            id="edit-spot-form-textarea"
             type="text"
             value={description}
             onChange={updateDescription} />
@@ -130,7 +130,8 @@ function EditSpotForm() {
             onChange={updatePrice} />
         </label>
         <button
-          onClick={handleSubmit}>Add your listing!</button>
+          className="edit-spot-button"
+          onClick={handleSubmit}>Update your listing</button>
       </form>
     </div>
   )

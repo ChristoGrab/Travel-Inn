@@ -17,13 +17,20 @@
   right: 0;
   left: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 #modal-content {
   position: absolute;
+  top: 40px;
   background-color: white;
-
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 1em;
+  border: 1px solid rgba(211, 211, 211, 0.6)
 }
 
 #modal-content button {
