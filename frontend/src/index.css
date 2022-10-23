@@ -51,28 +51,13 @@ label {
   border: 1px solid rgba(211, 211, 211, 0.6)
 }
 
-#modal-content button {
-  background-color: #e21b5f;
-  color: white;
-  border-radius: 15px;
-  border: none;
-  height: 40px;
-  width: 200px;
-  margin-top: 25px;
-}
-
-#modal-content button:hover {
-  cursor: pointer;
-  box-shadow: 2px 2px 3px lightslategray;
-}
-
-#modal-content textarea {
-  resize: none;
-}
-
 form {
   width: 70%;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+textarea {
+  font-family: sans-serif;
 }
