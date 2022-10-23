@@ -105,8 +105,6 @@ function CreateSpotForm({hideModal}) {
       <form className="create-spot-form">
         <div className="create-spot-form-greeting">
           Ready to join our growing family of hosts?
-          <br />
-          Please fill out the provided fields and we'll get you set up!
         </div>
         {formSubmitted && <div className="create-spot-errors">
           <ul className="spot-errors-list">

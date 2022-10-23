@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal';
@@ -34,8 +34,7 @@ function Navigation({ isLoaded }) {
   return (
     <div className="top-navbar">
         <div className='navbar-left'>
-          <img id="logo" src={Logo}></img>
-          <NavLink exact to="/" id="app-name">Travel-Host</NavLink>
+          <Link exact to="/"><img id="logo" src={Logo}></img></Link>
           </div>
           <div className='navbar-right'>
             {isLoaded && sessionLinks}
