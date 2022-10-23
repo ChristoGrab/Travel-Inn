@@ -24,7 +24,7 @@
 }
 
 .confirm-delete-button:hover {
-  box-shadow: 1px 1px black;
+  box-shadow: 1px 1px 3px black;
   background-color: #ff385c;
   cursor: pointer;
 }
@@ -35,11 +35,10 @@
   width: 250px;
   border-radius: 15px;
   font-size: 15px;
-  border: 1px solid black;
+  border: 1px solid darkgrey;
 }
 
 .abort-delete-button:hover {
-  background-color: #f7f7f7;
-  box-shadow: .5px 1px;
+  box-shadow: 1px 1px 3px lightslategray;
   cursor: pointer;
 }

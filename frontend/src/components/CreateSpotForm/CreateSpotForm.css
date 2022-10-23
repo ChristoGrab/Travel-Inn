@@ -29,15 +29,6 @@
   border: 1px solid lightgray;
 }
 
-#create-spot-submit-button {
-  background-color: white;
-  border: 1px solid lightgray;
-  border-radius: 10%;
-  box-shadow: 1px 1px 1px black;
-  color: #ff385c;
-  box-sizing: border-box;
-}
-
 .create-spot-errors {
   color: #ff385c;
 }

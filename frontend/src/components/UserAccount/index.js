@@ -21,13 +21,13 @@ function UserDetails() {
   // whole bunch of hot garbage here
   // turn allSpots into an array
   const spotsList = Object.values(allSpots);
-  
+
   // filter through for spots where ownerId matches user Id
   const mySpots = spotsList.filter(spot => spot.ownerId === user.id)
-  
+
   // conditional rendering for wonky render errors
   // if (!userReviews) return null;
-  
+
   // now I'm also turning userReviews into an array
   // const reviewsList = Object.values(userReviews); 
 
@@ -37,11 +37,11 @@ function UserDetails() {
         <h1>Welcome {user.username}</h1>
       </div>
       <p>These are your current listings with us:</p>
-      <ul className="user-spots-list">
+      <div className="user-spots-list">
         {mySpots.map(spot => (
           <Link to={`/spots/${spot.id}`} key={spot.id} className='user-spot-links'>{spot.name}</Link>
         ))}
-</ul>
+      </div>
     </div>
   )
 }

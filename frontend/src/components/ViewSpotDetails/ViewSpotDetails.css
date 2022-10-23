@@ -71,12 +71,19 @@
 }
 
 .spot-owner-links {
+  display: flex;
+  justify-content: center;
   text-decoration: none;
   color: white;
-  background-color: #ff385c;
+  background-color: #e21b5f;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 5em;
   margin: 5px;
+  width: 150px;
+}
+
+.spot-owner-links:hover {
+  box-shadow: 2px 2px 3px lightslategray;
 }
 
 .create-new-review-box {
@@ -86,7 +93,7 @@
 .create-new-review-link {
   text-decoration: none;
   color: white;
-  background-color: #ff385c;
+  background-color: #e21b5f;
   border-radius: 15px;
   padding: 10px;
 }

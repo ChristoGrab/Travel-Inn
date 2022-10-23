@@ -18,8 +18,20 @@ body::before {
   list-style: none;
 }
 
-.form-input {
+input {
   border: 1px solid lightgray;
+  height: 30px;
+  width: 100%;
+  border-radius: 5px;
+}
+
+input:hover {
+  box-shadow: 1px 1px 2px lightgray;
+}
+
+label {
+  color: lightslategray;
+  font-size: 15px;
 }
 
 .form-textarea {
@@ -38,19 +50,27 @@ body::before {
 }
 
 #modal-content button {
-  background-color: #ff385c;
+  background-color: #e21b5f;
   color: white;
   border-radius: 15px;
   border: none;
   height: 40px;
   width: 200px;
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 #modal-content button:hover {
   cursor: pointer;
+  box-shadow: 2px 2px 3px lightslategray;
 }
 
 #modal-content textarea {
   resize: none;
+}
+
+form {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
