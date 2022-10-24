@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 import { loadUserReviewsThunk } from '../../store/reviews';
 import { getAllSpots } from '../../store/spots';
-import { spotCardInfo } from '../SpotCard/SpotCard'
 import './UserAccount.css'
 
 function UserDetails() {

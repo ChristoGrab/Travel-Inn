@@ -49,7 +49,6 @@ function CreateReviewForm() {
     history.push(`/spots/${spotId}`)
   }
 
-  console.log("Form submitted status on page load: ", formSubmitted)
   return (
     <div className="create-review-form-container">
       <form className='create-review-form'>
