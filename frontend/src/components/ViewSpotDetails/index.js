@@ -29,6 +29,8 @@ function ViewSpotDetails() {
   const reviewsObj = useSelector(state => state.reviews.spot)
 
   let imageList = [];
+  let reviewsOfUser = []
+  let hasLeftReview = false;
 
   // need to create a conditional for mapping images, otherwise
   // runs into a timing issue with dispatch.
@@ -40,6 +42,14 @@ function ViewSpotDetails() {
 
   if (!mySpot.SpotImages) return null;
   if (!reviewsObj) return null;
+  
+  if (reviewsObj) console.log("This is reviewsObj: ", reviewsObj)
+  if (reviewsObj && currentUser) Object.values(reviewsObj).forEach(review => {
+    if (review.userId === currentUser.id) reviewsOfUser.push(review)
+  })
+  
+  if (reviewsOfUser.length > 0) hasLeftReview = true;
+
 
   return (
     <div className='spot-details-outer-container'>
@@ -80,7 +90,7 @@ function ViewSpotDetails() {
         <ReviewsBySpot reviews={reviewsObj} />
       )}
       <div className="create-new-review-box">
-        {currentUser && currentUser.id !== mySpot.Owner.id && (
+        {currentUser && currentUser.id !== mySpot.Owner.id && !hasLeftReview && (
           <Link 
           className="create-new-review-link" to={`/spots/${mySpot.id}/review/new`}>Create A Review</Link>
         )}
