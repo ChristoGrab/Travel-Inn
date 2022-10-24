@@ -37,7 +37,7 @@ function Navigation({ isLoaded }) {
   return (
     <div className="top-navbar">
         <div className='navbar-left'>
-          <Link exact to="/"><img id="logo" src={Logo}></img></Link>
+          <Link to="/"><img id="logo" src={Logo} alt="Travel-Inn"></img></Link>
           </div>
           <div className='navbar-right'>
             {isLoaded && sessionLinks}

@@ -40,6 +40,8 @@ function ViewSpotDetails() {
 
   if (!mySpot.SpotImages) return null;
   if (!reviewsObj) return null;
+  
+  if (reviewsObj) console.log("This is reviewsObj: ", reviewsObj)
 
   return (
     <div className='spot-details-outer-container'>
