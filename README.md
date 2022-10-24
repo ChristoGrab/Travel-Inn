@@ -38,7 +38,7 @@ Please use the provided links below for further information on the project:
 
 ### [Roadmap](https://github.com/ChristoGrab/AirBnB-Project/wiki/Roadmap)
 
-### [Database Schema](https://github.com/ChristoGrab/AirBnB-Project/wiki/)
+### [Database Schema](https://github.com/ChristoGrab/AirBnB-Project/wiki/Database-Schema)
 
 ## Landing Page
 
