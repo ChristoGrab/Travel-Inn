@@ -30,7 +30,11 @@ function ReviewsBySpot({reviews}) {
           <SpotReviewDetails review={review}/>
         </div>))}
         </div>
+        <div>
+      
+      </div>
     </div>
+
   )
 
 }
