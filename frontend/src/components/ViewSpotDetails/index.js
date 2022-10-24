@@ -43,7 +43,6 @@ function ViewSpotDetails() {
   if (!mySpot.SpotImages) return null;
   if (!reviewsObj) return null;
   
-  if (reviewsObj) console.log("This is reviewsObj: ", reviewsObj)
   if (reviewsObj && currentUser) Object.values(reviewsObj).forEach(review => {
     if (review.userId === currentUser.id) reviewsOfUser.push(review)
   })

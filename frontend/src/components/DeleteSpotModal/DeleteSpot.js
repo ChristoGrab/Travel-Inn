@@ -22,7 +22,7 @@ function DeleteModal() {
 
     const response = await dispatch(deleteSpotThunk(deleteId))
     .catch(async (response) => {
-      const data = await response.json();
+      await response.json();
     })
     
     if (response) history.push('/user/profile')
@@ -38,7 +38,7 @@ function DeleteModal() {
     <div className='delete-page-container'>
       <h2>Are you sure you want to delete this listing?</h2>
 
-      <i class="fa-solid fa-circle-exclamation"
+      <i className="fa-solid fa-circle-exclamation"
       
       id="delete-spot-warning-logo"></i>
             <p>Doing so will erase it from our database, and is an irreversible process</p>

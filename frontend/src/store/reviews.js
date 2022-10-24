@@ -16,7 +16,7 @@ const loadSpotReviews = (reviews) => {
 }
 
 const loadUserReviews = (reviews) => {
-console.log("this is the User Review data being sent to the reducer: ", reviews)
+
   return {
     type: LOAD_USER_REVIEWS,
     reviews
@@ -44,7 +44,6 @@ export const loadSpotReviewsThunk = (spotId) => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json();
-    console.log("Successful review data: ", data)
     dispatch(loadSpotReviews(data))
   }
   
@@ -120,7 +119,6 @@ const reviewsReducer = (state = initialState, action) => {
 
       action.reviews.Reviews.forEach(review => {
         newReviewObj.user[review.id] = review})
-        console.log("user reviews in state: ", newReviewObj)
       return newReviewObj;
     }
     
