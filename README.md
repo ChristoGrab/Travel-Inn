@@ -38,7 +38,11 @@ Please use the provided links below for further information on the project:
 
 ### [Roadmap](https://github.com/ChristoGrab/AirBnB-Project/wiki/Roadmap)
 
-### [Database Schema]()
+### [Database Schema](https://github.com/ChristoGrab/AirBnB-Project/wiki/)
+
+## Landing Page
+
+![Landing Page](./frontend/src/assets/Landing-Page.png)
 
 A Demo User button has been included so all features can be tested without having to sign up.
 

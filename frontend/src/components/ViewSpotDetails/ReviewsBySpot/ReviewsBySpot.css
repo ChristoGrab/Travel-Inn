@@ -19,6 +19,7 @@
   flex-wrap: wrap;
   gap: 20%;
   justify-content: space-evenly;
+  flex: 1 0 auto;
 }
 
 .spot-review-details-box {
@@ -26,6 +27,7 @@
   flex-direction: column;
   align-items: flex-start;
   width: 400px;
+  flex: 1 0 auto;
 }
 
 .spot-review-overview {
@@ -41,7 +43,8 @@
 }
 
 .spot-review-text {
-  height: 70px;
+  height: 55px;
+  overflow-y: auto;
 }
 
 .review-delete-button {
@@ -55,4 +58,5 @@
 .review-delete-button:hover {
   box-shadow: 1px 1px 0.5px lightgray;
   border: 1px solid lightgray;
+  cursor: pointer;
 }

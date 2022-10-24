@@ -26,6 +26,7 @@
   margin: 0 10px;
   height: 400px;
   width: 300px;
+  flex: 1 0 auto;
 }
 
 .spot-card-title {
