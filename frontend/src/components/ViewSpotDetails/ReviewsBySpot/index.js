@@ -31,7 +31,6 @@ function ReviewsBySpot({reviews}) {
         </div>))}
         </div>
         <div>
-      
       </div>
     </div>
 
