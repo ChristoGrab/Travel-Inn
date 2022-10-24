@@ -32,6 +32,7 @@
 
 #profile-button:hover {
   box-shadow: 1px 1px 3px lightgray;
+  cursor: pointer;
 }
 
 .manage-account-link {

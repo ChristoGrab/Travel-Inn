@@ -84,16 +84,9 @@ function CreateSpotForm({hideModal}) {
         }
       });
 
-    console.log("data has been sent and response has arrived")
-    console.log("newSpot has been created, sending img thunk")
-
     //ok, now send the picture creation thunk
     dispatch(createImageThunk(imgPayload, newSpot.id));
-    console.log("image has been sent, pushing user to profile page")
-      console.log("input errors: ", inputErrors)
-    
-    
-    
+
     // 
     hideModal();
     history.push(`/user/profile`)
