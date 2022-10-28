@@ -21,7 +21,7 @@ body::before {
 
 input {
   border: 1px solid lightgray;
-  height: 25px;
+  height: 30px;
   width: 100%;
   border-radius: 5px;
   box-sizing: border-box;
@@ -32,9 +32,12 @@ input:hover {
 }
 
 label {
+  display: flex;
+  flex-direction: column;
   color: lightslategray;
-  font-size: 15px;
+  font-size: 14px;
   width: 100%;
+  
 }
 
 .form-textarea {

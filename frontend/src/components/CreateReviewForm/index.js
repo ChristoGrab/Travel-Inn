@@ -27,7 +27,7 @@ function CreateReviewForm() {
   useEffect(() => {
     let errors = []
     if (review.length <= 5) errors.push("Please provide some specific feedback for your host!");
-    if (review.toLowerCase().includes("fuck") 
+    if (review.toLowerCase().includes("fuck")
     || review.toLowerCase().includes("shit")) errors.push("Please refrain from using inappropriate language")
     setInputErrors(errors)
   }, [review])

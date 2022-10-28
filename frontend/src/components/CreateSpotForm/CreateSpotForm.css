@@ -1,13 +1,7 @@
 
-
 .create-spot-form-container {
   display: flex;
   justify-content: center;
-}
-
-.create-spot-form-greeting {
-  font-size: 20px;
-  font-weight: bold;
 }
 
 .create-spot-form {
@@ -18,6 +12,11 @@
   gap: 5px;
   padding: 10px 40px;
   font-family: sans-serif;
+}
+
+.create-spot-form-greeting {
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .create-spot-form-input {
