@@ -1,17 +1,14 @@
 'use strict';
 
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
+
 module.exports = {
   async up (queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
-   await queryInterface.bulkInsert('SpotImages', [
+    options.tableName = "SpotImages"
+   await queryInterface.bulkInsert(options, [
     {
       spotId: 1,
       url: 'https://a0.muscache.com/im/pictures/prohost-api/Hosting-39084966/original/e2e38afa-e0eb-43bd-8621-592bea7595b0.jpeg?im_w=720',
@@ -39,42 +36,39 @@ module.exports = {
     }    
    ])
    
-   await queryInterface.bulkInsert('ReviewImages', [
-    {
-      reviewId: 1,
-      url: 'image6.url'
-    },
-    {
-      reviewId: 1,
-      url: 'image6.url'
-    },
-    {
-      reviewId: 2,
-      url: 'image6.url'
-    },
-    {
-      reviewId: 2,
-      url: 'image6.url'
-    },
-    {
-      reviewId: 3,
-      url: 'image6.url'
-    },
-    {
-      reviewId: 4,
-      url: 'image7.url'
-    }
-   ])
+  //  await queryInterface.bulkInsert('ReviewImages', [
+  //   {
+  //     reviewId: 1,
+  //     url: 'image6.url'
+  //   },
+  //   {
+  //     reviewId: 1,
+  //     url: 'image6.url'
+  //   },
+  //   {
+  //     reviewId: 2,
+  //     url: 'image6.url'
+  //   },
+  //   {
+  //     reviewId: 2,
+  //     url: 'image6.url'
+  //   },
+  //   {
+  //     reviewId: 3,
+  //     url: 'image6.url'
+  //   },
+  //   {
+  //     reviewId: 4,
+  //     url: 'image7.url'
+  //   }
+  //  ])
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
-    await queryInterface.bulkDelete('SpotImages', null, {});
-    await queryInterface.bulkDelete('ReviewImages', null, {});
+    
+    options.tableName = "SpotImages"
+    
+    await queryInterface.bulkDelete(options);
+    // await queryInterface.bulkDelete('ReviewImages', null, {});
   }
 };
