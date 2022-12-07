@@ -8,10 +8,10 @@
 }
 
 .spot-card-list {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: fit-content;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: auto;
+  width: auto;
   justify-content: center;
   place-items: center;
   gap: .5%;
