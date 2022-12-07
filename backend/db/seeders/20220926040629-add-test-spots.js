@@ -72,6 +72,30 @@ module.exports = {
           price: 46
         },
         {
+          ownerId: 3,
+          address: "27, Calle Nte 3",
+          city: "Mahahual",
+          state: "Yucatan",
+          country: "Mexico",
+          lat: -23.1112695,
+          lng: 75.1537832,
+          name: "Beachside Bungalow",
+          description: "Relax by the idyllic waters of the Carribean",
+          price: 46
+        },
+        {
+          ownerId: 4,
+          address: "27, Calle Nte 3",
+          city: "Mahahual",
+          state: "Yucatan",
+          country: "Mexico",
+          lat: -23.1112695,
+          lng: 75.1537832,
+          name: "Beachside Bungalow",
+          description: "Relax by the idyllic waters of the Carribean",
+          price: 46
+        },
+        {
           ownerId: 4,
           address: "27, Calle Nte 3",
           city: "Mahahual",
@@ -96,31 +120,7 @@ module.exports = {
           price: 46
         },
         {
-          ownerId: 6,
-          address: "27, Calle Nte 3",
-          city: "Mahahual",
-          state: "Yucatan",
-          country: "Mexico",
-          lat: -23.1112695,
-          lng: 75.1537832,
-          name: "Beachside Bungalow",
-          description: "Relax by the idyllic waters of the Carribean",
-          price: 46
-        },
-        {
-          ownerId: 6,
-          address: "27, Calle Nte 3",
-          city: "Mahahual",
-          state: "Yucatan",
-          country: "Mexico",
-          lat: -23.1112695,
-          lng: 75.1537832,
-          name: "Beachside Bungalow",
-          description: "Relax by the idyllic waters of the Carribean",
-          price: 46
-        },
-        {
-          ownerId: 6,
+          ownerId: 5,
           address: "27, Calle Nte 3",
           city: "Mahahual",
           state: "Yucatan",
