@@ -17,18 +17,12 @@ function UserDetails() {
     dispatch(loadUserReviewsThunk());
   }, [dispatch])
 
-  // whole bunch of hot garbage here
   // turn allSpots into an array
   const spotsList = Object.values(allSpots);
 
   // filter through for spots where ownerId matches user Id
   const mySpots = spotsList.filter(spot => spot.ownerId === user.id)
 
-  // conditional rendering for wonky render errors
-  // if (!userReviews) return null;
-
-  // now I'm also turning userReviews into an array
-  // const reviewsList = Object.values(userReviews); 
 
   return (
     <div className="user-page-container">
@@ -38,7 +32,10 @@ function UserDetails() {
       <p>These are your current listings with us:</p>
       <div className="user-spots-list">
         {mySpots.map(spot => (
-          <Link to={`/spots/${spot.id}`} key={spot.id} className='user-spot-links'>{spot.name}</Link>
+          <Link to={`/spots/${spot.id}`} key={spot.id} className='user-spot-links'>
+            <img src={spot.previewImage}></img>
+            {spot.name}
+            </Link>
         ))}
       </div>
     </div>
