@@ -49,7 +49,7 @@ label {
 }
 
 form {
-  width: 70%;
+  width: 45vh;
   display: flex;
   flex-direction: column;
   align-items: center;

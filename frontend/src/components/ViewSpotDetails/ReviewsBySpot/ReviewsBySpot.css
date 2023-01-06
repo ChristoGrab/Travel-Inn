@@ -44,6 +44,11 @@
   overflow-y: auto;
 }
 
+.spot-review-buttons {
+  display: flex;
+  flex-direction: column;
+}
+
 .review-delete-button {
   background-color: #f7f7f7;
   border: none;
