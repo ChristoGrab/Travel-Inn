@@ -2,8 +2,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useState, useEffect } from 'react';
 import { getAllSpots } from '../../store/spots';
 import SpotCardInfo from './SpotCard'
+import "./LandingPage.css"
 
-function SpotCard() {
+function LandingPage() {
 
   // set state variable to false until data loads.
   const [dataLoaded, setDataLoaded] = useState(false)
@@ -21,11 +22,9 @@ function SpotCard() {
   return (
     <div className="spot-card-container">
       {dataLoaded && (
-        <div className="spot-card-list">
+        <div className="landing-page-grid">
           {spotsArray.map(spot => (
-          <div key={spot.id} className='spot-card-box'>
-            <SpotCardInfo spot={spot}/>
-          </div>
+            <SpotCardInfo key={spot.id} spot={spot}/>
           ))}
         </div>
       )}
@@ -33,4 +32,4 @@ function SpotCard() {
   )
 }
 
-export default SpotCard;
+export default LandingPage;

@@ -40,7 +40,7 @@ function UpdateReviewForm({ thisReview }) {
       stars: parseInt(stars)
     }
 
-    dispatch(updateReviewThunk(payload, thisReview.id))
+    dispatch(updateReviewThunk(payload, thisReview.review.id))
 
     history.push(`/spots/${spotId}`)
   }

@@ -3,14 +3,13 @@ import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
-import SpotCard from "./components/SpotCard";
+import LandingPage from "./components/LandingPage";
 import CreateSpotForm from './components/CreateSpotForm/CreateSpotForm'
 import ViewSpotDetails from './components/ViewSpotDetails/index'
 import EditSpotForm from './components/EditSpotForm'
 import DeleteModal from "./components/DeleteSpotModal/DeleteSpot";
 import CreateReviewForm from "./components/CreateReviewForm";
-import UserDetails from "./components/UserAccount";
-
+import ProfilePage from "./components/ProfilePage";
 import "./index.css";
 
 function App() {
@@ -18,6 +17,7 @@ function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // any time the page is refreshed, the user will be logged in if they have a valid session token
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
@@ -28,10 +28,10 @@ function App() {
       {isLoaded && (
         <Switch>
           <Route path="/" exact>
-            <SpotCard />
+            <LandingPage />
           </Route>
           <Route path="/user/profile" exact>
-            <UserDetails />
+            <ProfilePage />
           </Route>
           <Route path="/create" exact>
             <CreateSpotForm />

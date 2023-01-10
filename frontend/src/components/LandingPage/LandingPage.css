@@ -1,41 +1,47 @@
-.spot-card-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-  max-width: 1700px;
-  margin: auto;
-}
-
-.spot-card-list {
+.landing-page-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  margin: auto;
-  width: auto;
-  justify-content: center;
-  place-items: center;
-  gap: .5%;
+  width: 95%;
+  margin: 0 auto;
   list-style: none;
+  padding: 40px;
 }
 
-.spot-card-info {
+.spot-card {
   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   padding: 10px;
   box-sizing: border-box;
-  flex-direction: column;
-  margin: 0 10px;
-  height: 400px;
-  width: 300px;
+  height: 380px;
+  width: 100%;
   flex: 1 0 auto;
+  text-decoration: none;
+}
+
+.spot-card-details-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .spot-card-title {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   color: black;
-  height: 45px;
+  margin-top: 10px;
+}
+
+.spot-card-location {
+  font-weight: bold;
+  
+}
+
+.spot-card-rating {
+  font-size: 16px;
+  margin-top: -5px;
 }
 
 .spot-card-details {
@@ -55,7 +61,7 @@
   width: 100%;
   border-radius: 3%;
   box-sizing: border-box;
-  margin-bottom: -10px;
+  object-fit: cover;
 }
 
 .spot-card-footer {
@@ -69,7 +75,4 @@
   font-weight: bold;
 }
 
-.spot-card-link {
-  text-decoration: none;
-  align-self: flex-start;
-}
+
