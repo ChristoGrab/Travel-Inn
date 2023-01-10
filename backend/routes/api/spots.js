@@ -283,7 +283,7 @@ router.get('/', async (req, res) => {
   spotsList.forEach(spot => {
     spot.avgRating = spot.avgRating / spot.numReviews;
   })
-  
+
   spotsList.forEach(spot => {
     if (!spot.avgRating) {
       spot.avgRating = "No Ratings"

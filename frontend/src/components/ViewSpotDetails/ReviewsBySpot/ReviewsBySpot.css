@@ -14,12 +14,9 @@
 }
 
 .spot-review-list {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 20%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   justify-content: space-evenly;
-  flex: 1 0 auto;
 }
 
 .spot-review-details-box {
@@ -45,6 +42,11 @@
 .spot-review-text {
   height: 55px;
   overflow-y: auto;
+}
+
+.spot-review-buttons {
+  display: flex;
+  flex-direction: column;
 }
 
 .review-delete-button {

@@ -5,6 +5,7 @@ const LOAD_SPOT_REVIEWS = '/review/spot/load';
 const LOAD_USER_REVIEWS = '/review/user/load';
 const DELETE_REVIEW = "/review/delete";
 const CREATE_REVIEW = '/review/create';
+const UPDATE_REVIEW = "/review/update";
 
 // Action Creators
 const loadSpotReviews = (reviews) => {
@@ -37,6 +38,13 @@ const deleteReview = (reviewId) => {
   }
 }
 
+const updateReview = (review) => {
+  return {
+    type: UPDATE_REVIEW,
+    review
+  }
+}
+
 // Action Thunks
 
 export const loadSpotReviewsThunk = (spotId) => async (dispatch) => {
@@ -46,12 +54,6 @@ export const loadSpotReviewsThunk = (spotId) => async (dispatch) => {
     const data = await response.json();
     dispatch(loadSpotReviews(data))
   }
-  
-  // need to handle error response for new spots without reviews
-  // else {
-  //   const noData = await response.json()
-  //   return noData;
-  // }
 }
 
 export const loadUserReviewsThunk = () => async (dispatch) => {
@@ -76,6 +78,25 @@ export const createReviewThunk = (review, spotId) => async (dispatch) => {
   if (response.ok) {
     const newReview = await response.json();
     dispatch(createReview(newReview))
+  }
+}
+
+export const updateReviewThunk = (review, reviewId) => async (dispatch) => {
+  const response = await fetch(`/api/reviews/${reviewId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(review)
+  })
+  
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(updateReview(data))
+  }
+  else {
+    const errorData = await response.json()
+    return errorData;
   }
 }
 
@@ -134,6 +155,19 @@ const reviewsReducer = (state = initialState, action) => {
       newReviewObject.spot[action.review.id] = action.review
       return newReviewObject;
     }
+    
+    case UPDATE_REVIEW: {
+      
+      const newReviewObject = {
+        ...state,
+        spot: {...state.spot}
+      }
+      
+      newReviewObject.spot[action.review.id] = action.review
+      return newReviewObject;
+    }
+    
+
     
     case DELETE_REVIEW: {
       // copy both nested objects
