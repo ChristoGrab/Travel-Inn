@@ -40,6 +40,7 @@ router.get('/:spotId/reviews', async (req, res) => {
   
   const spot = await Spot.findByPk(req.params.spotId)
   
+  // if spot doesn't exist, return 404
   if (!spot) {
     res.status(404)
     return res.json({
@@ -47,6 +48,7 @@ router.get('/:spotId/reviews', async (req, res) => {
       "statusCode": 404
     })
   }
+  
   
   const spotReviews = await Review.findAll({
     where: {
@@ -57,10 +59,10 @@ router.get('/:spotId/reviews', async (req, res) => {
         model: User,
         attributes: ['id', 'firstName', 'lastName']
       },
-      {
-        model: ReviewImage,
-        attributes: ['id', 'url']
-      }
+      // {
+      //   model: ReviewImage,
+      //   attributes: ['id', 'url']
+      // }
     ]
   })
 

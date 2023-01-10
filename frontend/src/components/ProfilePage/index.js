@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 import { loadUserReviewsThunk } from '../../store/reviews';
-import { getAllSpots } from '../../store/spots';
+import { getSpots } from '../../store/spots';
 import './ProfilePage.css'
 
 function ProfilePage() {
@@ -13,7 +13,7 @@ function ProfilePage() {
   // const userReviews = useSelector(state => state.reviews.user)
 
   useEffect(() => {
-    dispatch(getAllSpots());
+    dispatch(getSpots());
     dispatch(loadUserReviewsThunk());
   }, [dispatch])
 

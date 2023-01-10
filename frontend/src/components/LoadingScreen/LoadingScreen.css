@@ -1,0 +1,42 @@
+.loading-screen-background {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: white;
+  z-index: 50;
+  animation: fadeIn 1s;
+}
+
+.loading-screen-message {
+  background: white;
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 20px;
+  color: #ef3b5e;
+}
+
+.fa-spinner {
+  color: #0057ff;
+  font-size: 30px;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
