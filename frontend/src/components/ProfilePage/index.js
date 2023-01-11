@@ -9,7 +9,7 @@ function ProfilePage() {
 
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
-  const allSpots = useSelector(state => state.spots.spots);
+  const allSpots = useSelector(state => state.spots.spotsList);
   // const userReviews = useSelector(state => state.reviews.user)
 
   useEffect(() => {

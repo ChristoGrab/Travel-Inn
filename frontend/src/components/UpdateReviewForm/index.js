@@ -41,9 +41,11 @@ function UpdateReviewForm({ review }) {
       stars: parseInt(stars)
     }
     
+    console.log(review.id)
+    
     setFormSubmitted(true)
 
-    dispatch(updateReviewThunk(payload, review.review.id))
+    dispatch(updateReviewThunk(payload, review.id))
     .then(() => history.push(`/spots/${spotId}`))
   }
   
@@ -54,7 +56,7 @@ function UpdateReviewForm({ review }) {
       <form className='create-review-form'>
         <div
           className="create-review-form-greeting">
-          Share some thoughts on your stay here!
+          Want to make some changes to your review? No problem!
         </div>
         {formSubmitted && <div className="create-review-errors">
           <div className="spot-errors-list">

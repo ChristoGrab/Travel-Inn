@@ -6,11 +6,12 @@ import ReviewCard from './ReviewCard'
 import "./SpotReviews.css"
 
 
-function ReviewsBySpot({spotId, currentUser}) {
+function ReviewsBySpot({spotId, spotOwnerId, currentUser}) {
   
   const dispatch = useDispatch();
   const history = useHistory();
   const reviews = useSelector(state => Object.values(state.reviews.spot))
+  const [userOwnsSpot, setUserOwnsSpot] = useState(false)
   const [userHasReviewed, setUserHasReviewed] = useState(false)
   
   useEffect(() => {
@@ -18,17 +19,32 @@ function ReviewsBySpot({spotId, currentUser}) {
   }, [dispatch, spotId])
   
   useEffect(() => {
+    try {
     reviews.forEach(review => {
       if (review.User.id === currentUser.id) {
         setUserHasReviewed(true)
       }
     })
+  } catch (e) {
+    window.location.reload()
+  }
   }, [reviews, currentUser.id])
+  
+  useEffect(() => {
+    if (currentUser.id === spotOwnerId) {
+      setUserOwnsSpot(true)
+    }
+  }, [currentUser.id, spotOwnerId])
+  
   
   const openCreateReviewForm = (e) => {
     e.preventDefault();
     
     history.push(`/spots/${spotId}/reviews/create`)
+  }
+  
+  const userHasDeletedReview = () => {
+    setUserHasReviewed(false)
   }
   
   let reviewNums = reviews.length;
@@ -48,15 +64,14 @@ function ReviewsBySpot({spotId, currentUser}) {
       </div>
       
       {
-        !userHasReviewed && (
+        !userHasReviewed && !userOwnsSpot && (
           <button onClick={openCreateReviewForm}>Create a Review</button>
       )}
       
       <div className="spot-review-list">
       {reviews.map(review => (
-        <div key={review.id} className="spot-review-detail">
-          <ReviewCard review={review}/>
-        </div>))}
+          <ReviewCard key={review.id} review={review} userHasDeletedReview={userHasDeletedReview}/>
+      ))}
         </div>
         <div>
       </div>

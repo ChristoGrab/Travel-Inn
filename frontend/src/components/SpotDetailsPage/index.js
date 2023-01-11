@@ -81,7 +81,7 @@ function SpotDetails() {
           )}
         </div>
       </div>
-      <ReviewsBySpot spotId={spot.id} currentUser={currentUser}/>
+      <ReviewsBySpot spotId={spot.id} currentUser={currentUser} spotOwnerId={spot.Owner.id}/>
     </div>
   )
 }
