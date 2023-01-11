@@ -1,0 +1,8 @@
+.update-review-form-container {
+  position: relative;
+  top: 30px;
+  width: 200%;
+  background-color: white;
+  box-shadow: 1px 1px 5px 1px lightgrey;
+  margin-bottom: 30px;
+}

@@ -2,18 +2,18 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 import { loadUserReviewsThunk } from '../../store/reviews';
-import { getAllSpots } from '../../store/spots';
-import './UserAccount.css'
+import { getSpots } from '../../store/spots';
+import './ProfilePage.css'
 
-function UserDetails() {
+function ProfilePage() {
 
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
-  const allSpots = useSelector(state => state.spots.spots);
+  const allSpots = useSelector(state => state.spots.spotsList);
   // const userReviews = useSelector(state => state.reviews.user)
 
   useEffect(() => {
-    dispatch(getAllSpots());
+    dispatch(getSpots());
     dispatch(loadUserReviewsThunk());
   }, [dispatch])
 
@@ -27,7 +27,7 @@ function UserDetails() {
   return (
     <div className="user-page-container">
       <div className="user-page-welcome">
-        <h1>Welcome {user.username}</h1>
+        <h1>Welcome {user.username}!</h1>
       </div>
       <p>These are your current listings with us:</p>
       <div className="user-spots-list">
@@ -42,6 +42,6 @@ function UserDetails() {
   )
 }
 
-export default UserDetails;
+export default ProfilePage;
 
 

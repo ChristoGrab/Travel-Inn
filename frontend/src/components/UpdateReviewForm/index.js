@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { updateReviewThunk } from '../../store/reviews';
+import LoadingScreen from '../LoadingScreen';
+import './UpdateReviewForm.css';
 
-function UpdateReviewForm({ thisReview }) {
+function UpdateReviewForm({ review }) {
 
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
 
   // list of state variables
-  const [reviewText, setReviewText] = useState(thisReview.review.review);
-  const [stars, setStars] = useState(thisReview.review.stars)
+  const [reviewText, setReviewText] = useState(review.review);
+  const [stars, setStars] = useState(review.stars)
   const [inputErrors, setInputErrors] = useState([]);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -31,7 +33,6 @@ function UpdateReviewForm({ thisReview }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setFormSubmitted(true)
     
     if (inputErrors.length) return;
 
@@ -39,18 +40,23 @@ function UpdateReviewForm({ thisReview }) {
       review: reviewText,
       stars: parseInt(stars)
     }
+    
+    console.log(review.id)
+    
+    setFormSubmitted(true)
 
-    dispatch(updateReviewThunk(payload, thisReview.id))
-
-    history.push(`/spots/${spotId}`)
+    dispatch(updateReviewThunk(payload, review.id))
+    .then(() => history.push(`/spots/${spotId}`))
   }
+  
+  if (formSubmitted) return <LoadingScreen />;
 
   return (
-    <div className="create-review-form-container">
+    <div className="update-review-form-container">
       <form className='create-review-form'>
         <div
           className="create-review-form-greeting">
-          Share some thoughts on your stay here!
+          Want to make some changes to your review? No problem!
         </div>
         {formSubmitted && <div className="create-review-errors">
           <div className="spot-errors-list">

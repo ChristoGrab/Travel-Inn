@@ -82,7 +82,7 @@ export const createReviewThunk = (review, spotId) => async (dispatch) => {
 }
 
 export const updateReviewThunk = (review, reviewId) => async (dispatch) => {
-  const response = await fetch(`/api/reviews/${reviewId}`, {
+  const response = await csrfFetch(`/api/reviews/${reviewId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json"
@@ -112,7 +112,7 @@ export const deleteReviewThunk = (reviewId) => async (dispatch) => {
 
 // ------ Reviews Reducer ------ //
 
-const initialState = {spot: {}, user: {}}
+const initialState = { spot: {}, user: {} }
 
 const reviewsReducer = (state = initialState, action) => {
 
@@ -120,16 +120,16 @@ const reviewsReducer = (state = initialState, action) => {
 
     case LOAD_SPOT_REVIEWS: {
 
-      const newReviewObj = {
-        // don't spread state when loading data!!
-        spot: {}
-      };
+      const newReviewObj = { spot: {} };
 
-      // console.log(reviewsObj)
       action.reviews.Reviews.forEach(review => {
-        newReviewObj.spot[review.id] = review});
+        newReviewObj.spot[review.id] = review
+      });
 
-      return newReviewObj;
+      return {
+        ...state,
+        spot: newReviewObj.spot
+      }
     }
 
     case LOAD_USER_REVIEWS: {

@@ -1,4 +1,9 @@
 /* TODO Add site wide styles */
+
+html {
+  overflow-y: scroll;
+}
+
 body {
   font-family: Helvetica, sans-serif;
 }
@@ -58,4 +63,8 @@ form {
 textarea {
   font-family: sans-serif;
   resize: none;
+}
+
+button:hover {
+  cursor: pointer;
 }
