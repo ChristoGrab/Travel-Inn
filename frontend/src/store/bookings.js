@@ -1,12 +1,22 @@
 import { csrfFetch } from './csrf';
 
 const GET_BOOKINGS = 'bookings/get';
+const GET_USER_BOOKINGS = 'bookings/get/user';
 const CREATE_BOOKING = "bookings/create";
+const DELETE_BOOKING = "bookings/delete";
+
 
 // Action Creators
 const getBookingsAction = (bookings) => {
   return {
     type: GET_BOOKINGS,
+    bookings
+  }
+}
+
+const getUserBookingsAction = (bookings) => {
+  return {
+    type: GET_USER_BOOKINGS,
     bookings
   }
 }
@@ -18,17 +28,35 @@ const postBookingAction = (booking) => {
   }
 }
 
+const deleteBooking = (bookingId) => {
+  return {
+    type: DELETE_BOOKING,
+    bookingId
+  }
+}
+
 export const getBookingsThunk = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}/bookings`);
-  
+
   const data = await response.json();
-  
+
   if (response.ok) {
     dispatch(getBookingsAction(data))
     return data;
   }
 
   return data;
+}
+
+export const getUserBookingsThunk = () => async (dispatch) => {
+  const response = await csrfFetch('/api/bookings/current');
+  
+  const data = await response.json();
+  
+  if (response.ok) {
+    dispatch(getUserBookingsAction(data))
+    return data;
+  }
 }
 
 export const createBookingThunk = (spotId, booking) => async (dispatch) => {
@@ -46,6 +74,26 @@ export const createBookingThunk = (spotId, booking) => async (dispatch) => {
     return data
   } else {
     const data = await response.json();
+    console.log(data)
+    return data;
+  }
+}
+
+export const deleteBookingThunk = (bookingId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/bookings/${bookingId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    },
+  })
+
+  if (response.ok) {
+    const data = await response.json()
+    dispatch(deleteBooking(data))
+    return data;
+  } else {
+    const data = await response.json()
+    console.log(data)
     return data;
   }
 }
@@ -68,6 +116,20 @@ const bookingsReducer = (state = { spotBookings: {}, userBookings: {} }, action)
     return newState;
     }
     
+    case GET_USER_BOOKINGS: {
+      const newState = {
+        ...state,
+        spotBookings: {...state.spotBookings},
+        userBookings: {...state.userBookings}
+      }
+      
+      action.bookings.Bookings.forEach(booking => {
+        newState.userBookings[booking.id] = booking;
+      })
+      
+    return newState;
+    }
+    
     case CREATE_BOOKING: {
       const newState = { 
         ...state,
@@ -75,7 +137,20 @@ const bookingsReducer = (state = { spotBookings: {}, userBookings: {} }, action)
         userBookings: {...state.userBookings}
     }
     
-    newState.spotBookings[action.booking.spotId] = action.booking
+    newState.spotBookings[action.booking.id] = action.booking
+    return newState;
+  }
+  
+  case DELETE_BOOKING: {
+    const newState = {
+      ...state,
+      spotBookings: {...state.spotBookings},
+      userBookings: {...state.userBookings}
+    }
+    
+    delete newState.spotBookings[action.bookingId]
+    delete newState.userBookings[action.bookingId]
+    
     return newState;
   }
     

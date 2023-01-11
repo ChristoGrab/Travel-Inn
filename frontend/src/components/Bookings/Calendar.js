@@ -43,8 +43,7 @@ const DatePickerRange = () => {
     
     dispatch(createBookingThunk(spotId, new_booking))
     .catch(res => {
-      if (res.data && res.data.errors) return console.log(res.data.errors)
-      else history.push('/')
+      console.log(res)
     })
   }
 

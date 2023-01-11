@@ -1,0 +1,84 @@
+.upcoming-bookings-container {
+  display: flex;
+  flex-direction: column;
+  width: 66%;
+  margin: 20px auto;
+}
+
+.upcoming-booking-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 10px;
+  height: 200px;
+  box-shadow: 1px 1px 5px 1px lightgray;
+  border-radius: 10px;
+}
+
+.upcoming-booking-box-1 {
+  display: grid;
+  grid-template-areas:
+  "header header header"
+  "dates location location";
+  gap: 10px;
+}
+
+.upcoming-booking-name {
+  grid-area: header;
+  border-bottom: 2px solid lightgray;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.upcoming-booking-dates {
+  grid-area: dates;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.upcoming-booking-place {
+  grid-area: location;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.medium-image {
+  height: 100%;
+  width: 200px;
+  object-fit: cover;
+}
+
+.upcoming-booking-box-3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.previous-bookings-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 90%;
+  max-width: 1500px;
+  margin: 10px auto;
+}
+
+.previous-booking-card {
+  display: flex;
+  border-radius: 5em;
+}
+
+.previous-booking-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.previous-booking-details {
+  display: flex;
+  flex-direction: column;
+}

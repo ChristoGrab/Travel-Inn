@@ -25,7 +25,7 @@ router.get('/current', requireAuth, async (req, res) => {
   myBookings.forEach(booking => {
     bookingsList.push(booking.toJSON())
   })
-  
+
   bookingsList.forEach(booking => {
     booking.Spot.SpotImages.forEach(spotImage => {
       

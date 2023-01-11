@@ -9,7 +9,8 @@ import SpotDetails from './components/SpotDetailsPage'
 import EditSpotForm from './components/EditSpotForm'
 import DeleteModal from "./components/DeleteSpotModal/DeleteSpot";
 import CreateReviewForm from "./components/CreateReviewForm";
-import ProfilePage from "./components/ProfilePage";
+import ProfilePage from "./components/UserAccount";
+import UserBookings from "./components/UserAccount/UserBookings";
 import UpdateReviewForm from "./components/UpdateReviewForm";
 import BookingCalendar from "./components/Bookings/Calendar";
 import "./index.css";
@@ -32,14 +33,17 @@ function App() {
           <Route path="/" exact>
             <LandingPage />
           </Route>
+          <Route path="/spots/:spotId">
+            <SpotDetails />
+          </Route>
           <Route path="/user/profile" exact>
             <ProfilePage />
           </Route>
+          <Route ptha='/user/bookings' exact>
+            <UserBookings />
+          </Route>
           <Route path="/create" exact>
             <CreateSpotForm />
-          </Route>
-          <Route path="/spots/:spotId" exact>
-            <SpotDetails />
           </Route>
           <Route path="/spots/:spotId/edit">
             <EditSpotForm />
