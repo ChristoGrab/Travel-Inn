@@ -28,7 +28,7 @@ function CreateReviewForm() {
     let errors = []
     if (review.length <= 5) errors.push("Please provide some specific feedback for your host!");
     if (review.toLowerCase().includes("fuck")
-    || review.toLowerCase().includes("shit")) errors.push("Please refrain from using inappropriate language")
+      || review.toLowerCase().includes("shit")) errors.push("Please refrain from using inappropriate language")
     setInputErrors(errors)
   }, [review])
 
@@ -36,7 +36,7 @@ function CreateReviewForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormSubmitted(true)
-    
+
     if (inputErrors.length) return;
 
     const payload = {
@@ -50,12 +50,16 @@ function CreateReviewForm() {
   }
 
   return (
-    <div className="create-review-form-container">
+    <>
+      <div className="create-review-form-greeting">
+      <h1>Share Your Experience!</h1>
+      <div>
+        Leaving some thoughts and insights on your stay here will help other guests get a better idea of what to expect, and will help your host improve their listing for future guests.
+      </div>
+      </div>
+      
       <form className='create-review-form'>
-        <div
-          className="create-review-form-greeting">
-          Share some thoughts on your stay here!
-        </div>
+
         {formSubmitted && <div className="create-review-errors">
           <div className="spot-errors-list">
             {inputErrors.map((error, idx) => (
@@ -64,17 +68,11 @@ function CreateReviewForm() {
               </li>
             ))}
           </div>
-          </div>}
-          <textarea
-          className="create-review-textarea"
-            type="text"
-            required
-            value={review}
-            onChange={updateReview} />
+        </div>}
         <label className="create-review-stars">
-          Rating
+          Rate your stay
           <select
-          className="review-stars-dropdown"
+            className="review-stars-dropdown"
             id="stars"
             value={stars}
             onChange={updateStars}>
@@ -85,10 +83,20 @@ function CreateReviewForm() {
             <option value={5}>5 - Excellent</option>
           </select>
         </label>
+        <div className="form-instructions">
+          Now share some thoughts on your stay. Try to be specific and helpful! Constructive feedback is a great way to help the Travel-Inn community continue to grow and improve.
+        </div>
+        <textarea
+          className="create-review-textarea"
+          type="text"
+          required
+          placeholder='Write your review here...'
+          value={review}
+          onChange={updateReview} />
         <button className='submit-review-button'
           onClick={handleSubmit}>Submit Review</button>
       </form>
-    </div>
+    </>
   )
 }
 

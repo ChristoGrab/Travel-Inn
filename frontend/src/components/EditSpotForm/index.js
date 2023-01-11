@@ -9,7 +9,7 @@ function EditSpotForm() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { spotId } = useParams();
-  const spot = useSelector(state => state.spots.spots[spotId])
+  const spot = useSelector(state => state.spots.spotsList[spotId])
 
   // list of state variables
   const [inputErrors, setInputErrors] = useState([]);

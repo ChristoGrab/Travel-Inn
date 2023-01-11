@@ -23,7 +23,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 400px;
+  width: 100%;
   flex: 1 0 auto;
 }
 
