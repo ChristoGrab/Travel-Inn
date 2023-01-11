@@ -72,6 +72,7 @@ router.get('/:spotId/reviews', async (req, res) => {
 
 // GET ALL BOOKINGS FOR A SPOT BASED ON THE SPOT'S ID
 router.get('/:spotId/bookings', requireAuth, async (req, res) => {
+  
   const idCheck = await Spot.findByPk(req.params.spotId)
 
   // If query array is empty spot doesn't exist
