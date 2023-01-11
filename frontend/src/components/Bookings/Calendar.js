@@ -1,11 +1,12 @@
-import { useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams, useHistory } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
+import styled from "styled-components";
+import { createBookingThunk, getBookingsThunk } from '../../store/bookings';
 import "react-datepicker/dist/react-datepicker.css";
 import "./Calendar.css"
-import { useState } from 'react';
-import styled from "styled-components";
-import { createBookingThunk } from '../../store/bookings';
-import { useParams } from 'react-router-dom';
+
 
 const Styles = styled.div`
   .react-datepicker-wrapper,
@@ -15,14 +16,20 @@ const Styles = styled.div`
     height: 45px;
     background-color: white;
   }
-  `;
+`;
 
 const DatePickerRange = () => {
 
   const dispatch = useDispatch();
+  const history = useHistory();
   const {spotId} = useParams();
+  const bookings = useSelector(state => state.bookings.spotBookings)
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  
+  useEffect(() => {
+    dispatch(getBookingsThunk(spotId))
+  }, [dispatch, spotId])
   
   const createReservation = (e) => {
     e.preventDefault();
@@ -35,7 +42,10 @@ const DatePickerRange = () => {
     console.log(new_booking)
     
     dispatch(createBookingThunk(spotId, new_booking))
-    .then(data => data)
+    .catch(res => {
+      if (res.data && res.data.errors) return console.log(res.data.errors)
+      else history.push('/')
+    })
   }
 
   return (
