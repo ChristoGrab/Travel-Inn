@@ -1,7 +1,9 @@
 /* TODO Add site wide styles */
 
+
 html {
   overflow-y: scroll;
+  box-sizing: border-box;
 }
 
 body {

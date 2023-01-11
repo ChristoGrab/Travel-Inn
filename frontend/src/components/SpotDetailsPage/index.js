@@ -5,6 +5,7 @@ import { getOneSpot } from '../../store/spots';
 import { clearSpot } from '../../store/spots'
 import { loadSpotReviewsThunk } from '../../store/reviews';
 import ReviewsBySpot from './SpotReviews'
+import ReservationBox from '../Bookings/ReservationBox';
 import './SpotDetailsPage.css';
 
 function SpotDetails() {
@@ -27,23 +28,14 @@ function SpotDetails() {
   }, [dispatch, dataLoaded, spotId])
 
   let imageList = []
-  let hasLeftReview = false;
 
   if (!dataLoaded) return null;
-
-  // need to create a conditional for mapping images, otherwise
-  // runs into a timing issue with dispatch.
+  
   if (spot.SpotImages) {
     spot.SpotImages.forEach(img => imageList.push(img))
   }
 
   if (!spot.SpotImages) return null;
-
-  // if (reviewsObj && currentUser) Object.values(reviewsObj).forEach(review => {
-  //   if (review.userId === currentUser.id) reviewsOfUser.push(review)
-  // })
-
-  // if (reviewsOfUser.length > 0) hasLeftReview = true;
 
 
   return (
@@ -81,6 +73,7 @@ function SpotDetails() {
           )}
         </div>
       </div>
+      <ReservationBox spot={spot}/>
       <ReviewsBySpot spotId={spot.id} currentUser={currentUser} spotOwnerId={spot.Owner.id}/>
     </div>
   )

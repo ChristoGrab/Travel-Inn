@@ -10,9 +10,9 @@ import EditSpotForm from './components/EditSpotForm'
 import DeleteModal from "./components/DeleteSpotModal/DeleteSpot";
 import CreateReviewForm from "./components/CreateReviewForm";
 import ProfilePage from "./components/ProfilePage";
-import LoadingScreen from "./components/LoadingScreen"
-import "./index.css";
 import UpdateReviewForm from "./components/UpdateReviewForm";
+import BookingCalendar from "./components/Bookings/Calendar";
+import "./index.css";
 
 function App() {
 
@@ -54,7 +54,7 @@ function App() {
             <UpdateReviewForm />
           </Route>
           <Route path='/testing'>
-            <LoadingScreen />
+            <BookingCalendar />
           </Route>
         </Switch>
       )}
