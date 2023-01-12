@@ -5,14 +5,19 @@ const cors = require('cors');
 const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
+const { urlencoded } = require('express')
 
 const { environment } = require('./config');
 const isProduction = environment === 'production';
 
+
+
 const app = express();
+
 
 app.use(morgan('dev'));
 app.use(cookieParser());
+app.use(urlencoded({extended: false}))
 app.use(express.json());
 
 // Security Middleware
