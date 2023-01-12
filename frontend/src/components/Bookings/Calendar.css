@@ -14,3 +14,10 @@
   font-size: 12px;
   font-weight: bold;
 }
+
+.reservation-button {
+  background-color: #da0b64;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}

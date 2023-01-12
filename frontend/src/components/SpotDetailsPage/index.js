@@ -15,17 +15,15 @@ function SpotDetails() {
 
   const spot = useSelector(state => state.spots.singleSpot);
   const currentUser = useSelector(state => state.session.user);
-  const reviewList = useSelector(state => state.reviews.spot);
 
   useEffect(() => {
 
-    dispatch(getOneSpot(spotId));
-    dispatch(loadSpotReviewsThunk(spotId))
-      .then(() => setDataLoaded(true))
+    dispatch(getOneSpot(spotId))
+    .then(() => setDataLoaded(true))
 
     return (() => dispatch(clearSpot()))
 
-  }, [dispatch, dataLoaded, spotId])
+  }, [dispatch, spotId])
 
   let imageList = []
 
@@ -58,7 +56,7 @@ function SpotDetails() {
           {spot.description}
         </div>
         <div>
-          {currentUser && currentUser.id === spot.Owner.id && (
+          {currentUser && currentUser.id === spot.Owner.id ?
             <div className="listing-owner-container">
               <div className="spot-owner-div">
                 <Link
@@ -70,10 +68,11 @@ function SpotDetails() {
                   to={`/spots/${spot.id}/delete`}>Delete your listing</Link>
               </div>
             </div>
-          )}
+            : <ReservationBox spot={spot}/>
+          }
         </div>
       </div>
-      <ReservationBox spot={spot}/>
+
       <ReviewsBySpot spotId={spot.id} currentUser={currentUser} spotOwnerId={spot.Owner.id}/>
     </div>
   )

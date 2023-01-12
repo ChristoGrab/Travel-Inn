@@ -38,10 +38,11 @@ function Navigation({ isLoaded }) {
     <div className="top-navbar">
         <div className='navbar-left'>
           <Link to="/"><img id="logo" src={Logo} alt="Travel-Inn"></img></Link>
-          </div>
-          <div className='navbar-right'>
-            {isLoaded && sessionLinks}
-          </div>
+        </div>
+        <div className="navbar-center" />
+        <div className='navbar-right'>
+          {isLoaded && sessionLinks}
+        </div>
     </div>
   );
 }

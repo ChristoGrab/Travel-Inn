@@ -77,7 +77,7 @@ const DatePickerRange = () => {
       minDate={startDate}
       />
     </div>
-    <button onClick={createReservation}>Reserve</button>
+    <button className="reservation-button" onClick={createReservation}>Reserve</button>
   </div>
   )
 }

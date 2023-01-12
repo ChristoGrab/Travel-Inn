@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { deleteBookingThunk } from '../../store/bookings';
 
-const DeleteBooking = ({bookingId, toggleDeleteBooking}) => {
+const DeleteBooking = ({ bookingId }) => {
   
   const dispatch = useDispatch()
   
@@ -9,7 +9,6 @@ const DeleteBooking = ({bookingId, toggleDeleteBooking}) => {
     e.preventDefault();
     
     dispatch(deleteBookingThunk(bookingId))
-    .then(() => toggleDeleteBooking())
   }
   
   return (

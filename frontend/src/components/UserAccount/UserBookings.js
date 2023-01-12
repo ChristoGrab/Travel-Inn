@@ -10,22 +10,14 @@ const UserBookings = () => {
   const userBookings = useSelector(state => Object.values(state.bookings.userBookings))
   let upcomingBookings = [];
   let pastBookings = [];
-  let [bookingDeletionCount, setBookingDeletionCount] = useState(0)
 
   upcomingBookings = userBookings.filter(booking => {
     return booking.startDate > new Date().toISOString().split('T')[0]
   })
 
   pastBookings = userBookings.filter(booking => {
-    return booking.startDate < new Date().toISOString().split('T')[0]
+    return booking.startDate <= new Date().toISOString().split('T')[0]
   })
-  
-
-  const toggleDeleteBooking = () => {
-    console.log(bookingDeletionCount)
-    setBookingDeletionCount(bookingDeletionCount++)
-    console.log(bookingDeletionCount)
-  }
   
   useEffect(() => {
     
@@ -63,8 +55,7 @@ const UserBookings = () => {
             <img className="medium-image" src={booking.Spot.previewImage}></img>
             <div className="upcoming-booking-box-3">
               <button>Change this booking</button>
-              <DeleteBooking bookingId={booking.id} toggleDeleteBooking={toggleDeleteBooking}/>
-              <button onClick={deleteBookingThunk(booking.id)}>Cancel this booking</button>
+              <DeleteBooking bookingId={booking.id} />
             </div>
           </div>
         ))
