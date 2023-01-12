@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserBookingsThunk, deleteBookingThunk } from '../../store/bookings';
+import DeleteBooking from './DeleteBooking';
 import './UserBookings.css'
 
 const UserBookings = () => {
@@ -9,6 +10,7 @@ const UserBookings = () => {
   const userBookings = useSelector(state => Object.values(state.bookings.userBookings))
   let upcomingBookings = [];
   let pastBookings = [];
+  const [userHasDeletedBooking, setUserHasDeletedBooking] = useState(false)
 
   upcomingBookings = userBookings.filter(booking => {
     return booking.startDate > new Date().toISOString().split('T')[0]
@@ -24,7 +26,11 @@ const UserBookings = () => {
   
   useEffect(() => {
     dispatch(getUserBookingsThunk())
-  }, [dispatch])
+  }, [dispatch, userHasDeletedBooking])
+  
+  const toggleDeleteBooking = () => {
+    return setUserHasDeletedBooking(!userHasDeletedBooking)
+  }
 
   return (
     <div className="user-bookings-page">
@@ -53,6 +59,7 @@ const UserBookings = () => {
             <img className="medium-image" src={booking.Spot.previewImage}></img>
             <div className="upcoming-booking-box-3">
               <button>Change this booking</button>
+              <DeleteBooking bookingId={booking.id} toggleDeleteBooking={toggleDeleteBooking}/>
               <button onClick={deleteBookingThunk(booking.id)}>Cancel this booking</button>
             </div>
           </div>

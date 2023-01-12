@@ -42,10 +42,8 @@ const DatePickerRange = () => {
     console.log(new_booking)
     
     dispatch(createBookingThunk(spotId, new_booking))
-    .catch(res => {
-      console.log(res)
-    })
-  }
+    .then(() => history.push(`/user/bookings`))
+    }
 
   return (
   <div className="calendar-container">
