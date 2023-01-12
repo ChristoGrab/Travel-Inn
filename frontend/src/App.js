@@ -33,8 +33,20 @@ function App() {
           <Route path="/" exact>
             <LandingPage />
           </Route>
-          <Route path="/spots/:spotId">
+          <Route path="/spots/:spotId" exact>
             <SpotDetails />
+          </Route>
+          <Route path='/spots/:spotId/reviews/create' exact>
+            <CreateReviewForm />
+          </Route>
+          <Route path="/spots/:spotId/edit" exact>
+            <EditSpotForm />
+          </Route>
+          <Route path='/spots/:spotId/delete' exact>
+            <DeleteModal />
+          </Route>
+          <Route path='/reviews/:reviewId/edit' exact>
+            <UpdateReviewForm />
           </Route>
           <Route path="/user/profile" exact>
             <ProfilePage />
@@ -45,19 +57,10 @@ function App() {
           <Route path="/create" exact>
             <CreateSpotForm />
           </Route>
-          <Route path="/spots/:spotId/edit">
-            <EditSpotForm />
-          </Route>
-          <Route path='/spots/:spotId/delete'>
-            <DeleteModal />
-          </Route>
-          <Route path='/spots/:spotId/reviews/create' exact>
-            <CreateReviewForm />
-          </Route>
-          <Route path='/reviews/:reviewId/edit' exact>
-            <UpdateReviewForm />
-          </Route>
-          <Route path='/testing'>
+
+
+
+          <Route path='/testing' exact>
             <BookingCalendar />
           </Route>
         </Switch>

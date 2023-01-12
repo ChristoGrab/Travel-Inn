@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserBookingsThunk, deleteBookingThunk } from '../../store/bookings';
-import LoadingScreen from '../LoadingScreen';
 import './UserBookings.css'
 
 const UserBookings = () => {
@@ -20,24 +19,12 @@ const UserBookings = () => {
   })
 
   console.log(upcomingBookings)
+  
   console.log(pastBookings)
-
-
-
+  
   useEffect(() => {
     dispatch(getUserBookingsThunk())
-  }, [dispatch, upcomingBookings.length])
-
-
-  const deleteBooking = (e) => {
-    e.preventDefault();
-
-
-    dispatch(deleteBookingThunk(e.target.value))
-      .catch(res => {
-        (console.log(res))
-      })
-  }
+  }, [dispatch])
 
   return (
     <div className="user-bookings-page">
@@ -66,7 +53,7 @@ const UserBookings = () => {
             <img className="medium-image" src={booking.Spot.previewImage}></img>
             <div className="upcoming-booking-box-3">
               <button>Change this booking</button>
-              <button value={booking.id} onClick={(e) => deleteBooking(e)}>Cancel this booking</button>
+              <button onClick={deleteBookingThunk(booking.id)}>Cancel this booking</button>
             </div>
           </div>
         ))
