@@ -80,6 +80,7 @@ export const getOneSpot = (id) => async (dispatch) => {
 }
 
 export const createNewSpot = (spot) => async (dispatch) => {
+  
   const response = await csrfFetch('/api/spots', {
     method: "POST",
     headers: {
