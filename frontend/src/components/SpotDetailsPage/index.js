@@ -5,6 +5,7 @@ import { getOneSpot } from '../../store/spots';
 import { clearSpot } from '../../store/spots'
 import { loadSpotReviewsThunk } from '../../store/reviews';
 import ReviewsBySpot from './SpotReviews'
+import ReservationBox from '../Bookings/ReservationBox';
 import './SpotDetailsPage.css';
 
 function SpotDetails() {
@@ -14,36 +15,25 @@ function SpotDetails() {
 
   const spot = useSelector(state => state.spots.singleSpot);
   const currentUser = useSelector(state => state.session.user);
-  const reviewList = useSelector(state => state.reviews.spot);
 
   useEffect(() => {
 
-    dispatch(getOneSpot(spotId));
-    dispatch(loadSpotReviewsThunk(spotId))
-      .then(() => setDataLoaded(true))
+    dispatch(getOneSpot(spotId))
+    .then(() => setDataLoaded(true))
 
     return (() => dispatch(clearSpot()))
 
-  }, [dispatch, dataLoaded, spotId])
+  }, [dispatch, spotId])
 
   let imageList = []
-  let hasLeftReview = false;
 
   if (!dataLoaded) return null;
-
-  // need to create a conditional for mapping images, otherwise
-  // runs into a timing issue with dispatch.
+  
   if (spot.SpotImages) {
     spot.SpotImages.forEach(img => imageList.push(img))
   }
 
   if (!spot.SpotImages) return null;
-
-  // if (reviewsObj && currentUser) Object.values(reviewsObj).forEach(review => {
-  //   if (review.userId === currentUser.id) reviewsOfUser.push(review)
-  // })
-
-  // if (reviewsOfUser.length > 0) hasLeftReview = true;
 
 
   return (
@@ -66,7 +56,7 @@ function SpotDetails() {
           {spot.description}
         </div>
         <div>
-          {currentUser && currentUser.id === spot.Owner.id && (
+          {currentUser && currentUser.id === spot.Owner.id ?
             <div className="listing-owner-container">
               <div className="spot-owner-div">
                 <Link
@@ -78,9 +68,11 @@ function SpotDetails() {
                   to={`/spots/${spot.id}/delete`}>Delete your listing</Link>
               </div>
             </div>
-          )}
+            : <ReservationBox spot={spot}/>
+          }
         </div>
       </div>
+
       <ReviewsBySpot spotId={spot.id} currentUser={currentUser} spotOwnerId={spot.Owner.id}/>
     </div>
   )

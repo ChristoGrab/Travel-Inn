@@ -18,7 +18,13 @@ function ReviewsBySpot({spotId, spotOwnerId, currentUser}) {
     dispatch(loadSpotReviewsThunk(spotId))
   }, [dispatch, spotId])
   
+  
   useEffect(() => {
+    
+    if (!currentUser) {
+      return;
+    }
+    
     try {
     reviews.forEach(review => {
       if (review.User.id === currentUser.id) {
@@ -28,13 +34,18 @@ function ReviewsBySpot({spotId, spotOwnerId, currentUser}) {
   } catch (e) {
     window.location.reload()
   }
-  }, [reviews, currentUser.id])
+  }, [reviews, currentUser])
   
   useEffect(() => {
+    
+    if (!currentUser) {
+      return;
+    }
+    
     if (currentUser.id === spotOwnerId) {
       setUserOwnsSpot(true)
     }
-  }, [currentUser.id, spotOwnerId])
+  }, [currentUser, spotOwnerId])
   
   
   const openCreateReviewForm = (e) => {
@@ -64,7 +75,7 @@ function ReviewsBySpot({spotId, spotOwnerId, currentUser}) {
       </div>
       
       {
-        !userHasReviewed && !userOwnsSpot && (
+        currentUser && !userHasReviewed && !userOwnsSpot && (
           <button onClick={openCreateReviewForm}>Create a Review</button>
       )}
       

@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { updateReviewThunk } from '../../store/reviews';
 import LoadingScreen from '../LoadingScreen';
 import './UpdateReviewForm.css';
 
-function UpdateReviewForm({ review }) {
+function UpdateReviewForm() {
 
-  const { spotId } = useParams();
+  const { reviewId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
+  const review = useSelector(state => state.reviews.spot[reviewId])
+  const spotId = review.spotId
+  
+  console.log(review.sp)
 
   // list of state variables
   const [reviewText, setReviewText] = useState(review.review);

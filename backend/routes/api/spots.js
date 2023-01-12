@@ -72,6 +72,7 @@ router.get('/:spotId/reviews', async (req, res) => {
 
 // GET ALL BOOKINGS FOR A SPOT BASED ON THE SPOT'S ID
 router.get('/:spotId/bookings', requireAuth, async (req, res) => {
+  
   const idCheck = await Spot.findByPk(req.params.spotId)
 
   // If query array is empty spot doesn't exist
@@ -88,7 +89,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
       where: {
         spotId: req.params.spotId
       },
-      attributes: ['spotId', 'startDate', 'endDate']
+      attributes: ['id', 'spotId', 'startDate', 'endDate']
     })
     return res.json({
       "Bookings": nonOwnerBookings
@@ -419,18 +420,21 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     let eleEnd = new Date(bookingsList[i].endDate)
     if (startDateCheck >= eleStart && startDateCheck <= eleEnd) {
       res.status(403)
+      console.log("start date conflict")
       return res.json({
         "message": "Sorry, your start date conflicts with an existing booking",
         "statusCode": 403
       })
     } else if (endDateCheck >= eleStart && endDateCheck <= eleEnd) {
       res.status(403)
+      console.log("end date conflict")
       return res.json({
         "message": "Sorry, your end date conflicts with an existing booking",
         "statusCode": 403
       })
     } else if (startDateCheck < eleStart && endDateCheck > eleEnd) {
       res.status(403)
+      console.log("encapsulating conflict")
       return res.json({
         "message": "Sorry, your booking dates are in conflict with an existing booking",
         "statusCode": 403

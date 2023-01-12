@@ -9,10 +9,11 @@ import SpotDetails from './components/SpotDetailsPage'
 import EditSpotForm from './components/EditSpotForm'
 import DeleteModal from "./components/DeleteSpotModal/DeleteSpot";
 import CreateReviewForm from "./components/CreateReviewForm";
-import ProfilePage from "./components/ProfilePage";
-import LoadingScreen from "./components/LoadingScreen"
-import "./index.css";
+import ProfilePage from "./components/UserAccount";
+import UserBookings from "./components/UserAccount/UserBookings";
 import UpdateReviewForm from "./components/UpdateReviewForm";
+import BookingCalendar from "./components/Bookings/Calendar";
+import "./index.css";
 
 function App() {
 
@@ -32,29 +33,35 @@ function App() {
           <Route path="/" exact>
             <LandingPage />
           </Route>
-          <Route path="/user/profile" exact>
-            <ProfilePage />
-          </Route>
-          <Route path="/create" exact>
-            <CreateSpotForm />
-          </Route>
           <Route path="/spots/:spotId" exact>
             <SpotDetails />
-          </Route>
-          <Route path="/spots/:spotId/edit">
-            <EditSpotForm />
-          </Route>
-          <Route path='/spots/:spotId/delete'>
-            <DeleteModal />
           </Route>
           <Route path='/spots/:spotId/reviews/create' exact>
             <CreateReviewForm />
           </Route>
+          <Route path="/spots/:spotId/edit" exact>
+            <EditSpotForm />
+          </Route>
+          <Route path='/spots/:spotId/delete' exact>
+            <DeleteModal />
+          </Route>
           <Route path='/reviews/:reviewId/edit' exact>
             <UpdateReviewForm />
           </Route>
-          <Route path='/testing'>
-            <LoadingScreen />
+          <Route path="/user/profile" exact>
+            <ProfilePage />
+          </Route>
+          <Route ptha='/user/bookings' exact>
+            <UserBookings />
+          </Route>
+          <Route path="/create" exact>
+            <CreateSpotForm />
+          </Route>
+
+
+
+          <Route path='/testing' exact>
+            <BookingCalendar />
           </Route>
         </Switch>
       )}

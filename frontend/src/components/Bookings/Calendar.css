@@ -1,0 +1,23 @@
+.calendar-container {
+  width: 90%;
+  margin: 20px auto;
+  display: flex;
+}
+
+.check-in-container,
+.check-out-container {
+  height: 40px;
+}
+
+.booking-label {
+  color: red;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.reservation-button {
+  background-color: #da0b64;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
