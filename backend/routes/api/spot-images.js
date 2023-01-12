@@ -2,6 +2,14 @@ const express = require('express');
 const router = express.Router();
 const { Spot, SpotImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
+const { singlePublicFileUpload, singleMulterUpload } = require('../../awsS3');
+
+
+// UPLOAD AN IMAGE TO AWS
+router.post('/upload', singleMulterUpload("image"), requireAuth, async (req, res) => {
+  const imageUrl = await singlePublicFileUpload(req.file);
+  return res.json({ imageUrl });
+})
 
 // DELETE A SPOT IMAGE
 router.delete('/:imageId', requireAuth, async (req, res) => {
