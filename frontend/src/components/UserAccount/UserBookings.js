@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserBookingsThunk, deleteBookingThunk } from '../../store/bookings';
+import { getUserBookingsThunk, deleteBookingThunk, clearBookingsAction } from '../../store/bookings';
 import DeleteBooking from './DeleteBooking';
 import './UserBookings.css'
 
@@ -10,7 +10,7 @@ const UserBookings = () => {
   const userBookings = useSelector(state => Object.values(state.bookings.userBookings))
   let upcomingBookings = [];
   let pastBookings = [];
-  const [userHasDeletedBooking, setUserHasDeletedBooking] = useState(false)
+  let [bookingDeletionCount, setBookingDeletionCount] = useState(0)
 
   upcomingBookings = userBookings.filter(booking => {
     return booking.startDate > new Date().toISOString().split('T')[0]
@@ -19,18 +19,22 @@ const UserBookings = () => {
   pastBookings = userBookings.filter(booking => {
     return booking.startDate < new Date().toISOString().split('T')[0]
   })
-
-  console.log(upcomingBookings)
   
-  console.log(pastBookings)
+
+  const toggleDeleteBooking = () => {
+    console.log(bookingDeletionCount)
+    setBookingDeletionCount(bookingDeletionCount++)
+    console.log(bookingDeletionCount)
+  }
   
   useEffect(() => {
+    
     dispatch(getUserBookingsThunk())
-  }, [dispatch, userHasDeletedBooking])
-  
-  const toggleDeleteBooking = () => {
-    return setUserHasDeletedBooking(!userHasDeletedBooking)
-  }
+
+    return (() => dispatch(clearBookingsAction()))
+    
+  }, [dispatch])
+
 
   return (
     <div className="user-bookings-page">

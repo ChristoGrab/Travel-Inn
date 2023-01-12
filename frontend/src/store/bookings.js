@@ -4,6 +4,7 @@ const GET_BOOKINGS = 'bookings/get';
 const GET_USER_BOOKINGS = 'bookings/get/user';
 const CREATE_BOOKING = "bookings/create";
 const DELETE_BOOKING = "bookings/delete";
+const CLEAR_BOOKINGS = "bookings/clear";
 
 
 // Action Creators
@@ -32,6 +33,12 @@ const deleteBooking = (bookingId) => {
   return {
     type: DELETE_BOOKING,
     bookingId
+  }
+}
+
+export const clearBookingsAction = () => {
+  return {
+    type: CLEAR_BOOKINGS
   }
 }
 
@@ -89,7 +96,7 @@ export const deleteBookingThunk = (bookingId) => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json()
-    dispatch(deleteBooking(data))
+    dispatch(deleteBooking(bookingId))
     return data;
   } else {
     const data = await response.json()
@@ -99,7 +106,7 @@ export const deleteBookingThunk = (bookingId) => async (dispatch) => {
 }
 
 const bookingsReducer = (state = { spotBookings: {}, userBookings: {} }, action) => {
-
+  
   switch (action.type) {
     
     case GET_BOOKINGS: {
@@ -109,9 +116,13 @@ const bookingsReducer = (state = { spotBookings: {}, userBookings: {} }, action)
         userBookings: {...state.userBookings}
       }
       
+
+      
       action.bookings.Bookings.forEach(booking => {
         newState.spotBookings[booking.id] = booking;
       })
+      
+
       
     return newState;
     }
@@ -123,9 +134,13 @@ const bookingsReducer = (state = { spotBookings: {}, userBookings: {} }, action)
         userBookings: {...state.userBookings}
       }
       
+
+      
       action.bookings.Bookings.forEach(booking => {
         newState.userBookings[booking.id] = booking;
       })
+      
+
       
     return newState;
     }
@@ -147,13 +162,20 @@ const bookingsReducer = (state = { spotBookings: {}, userBookings: {} }, action)
       spotBookings: {...state.spotBookings},
       userBookings: {...state.userBookings}
     }
-    
-    delete newState.spotBookings[action.bookingId]
+
     delete newState.userBookings[action.bookingId]
-    
     return newState;
   }
-    
+  
+  case CLEAR_BOOKINGS: {
+
+    return {
+      ...state,
+      spotBookings: {},
+      userBookings: {}
+    }
+  }
+
     default:
       return state;
   }

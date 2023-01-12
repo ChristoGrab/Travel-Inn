@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useHistory } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import styled from "styled-components";
-import { createBookingThunk, getBookingsThunk } from '../../store/bookings';
+import { createBookingThunk, getBookingsThunk, clearBookingsAction } from '../../store/bookings';
 import "react-datepicker/dist/react-datepicker.css";
 import "./Calendar.css"
 
@@ -29,6 +29,8 @@ const DatePickerRange = () => {
   
   useEffect(() => {
     dispatch(getBookingsThunk(spotId))
+    
+    return (() => dispatch(clearBookingsAction()))
   }, [dispatch, spotId])
   
   const createReservation = (e) => {
