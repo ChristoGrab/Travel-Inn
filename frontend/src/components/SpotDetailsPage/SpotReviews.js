@@ -71,7 +71,10 @@ function ReviewsBySpot({spotId, spotOwnerId, currentUser}) {
   return (
     <div className="spot-review-container">
       <div className="spot-review-ratings">
+        {(avgRating !== "NaN") ?
         <h2>★ {avgRating} • {reviewNums} Reviews</h2>
+        : <h2>Be the first to review this spot!</h2>}
+        
       </div>
       
       {
