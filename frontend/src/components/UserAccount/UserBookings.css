@@ -67,8 +67,10 @@
 }
 
 .previous-booking-card {
+  border: 3px solid lightgray;
+  text-decoration: none;
+  color: black;
   display: flex;
-  border-radius: 5em;
 }
 
 .previous-booking-image {
@@ -76,9 +78,11 @@
   height: 100px;
   object-fit: cover;
   border-radius: 10px;
+  margin-right: 30px;
 }
 
 .previous-booking-details {
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
 }

@@ -40,7 +40,6 @@
 
 .create-review-stars {
   width: 75%;
-  padding-top: 10px;
   height: 40px;
 }
 
@@ -62,4 +61,8 @@
 
 .submit-review-button:hover {
   background-color: #f4f4f4;
+}
+
+.rating-radio {
+  display: none;
 }

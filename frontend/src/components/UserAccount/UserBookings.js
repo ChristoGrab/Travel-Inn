@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserBookingsThunk, deleteBookingThunk, clearBookingsAction } from '../../store/bookings';
+import { getUserBookingsThunk, clearBookingsAction } from '../../store/bookings';
 import DeleteBooking from './DeleteBooking';
+import convertDates from '../../functions/convertDates';
 import './UserBookings.css'
 
 const UserBookings = () => {
@@ -10,6 +12,8 @@ const UserBookings = () => {
   const userBookings = useSelector(state => Object.values(state.bookings.userBookings))
   let upcomingBookings = [];
   let pastBookings = [];
+  
+  console.log(userBookings)
 
   upcomingBookings = userBookings.filter(booking => {
     return booking.startDate > new Date().toISOString().split('T')[0]
@@ -20,11 +24,9 @@ const UserBookings = () => {
   })
   
   useEffect(() => {
-    
     dispatch(getUserBookingsThunk())
 
     return (() => dispatch(clearBookingsAction()))
-    
   }, [dispatch])
 
 
@@ -44,8 +46,8 @@ const UserBookings = () => {
               <span>{booking.Spot.name}</span>
               </div>
               <div className="upcoming-booking-dates">
-              <span>{booking.startDate}</span>
-              <span>{booking.endDate}</span>
+              <span>{convertDates(booking.startDate)}</span>
+              <span>{convertDates(booking.endDate)}</span>
               </div>
               <div className="upcoming-booking-place">
               <div>{booking.Spot.address}</div>
@@ -65,14 +67,15 @@ const UserBookings = () => {
       <h2>Where you've been</h2>
       <div className="previous-bookings-container">
         {pastBookings.length ? pastBookings?.map(booking => (
-          <div key={booking.id} className="previous-booking-card">
+          <Link to={`/spots/${booking.Spot.id}`} key={booking.id} className="previous-booking-card">
             <img className="previous-booking-image" src={booking.Spot.previewImage} />
             <div className="previous-booking-details">
               <span className="bold">{booking.Spot.city}</span>
-              <span>{booking.startDate}</span>
-              <span>{booking.endDate}</span>
+              <span>Hosted by <span className="bold">{booking.Spot.host}</span></span>
+              <span>{convertDates(booking.startDate)}</span>
+              <span>{convertDates(booking.endDate)}</span>
             </div>
-          </div>
+          </Link>
         ))
           : <h3>You haven't booked any trips yet!</h3>
         }

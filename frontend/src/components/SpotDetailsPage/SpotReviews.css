@@ -54,11 +54,8 @@
   border: none;
   border-radius: 15px;
   font-size: 14px;
-  margin-top: 10px;
 }
 
 .review-delete-button:hover {
-  box-shadow: 1px 1px 0.5px lightgray;
-  border: 1px solid lightgray;
-  cursor: pointer;
+  box-shadow: 1px 1px 0.5px 1px lightgray;
 }

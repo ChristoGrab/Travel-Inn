@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { createReviewThunk } from '../../store/reviews';
-
+import ReviewStars from "./ReviewStars"
 import "./CreateReviewForm.css"
 
 function CreateReviewForm() {
@@ -15,7 +15,7 @@ function CreateReviewForm() {
 
   // list of state variables
   const [review, setReview] = useState("");
-  const [stars, setStars] = useState(3)
+  const [stars, setStars] = useState(0)
   const [inputErrors, setInputErrors] = useState([]);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -69,20 +69,12 @@ function CreateReviewForm() {
             ))}
           </div>
         </div>}
-        <label className="create-review-stars">
+        <div className="create-review-stars">
           Rate your stay
-          <select
-            className="review-stars-dropdown"
-            id="stars"
-            value={stars}
-            onChange={updateStars}>
-            <option value={1}>1 - Terrible</option>
-            <option value={2}>2 - Bad</option>
-            <option value={3}>3 - Fair</option>
-            <option value={4}>4 - Good</option>
-            <option value={5}>5 - Excellent</option>
-          </select>
-        </label>
+        <div className="create-hover">
+          <ReviewStars stars={stars} setStars={setStars} />
+        </div>
+        </div>
         <div className="form-instructions">
           Now share some thoughts on your stay. Try to be specific and helpful! Constructive feedback is a great way to help the Travel-Inn community continue to grow and improve.
         </div>
