@@ -12,7 +12,7 @@ const DeleteBooking = ({ bookingId }) => {
   }
   
   return (
-    <button onClick={handleDelete}>Cancel your Booking</button>
+    <button className="action-button" onClick={handleDelete}>Cancel Reservation</button>
   )
 }
 

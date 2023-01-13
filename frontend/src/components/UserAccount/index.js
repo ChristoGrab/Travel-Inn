@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
+import { useState } from 'react'
 import { loadUserReviewsThunk } from '../../store/reviews';
 import { getSpots } from '../../store/spots';
 import './ProfilePage.css'
@@ -10,11 +11,11 @@ function ProfilePage() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
   const allSpots = useSelector(state => state.spots.spotsList);
-  // const userReviews = useSelector(state => state.reviews.user)
+  const [dataLoaded, setDataLoaded] = useState(false)
 
   useEffect(() => {
-    dispatch(getSpots());
-    dispatch(loadUserReviewsThunk());
+    dispatch(getSpots()).
+    then(setDataLoaded(true))
   }, [dispatch])
 
   // turn allSpots into an array
@@ -22,6 +23,10 @@ function ProfilePage() {
 
   // filter through for spots where ownerId matches user Id
   const mySpots = spotsList.filter(spot => spot.ownerId === user.id)
+  
+  if (!dataLoaded) {
+    return null;
+  }
 
 
   return (
@@ -29,6 +34,8 @@ function ProfilePage() {
       <div className="user-page-welcome">
         <h1>Welcome {user.username}!</h1>
       </div>
+      { mySpots?.length ?
+      <>
       <p>These are your current listings with us:</p>
       <div className="user-spots-list">
         {mySpots.map(spot => (
@@ -38,10 +45,12 @@ function ProfilePage() {
             </Link>
         ))}
       </div>
+      </>
+      : <p>You currently have no listings with us.</p>
+      }
     </div>
+
   )
 }
 
 export default ProfilePage;
-
-

@@ -10,10 +10,6 @@ body {
   font-family: Helvetica, sans-serif;
 }
 
-button:hover {
-  background-color: #f7f7f7;
-}
-
 body::before {
   display:block;
   content: '';
@@ -72,10 +68,42 @@ textarea {
   resize: none;
 }
 
-button:hover {
-  cursor: pointer;
-}
-
 .bold {
   font-weight: bold;
+}
+
+.submit-button {
+  background-color: #ff385c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  height: 30px;
+  width: 100%;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.action-button {
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 15px;
+  border: 2px solid #bebebe;
+  padding: 5px 10px;
+  width: 80%;
+  height: 32px;
+  font-size: 14px;
+  transition: all 150ms ease-in-out;
+  font-size: 14px;
+}
+
+.action-button:hover {
+  background-color: #ff385c;
+  border: 2px solid #ff385c;
+  color: white;
+  border-radius: 3px;
+}
+
+button:hover {
+  cursor: pointer;
 }

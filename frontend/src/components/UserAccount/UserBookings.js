@@ -40,7 +40,7 @@ const UserBookings = () => {
       <div className="upcoming-bookings-container">
         {upcomingBookings.length ? upcomingBookings?.map(booking => (
           <div key={booking.id} className="upcoming-booking-card">
-            <div className='upcoming-booking-box-1'>
+            <Link to='/' className='upcoming-booking-box-1'>
               <div className="upcoming-booking-name">
               <div className="bold">{booking.Spot.city}</div>
               <span>{booking.Spot.name}</span>
@@ -53,10 +53,12 @@ const UserBookings = () => {
               <div>{booking.Spot.address}</div>
               <div>{booking.Spot.country}</div>
               </div>
-            </div>
-            <img className="medium-image" src={booking.Spot.previewImage}></img>
+            </Link>
+            <Link to={`/spots/${booking.Spot.id}`} className="upcoming-booking-box-2">
+              <img className="medium-image" src={booking.Spot.previewImage}></img>
+            </Link>
             <div className="upcoming-booking-box-3">
-              <button>Change this booking</button>
+              <button className="action-button">Change Reservation</button>
               <DeleteBooking bookingId={booking.id} />
             </div>
           </div>
