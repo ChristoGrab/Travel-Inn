@@ -45,6 +45,14 @@
   border: 3px solid blue;
 }
 
+.spot-page-section-4 {
+  width: 100%;
+  border: 3px solid purple;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .spot-page-box {
   padding: 20px 0;
   border-bottom: 1px solid #ebebeb;

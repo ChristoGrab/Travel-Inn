@@ -6,6 +6,7 @@ import { clearSpot } from '../../store/spots'
 import { loadSpotReviewsThunk } from '../../store/reviews';
 import ReviewsBySpot from './SpotReviews'
 import ReservationBox from '../Bookings/ReservationBox';
+import Map from '../Map';
 import './SpotDetailsPage.css';
 
 function SpotDetails() {
@@ -87,6 +88,12 @@ function SpotDetails() {
 
       <div className="spot-page-section-3">
         <ReviewsBySpot spotId={spot.id} currentUser={currentUser} spotOwnerId={spot.Owner.id} />
+      </div>
+      
+      <div className="spot-page-section-4">
+        <h2>Where you'll be</h2>
+        <Map lat={spot.lat} lng={spot.lng}/>
+        <span className="bold">{spot.city}, {spot.state}, {spot.country}</span>
       </div>
     </div>
   )
