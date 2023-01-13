@@ -13,6 +13,7 @@ import ProfilePage from "./components/UserAccount";
 import UserBookings from "./components/UserAccount/UserBookings";
 import UpdateReviewForm from "./components/UpdateReviewForm";
 import BookingCalendar from "./components/Bookings/Calendar";
+import Upload from "./components/Upload";
 import "./index.css";
 
 function App() {
@@ -48,6 +49,9 @@ function App() {
           <Route path='/reviews/:reviewId/edit' exact>
             <UpdateReviewForm />
           </Route>
+          <Route path='/testing' exact>
+            <Upload />
+          </Route>
           <Route path="/user/profile" exact>
             <ProfilePage />
           </Route>
@@ -58,11 +62,6 @@ function App() {
             <CreateSpotForm />
           </Route>
 
-
-
-          <Route path='/testing' exact>
-            <BookingCalendar />
-          </Route>
         </Switch>
       )}
     </>
