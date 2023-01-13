@@ -4,10 +4,10 @@
   display: flex;
 }
 
-.check-in-container,
+/* .check-in-container,
 .check-out-container {
   height: 40px;
-}
+} */
 
 .booking-label {
   color: red;

@@ -40,12 +40,8 @@ const DatePickerRange = () => {
     unavailableDates = unavailableDates.concat(findBookedDates(booking.startDate, booking.endDate))
   }
 
-
-
-  const createReservation = (e) => {
+  const createReservation = async (e) => {
     e.preventDefault();
-    
-    
 
     const new_booking = {
       startDate,
@@ -54,11 +50,16 @@ const DatePickerRange = () => {
 
     console.log(new_booking)
 
-    dispatch(createBookingThunk(spotId, new_booking))
-      .then(() => history.push(`/user/bookings`))
+    const response = await dispatch(createBookingThunk(spotId, new_booking))
+    
+    if (response.ok) {
+      history.push(`/bookings/${response.data.id}`)
+    }
+    
   }
 
   return (
+    <>
     <div className="calendar-container">
       <div className="check-in-container">
         <label className="booking-label">CHECK-IN</label>
@@ -91,11 +92,13 @@ const DatePickerRange = () => {
           isClearable
         />
       </div>
+      </div>
       <button className="reservation-button"
         onClick={createReservation}>
         Reserve
       </button>
-    </div>
+    
+    </>
   )
 }
 

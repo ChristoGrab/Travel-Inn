@@ -30,14 +30,6 @@
   height: 50px;
 }
 
-.create-spot-errors {
-  color: #ff385c;
-}
-
-.spot-errors-list {
-  list-style: none;
-}
-
 #create-spot-button {
   background-color: #ff385c;
   color: white;

@@ -23,7 +23,12 @@ body::before {
 .form-error {
   color: #ff385c;
   list-style: none;
-  font-size: 15px;
+  font-size: 13px;
+}
+
+.form-error::before {
+  content: "! ";
+  color: #ff385c;
 }
 
 input {

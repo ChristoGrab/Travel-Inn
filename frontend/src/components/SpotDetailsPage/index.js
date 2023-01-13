@@ -6,6 +6,7 @@ import { clearSpot } from '../../store/spots'
 import { loadSpotReviewsThunk } from '../../store/reviews';
 import ReviewsBySpot from './SpotReviews'
 import ReservationBox from '../Bookings/ReservationBox';
+import Map from '../Map';
 import './SpotDetailsPage.css';
 
 function SpotDetails() {
@@ -19,7 +20,7 @@ function SpotDetails() {
   useEffect(() => {
 
     dispatch(getOneSpot(spotId))
-    .then(() => setDataLoaded(true))
+      .then(() => setDataLoaded(true))
 
     return (() => dispatch(clearSpot()))
 
@@ -28,7 +29,7 @@ function SpotDetails() {
   let imageList = []
 
   if (!dataLoaded) return null;
-  
+
   if (spot.SpotImages) {
     spot.SpotImages.forEach(img => imageList.push(img))
   }
@@ -37,8 +38,8 @@ function SpotDetails() {
 
 
   return (
-    <div className='spot-details-outer-container'>
-      <div className="spot-details-container">
+    <div className='spot-page-outer-container'>
+      <div className="spot-page-section-1">
         <div className="spot-details-header">
           <div className="spot-details-title">{spot.name}</div>
           <div className="spot-details-subtitle">
@@ -52,28 +53,48 @@ function SpotDetails() {
             <img key={img.id} src={img.url} alt={img.name}></img>
           ))}
         </div>
-        <div className="spot-details-description">
-          {spot.description}
+      </div>
+
+      <div className="spot-page-section-2">
+        <div className="spot-page-section-2-left">
+          <div className="spot-page-box">
+            Free cancellation until 24 hours before check-in
+          </div>
+          <div className="spot-page-box">
+            <span>InnCover</span>
+            <span>Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.</span>
+          </div>
+          <div className="spot-page-box">
+            {spot.description}
+          </div>
         </div>
-        <div>
-          {currentUser && currentUser.id === spot.Owner.id ?
-            <div className="listing-owner-container">
-              <div className="spot-owner-div">
-                <Link
-                  className="spot-owner-links"
-                  to={`/spots/${spot.id}/edit`}>Edit your listing</Link>
-              </div>
-              <div className="spot-owner-div">
-                <Link className="spot-owner-links"
-                  to={`/spots/${spot.id}/delete`}>Delete your listing</Link>
-              </div>
+        <div className="spot-page-section-2-right">
+        {currentUser && currentUser.id === spot.Owner.id ?
+          <div className="listing-owner-container">
+            <div className="spot-owner-div">
+              <Link
+                className="spot-owner-links"
+                to={`/spots/${spot.id}/edit`}>Edit your listing</Link>
             </div>
-            : <ReservationBox spot={spot}/>
-          }
+            <div className="spot-owner-div">
+              <Link className="spot-owner-links"
+                to={`/spots/${spot.id}/delete`}>Delete your listing</Link>
+            </div>
+          </div>
+          : <ReservationBox spot={spot} />
+        }
         </div>
       </div>
 
-      <ReviewsBySpot spotId={spot.id} currentUser={currentUser} spotOwnerId={spot.Owner.id}/>
+      <div className="spot-page-section-3">
+        <ReviewsBySpot spotId={spot.id} currentUser={currentUser} spotOwnerId={spot.Owner.id} />
+      </div>
+      
+      <div className="spot-page-section-4">
+        <h2>Where you'll be</h2>
+        <Map lat={spot.lat} lng={spot.lng}/>
+        <span className="bold">{spot.city}, {spot.state}, {spot.country}</span>
+      </div>
     </div>
   )
 }

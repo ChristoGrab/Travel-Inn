@@ -88,17 +88,14 @@ export const createNewSpot = (spot) => async (dispatch) => {
     },
     body: JSON.stringify(spot)
   })
-  
-  // return data for previewImage thunk to use
-  // will want to change db so previewImage is
-  // part of Spots table.
+
 
   if (response.ok) {
     const newSpot = await response.json();
     dispatch(createSpotAction(newSpot))
     return newSpot
+    
   } else {
-
     const errorData = await response.json();
     return errorData;
   }
