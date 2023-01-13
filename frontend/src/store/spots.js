@@ -140,6 +140,9 @@ export const createImageThunk = (payload, spotId) => async (dispatch) => {
     body: JSON.stringify(payload)
   })
   
+  
+  console.log(response.json())
+  
   if (response.ok) {
     const newImage = await response.json();
     console.log("New image in image thunk: ", newImage)

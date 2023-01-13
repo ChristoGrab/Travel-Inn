@@ -87,7 +87,7 @@ function SpotDetails() {
       </div>
 
       <div className="spot-page-section-3">
-        <ReviewsBySpot spotId={spot.id} currentUser={currentUser} spotOwnerId={spot.Owner.id} />
+        <ReviewsBySpot spotId={spot.id} currentUser={currentUser} spotOwnerId={spot.Owner.id} averageRating={spot.avgStarRating}/>
       </div>
       
       <div className="spot-page-section-4">

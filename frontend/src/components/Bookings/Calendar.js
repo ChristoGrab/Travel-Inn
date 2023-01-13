@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import styled from "styled-components";
 import { findBookedDates } from '../../functions/createDaysList';
 import { createBookingThunk, getBookingsThunk, clearBookingsAction } from '../../store/bookings';
+import LoadingScreen from '../LoadingScreen';
 import "react-datepicker/dist/react-datepicker.css";
 import "./Calendar.css"
 
@@ -27,6 +28,7 @@ const DatePickerRange = () => {
   const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [loadingScreen, setLoadingScreen] = useState(false)
 
   useEffect(() => {
     dispatch(getBookingsThunk(spotId))
@@ -42,6 +44,8 @@ const DatePickerRange = () => {
 
   const createReservation = async (e) => {
     e.preventDefault();
+    
+    setLoadingScreen(true)
 
     const new_booking = {
       startDate,
@@ -50,54 +54,57 @@ const DatePickerRange = () => {
 
     console.log(new_booking)
 
-    const response = await dispatch(createBookingThunk(spotId, new_booking))
-    
-    if (response.ok) {
-      history.push(`/bookings/${response.data.id}`)
-    }
-    
+    dispatch(createBookingThunk(spotId, new_booking))
+      .then(response => history.push(`/user/bookings`))
+      .catch(err => {
+          setLoadingScreen(false)
+          return err.message
+        }
+      )
   }
+
 
   return (
     <>
-    <div className="calendar-container">
-      <div className="check-in-container">
-        <label className="booking-label">CHECK-IN</label>
-        <DatePicker
-          selected={startDate}
-          excludeDates={unavailableDates}
-          placeholderText="Select Start Date"
-          onChange={date => setStartDate(date)}
-          selectsStart
-          startDate={startDate}
-          endDate={endDate}
-          minDate={new Date()}
-          isClearable
+      {loadingScreen && <LoadingScreen />}
+      <div className="calendar-container">
+        <div className="check-in-container">
+          <label className="booking-label">CHECK-IN</label>
+          <DatePicker
+            selected={startDate}
+            excludeDates={unavailableDates}
+            placeholderText="Select Start Date"
+            onChange={date => setStartDate(date)}
+            selectsStart
+            startDate={startDate}
+            endDate={endDate}
+            minDate={new Date()}
+            isClearable
           />
-      </div>
-      <div className="check-out-container">
-        <label className="booking-label">CHECK-OUT</label>
-        <DatePicker
-          filterDate={date => {
-            return new Date() < date;
-          }}
-          selected={endDate}
-          excludeDates={unavailableDates}
-          placeholderText="Select End Date"
-          selectsEnd
-          startDate={startDate}
-          endDate={endDate}
-          onChange={date => setEndDate(date)}
-          minDate={startDate}
-          isClearable
-        />
-      </div>
+        </div>
+        <div className="check-out-container">
+          <label className="booking-label">CHECK-OUT</label>
+          <DatePicker
+            filterDate={date => {
+              return new Date() < date;
+            }}
+            selected={endDate}
+            excludeDates={unavailableDates}
+            placeholderText="Select End Date"
+            selectsEnd
+            startDate={startDate}
+            endDate={endDate}
+            onChange={date => setEndDate(date)}
+            minDate={startDate}
+            isClearable
+          />
+        </div>
       </div>
       <button className="reservation-button"
         onClick={createReservation}>
         Reserve
       </button>
-    
+
     </>
   )
 }

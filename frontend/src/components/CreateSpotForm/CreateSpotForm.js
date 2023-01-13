@@ -46,20 +46,11 @@ function CreateSpotForm({hideModal}) {
     if (isNaN(price) || price < 10 || price > 10000) errors.push("Please provide a valid price per night within the $1-10000 range")
     setInputErrors(errors)
   }, [address, name, city, region, country, description, price])
-
-  const handleSubmit = async (e) => {
-
-    e.preventDefault();
-    setFormSubmitted(true)
-    
-    if (inputErrors.length) return
+  
+  const validateImageUpload = (imageFile) => {
     
     let imageErrors = []
     
-    let imageFile = document.querySelector("#imageInput")
-    
-    formData.append("image", imageFile)
-
     if (!imageFile.files.length) {
       imageErrors.push("Please provide an image file for your listing")
       return setInputErrors(imageErrors)
@@ -71,7 +62,26 @@ function CreateSpotForm({hideModal}) {
       imageErrors.push("The provided filetype is not supported (jpg or png only)")
       return setInputErrors(imageErrors)
     }
+    
+    return;
+  }
 
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+    setFormSubmitted(true)
+    
+    if (inputErrors.length) return
+    
+    const imageFile = document.querySelector("#imageInput")
+    
+    console.log(imageFile.files)
+    
+    validateImageUpload(imageFile)
+    
+    formData.append("image", imageFile.files[0])
+
+    
     const picture = await csrfFetch('/api/spot-images/upload', {
       method: "POST",
       headers: {
@@ -81,6 +91,8 @@ function CreateSpotForm({hideModal}) {
     })
     
     const previewImage = await picture.json();
+    
+    console.log(previewImage)
 
     if (previewImage.errors) {
       return setInputErrors(previewImage.errors);
@@ -110,15 +122,24 @@ function CreateSpotForm({hideModal}) {
       });
       
     const imgPayload = {
-      url: previewImage.url,
+      url: previewImage.imageUrl,
       isPreview: true
     }
+    
+    console.log(imgPayload)
 
-    dispatch(createImageThunk(imgPayload, newSpot.id));
+    const finalDispatch = await dispatch(createImageThunk(imgPayload, newSpot.id))
+      .catch(async (response) => {
+        
+        const data = await response.json();
+        
+        if (data && data.errors) {
+          setInputErrors(data.errors);
+        }
+      });
 
-
-    // hideModal();
-    // history.push(`/user/profile`)
+    hideModal();
+    history.push(`/user/profile`)
   }
 
   // Component JSX

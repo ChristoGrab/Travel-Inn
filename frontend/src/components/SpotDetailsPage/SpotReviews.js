@@ -6,43 +6,41 @@ import ReviewCard from './ReviewCard'
 import "./SpotReviews.css"
 
 
-function ReviewsBySpot({spotId, spotOwnerId, currentUser}) {
-  
+function ReviewsBySpot({spotId, spotOwnerId, currentUser, averageRating}) {
+
   const dispatch = useDispatch();
   const history = useHistory();
   const reviews = useSelector(state => Object.values(state.reviews.spot))
   const [userOwnsSpot, setUserOwnsSpot] = useState(false)
   const [userHasReviewed, setUserHasReviewed] = useState(false)
+  const [dataLoaded, setDataLoaded] = useState(false)
   
-  useEffect(() => {
-    dispatch(loadSpotReviewsThunk(spotId))
-  }, [dispatch, spotId])
-  
-  
-  useEffect(() => {
+  // Function to check if user has left a review
+  const checkForUserReview = (reviews) => {
+    if (!reviews.length) return
     
-    if (!currentUser) {
-      return;
-    }
-    
-    try {
     reviews.forEach(review => {
       if (review.User.id === currentUser.id) {
-        setUserHasReviewed(true)
+        return setUserHasReviewed(true)
       }
     })
-  } catch (e) {
-    window.location.reload()
   }
-  }, [reviews, currentUser])
+  
+  useEffect(() => {
+    dispatch(loadSpotReviewsThunk(spotId)).then(setDataLoaded(true))
+  }, [dispatch, spotId])
   
   useEffect(() => {
     
-    if (!currentUser) {
-      return;
+    if (currentUser) {
+      checkForUserReview(reviews)
     }
+  }, [dispatch, reviews, currentUser])
+  
+  useEffect(() => {
     
-    if (currentUser.id === spotOwnerId) {
+
+  if (currentUser && currentUser.id === spotOwnerId) {
       setUserOwnsSpot(true)
     }
   }, [currentUser, spotOwnerId])
@@ -57,22 +55,15 @@ function ReviewsBySpot({spotId, spotOwnerId, currentUser}) {
   const userHasDeletedReview = () => {
     setUserHasReviewed(false)
   }
+
+  if (!reviews) return null;
+  let reviewNums = reviews?.length
   
-  let reviewNums = reviews.length;
-  let ratingsSum = 0
-
-  for (let i = 0; i < reviews.length; i++) {
-  ratingsSum += reviews[i].stars
-  }
-
-  // divide sum by reviews and round to 2 decimal places
-  let avgRating = (ratingsSum / reviewNums).toFixed(1);
-
   return (
     <div className="spot-review-container">
       <div className="spot-review-ratings">
-        {(avgRating !== "NaN") ?
-        <h2>★ {avgRating} • {reviewNums} Reviews</h2>
+        {(averageRating !== "NaN") ?
+        <h2>★ {averageRating} • {reviewNums} Reviews</h2>
         : <h2>Be the first to review this spot!</h2>}
 
       </div>

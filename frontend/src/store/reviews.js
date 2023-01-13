@@ -121,10 +121,12 @@ const reviewsReducer = (state = initialState, action) => {
     case LOAD_SPOT_REVIEWS: {
 
       const newReviewObj = { spot: {} };
-
+      
       action.reviews.Reviews.forEach(review => {
         newReviewObj.spot[review.id] = review
       });
+      
+      if (!newReviewObj.spot) return state;
 
       return {
         ...state,
