@@ -1,4 +1,7 @@
-  // this function takes in a start date and end date and returns an array of dates in between
+  // this function takes in a start date and end date and 
+  // returns an array of dates in between
+  // which can be checked by the calendar to see if they are available
+  
 export const findBookedDates = (start, end) => {
     let startDate = new Date(start);
     let endDate = new Date(end);

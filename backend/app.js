@@ -5,6 +5,7 @@ const cors = require('cors');
 const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
+const BookingError = require('./utils/bookingErrors');
 
 //Create a variable called isProduction that will be true if the environment
 //is in production or not by checking the environment key in the configuration file
@@ -70,15 +71,22 @@ app.use((err, _req, _res, next) => {
     if (err instanceof ValidationError) {
         err.errors = err.errors.map((e) => e.message);
         err.title = 'Validation error';
+    } 
+    
+    if (err instanceof BookingError) {
+        err.title = 'Booking error';
+        err.message = err.message;
+        err.errors = err.message;
     }
     next(err);
 });
+
 
 // Error formatter
 app.use((err, _req, res, _next) => {
     res.status(err.status || 500);
     console.error(err);
-    res.json({
+    return res.json({
         title: err.title || 'Server Error',
         message: err.message,
         errors: err.errors,

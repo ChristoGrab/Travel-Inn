@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useHistory } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import styled from "styled-components";
-import { findBookedDates } from '../../functions/createDaysList';
+import { findBookedDates } from '../../functions/findBookedDates';
 import { createBookingThunk, getBookingsThunk, clearBookingsAction } from '../../store/bookings';
 import LoadingScreen from '../LoadingScreen';
 import "react-datepicker/dist/react-datepicker.css";
@@ -11,12 +11,29 @@ import "./Calendar.css"
 
 
 const Styles = styled.div`
+
+  .react-datepicker-popper {
+    margin: 0;
+  }
+  
+  .react-datepicker-month-container {
+    width: 100%;
+  }
+  
+  .react-datepicker__day--disabled {
+    color: #d3d3d3;
+    background-color: #f2f2f2;
+    text-decoration: line-through;
+  }
+  
   .react-datepicker-wrapper,
   .react-datepicker__input-container,
   .react-datepicker__input-container input {
     width: 100%;
     height: 45px;
     background-color: white;
+    preventOverflow: offset;
+    flip: offset;
   }
 `;
 
@@ -28,6 +45,7 @@ const DatePickerRange = () => {
   const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [errors, setErrors] = useState([]);
   const [loadingScreen, setLoadingScreen] = useState(false)
 
   useEffect(() => {
@@ -36,15 +54,22 @@ const DatePickerRange = () => {
     return (() => dispatch(clearBookingsAction()))
   }, [dispatch, spotId])
 
+  useEffect(() => {
+    if (errors.length) {
+      setLoadingScreen(false)
+    }
+  }, [errors])
+
   let unavailableDates = []
 
   for (let booking of bookings) {
     unavailableDates = unavailableDates.concat(findBookedDates(booking.startDate, booking.endDate))
   }
+  
 
   const createReservation = async (e) => {
     e.preventDefault();
-    
+
     setLoadingScreen(true)
 
     const new_booking = {
@@ -52,17 +77,17 @@ const DatePickerRange = () => {
       endDate
     }
 
-    console.log(new_booking)
+    console.log("Booking object to send to backend: ", new_booking)
 
     dispatch(createBookingThunk(spotId, new_booking))
       .then(response => history.push(`/user/bookings`))
-      .catch(err => {
-          setLoadingScreen(false)
-          return err.message
-        }
+      .catch(async (res) => {
+        const data = await res.json();
+        console.log("Data from booking", data)
+        if (data && data.errors) return setErrors([data.errors])
+      }
       )
   }
-
 
   return (
     <>
@@ -99,6 +124,16 @@ const DatePickerRange = () => {
             isClearable
           />
         </div>
+      </div>
+      
+      <div>
+        {errors.length > 0 && (
+          <div className="errors-container">
+            {errors.map((error, ind) => (
+              <div className="form-error" key={ind}>{error}</div>
+            ))}
+          </div>
+        )}
       </div>
       <button className="reservation-button"
         onClick={createReservation}>

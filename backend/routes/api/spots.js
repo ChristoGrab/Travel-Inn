@@ -3,7 +3,7 @@ const { Spot, Review, SpotImage, User, Booking, sequelize } = require('../../db/
 const { requireAuth } = require('../../utils/auth')
 const router = express.Router();
 const { validateReview, validateSpot } = require('../../utils/errors');
-
+const BookingError = require('../../utils/bookingErrors');
 
 // ADD AN IMAGE TO A SPOT BASED ON THE SPOT'S ID //
 router.post('/:spotId/images', requireAuth, async (req, res) => {
@@ -366,7 +366,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
 
 
 // CREATE A BOOKING FROM A SPOT BASED ON THE SPOT'S ID
-router.post('/:spotId/bookings', requireAuth, async (req, res) => {
+router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId)
 
   // 404 error
@@ -417,27 +417,16 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
   for (let i = 0; i < bookingsList.length; i++) {
     let eleStart = new Date(bookingsList[i].startDate)
     let eleEnd = new Date(bookingsList[i].endDate)
+    
     if (startDateCheck >= eleStart && startDateCheck <= eleEnd) {
-      res.status(403)
-      console.log("start date conflict")
-      return res.json({
-        "message": "Sorry, your start date conflicts with an existing booking",
-        "statusCode": 403
-      })
+      const err = new BookingError("Your check-in date conflicts with an existing booking.")
+      return next(err)
     } else if (endDateCheck >= eleStart && endDateCheck <= eleEnd) {
-      res.status(403)
-      console.log("end date conflict")
-      return res.json({
-        "message": "Sorry, your end date conflicts with an existing booking",
-        "statusCode": 403
-      })
+      const err = new BookingError("Your check-out date conflicts with an existing booking.")
+      return next(err)
     } else if (startDateCheck < eleStart && endDateCheck > eleEnd) {
-      res.status(403)
-      console.log("encapsulating conflict")
-      return res.json({
-        "message": "Sorry, your booking dates are in conflict with an existing booking",
-        "statusCode": 403
-      })
+      const err = new BookingError("The dates you requested are in conflict with a pre-existing booking. Please avoid any greyed-out dates on the calendar.")
+      return next(err)
     }
   }
 

@@ -80,10 +80,9 @@ export const createBookingThunk = (spotId, booking) => async (dispatch) => {
     dispatch(postBookingAction(data))
     return data
   } else {
-    const data = await response.json();
-    console.log(data)
-    return data;
-  }
+    const errorData = await response.json();
+    return errorData;
+  };
 }
 
 export const deleteBookingThunk = (bookingId) => async (dispatch) => {
