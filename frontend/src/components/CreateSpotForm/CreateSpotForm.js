@@ -114,6 +114,8 @@ function CreateSpotForm({hideModal}) {
       .catch(async (response) => {
 
         const data = await response.json();
+        
+        console.log(data)
 
         // if new errors, return them
         if (data && data.errors) {
@@ -123,7 +125,7 @@ function CreateSpotForm({hideModal}) {
       
     const imgPayload = {
       url: previewImage.imageUrl,
-      isPreview: true
+      preview: true
     }
     
     console.log(imgPayload)
@@ -138,8 +140,8 @@ function CreateSpotForm({hideModal}) {
         }
       });
 
-    hideModal();
-    history.push(`/user/profile`)
+    // hideModal();
+    // history.push(`/user/profile`)
   }
 
   // Component JSX
