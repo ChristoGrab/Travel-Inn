@@ -9,11 +9,11 @@ const ReservationBox = ({ spot }) => {
   const [endDate, setEndDate] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
   
-  useEffect(() => {
-    let quote = calculateTotalPrice(startDate, endDate, spot.price)
-    setTotalPrice(quote)
+  // useEffect(() => {
+  //   // let quote = calculateTotalPrice(0, endDate, spot.price)
+  //   // setTotalPrice(quote)
     
-  }, [startDate, endDate, spot.price])
+  // }, [startDate, endDate, spot.price])
 
   return (
     <div className="reservation-box">

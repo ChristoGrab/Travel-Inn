@@ -21,6 +21,7 @@ const singlePublicFileUpload = async (file) => {
   const uploadParams = {
     Bucket: NAME_OF_BUCKET,
     Key,
+    ContentType: mimetype,
     Body: buffer,
     ACL: "public-read",
   };

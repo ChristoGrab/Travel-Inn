@@ -7,11 +7,9 @@ const { singlePublicFileUpload, singleMulterUpload } = require('../../awsS3');
 
 // UPLOAD AN IMAGE TO AWS
 router.post('/upload', singleMulterUpload("image"), async (req, res) => {
-  console.log("hello")
+  
   const imageUrl = await singlePublicFileUpload(req.file);
-  if (res.status === 403) {
-    console.log("fuck")
-  }
+
   return res.json({ imageUrl });
 })
 
