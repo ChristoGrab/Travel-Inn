@@ -14,17 +14,36 @@ const Styles = styled.div`
 
   .react-datepicker-popper {
     margin: 0;
-    width: 100%;
+  }
+  
+  .react-datepicker {
+    padding: 20px;
+    border-radius: 10px;
   }
   
   .react-datepicker-month-container {
     width: 100%;
+    background-color: white;
   }
   
   .react-datepicker__day--disabled {
     color: #d3d3d3;
-    background-color: #f2f2f2;
+    background-color: #e6e6e6;
     text-decoration: line-through;
+  }
+  
+  .react-datepicker__day--disabled:hover {
+    background-color: black;
+    color: black;
+    border-radius: 0;
+  }
+  
+  .react-datepicker__navigation--next {
+    right: 0;
+  }
+  
+  .react-datepicker__header {
+    background-color: white;
   }
   
   .react-datepicker-wrapper,
@@ -33,9 +52,16 @@ const Styles = styled.div`
     width: 100%;
     height: 45px;
     background-color: white;
-    preventOverflow: offset;
+    // preventOverflow: offset;
     flip: offset;
   }
+  
+  .react-datepicker__day:hover {
+    background-color: lightred;
+    
+  }
+  }
+  
 `;
 
 const DatePickerRange = () => {
@@ -137,10 +163,16 @@ const DatePickerRange = () => {
           </div>
         )}
       </div>
-      <button className="reservation-button"
-        onClick={createReservation}>
-        Reserve
-      </button>
+       
+      {startDate && endDate ?
+              <button className="reservation-button"
+              onClick={createReservation}>
+              Reserve
+            </button>
+            : <button className="reservation-button">
+              Select Dates
+            </button>
+        }
 
     </>
   )

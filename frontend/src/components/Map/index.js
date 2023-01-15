@@ -25,13 +25,13 @@ const Map = () => {
   
   return (
   <div className="map">
-    <h2 className="map-h2">Come Visit Us At Our Campus</h2>
-
     <div className="google-map" style={{ height: '350px', width: '80%' }}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: key }}
         defaultCenter={defaultProps.center}
         defaultZoom={defaultProps.zoom}
+        yesIWantToUseGoogleMapApiInternals
+        
       >
       </GoogleMapReact>
     </div>

@@ -32,3 +32,8 @@
 .reservation-button:hover {
   background: #b80a4f;
 }
+
+.reservation-button:disabled {
+  background: #b80a4f;
+  content: "Select Dates";
+}
