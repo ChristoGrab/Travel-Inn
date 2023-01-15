@@ -146,3 +146,13 @@ Submit buttons are red, and action buttons are white with a red border.
 button:hover {
   cursor: pointer;
 }
+
+/* Colors */
+
+.light-red {
+  color: #e21b5f;
+}
+
+.dark-red {
+  color: #be0000;
+}

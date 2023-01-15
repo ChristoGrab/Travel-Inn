@@ -66,7 +66,6 @@ const DatePickerRange = () => {
   for (let booking of bookings) {
     unavailableDates = unavailableDates.concat(findBookedDates(booking.startDate, booking.endDate))
   }
-  
 
   const createReservation = async (e) => {
     e.preventDefault();

@@ -12,7 +12,7 @@ import CreateReviewForm from "./components/CreateReviewForm";
 import ProfilePage from "./components/UserAccount";
 import UserBookings from "./components/UserAccount/UserBookings";
 import UpdateReviewForm from "./components/UpdateReviewForm";
-import BookingCalendar from "./components/Bookings/Calendar";
+import UpdateBookingPage from "./components/Bookings/UpdateBookingPage";
 import Upload from "./components/Upload";
 import "./index.css";
 
@@ -48,6 +48,9 @@ function App() {
           </Route>
           <Route path='/reviews/:reviewId/edit' exact>
             <UpdateReviewForm />
+          </Route>
+          <Route path='/bookings/:spotId/update' exact>
+            <UpdateBookingPage />
           </Route>
           <Route path='/testing' exact>
             <Upload />

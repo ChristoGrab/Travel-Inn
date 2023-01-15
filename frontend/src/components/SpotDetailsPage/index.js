@@ -61,7 +61,7 @@ function SpotDetails() {
             Free cancellation until 24 hours before check-in
           </div>
           <div className="spot-page-box">
-            <span>InnCover</span>
+            <span><span className="light-red">Inn</span>Cover</span>
             <span>Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.</span>
           </div>
           <div className="spot-page-box">

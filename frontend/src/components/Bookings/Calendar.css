@@ -17,7 +17,7 @@
 
 .reservation-button {
   display: block;
-  background-color: #da0b64;
+  background: #da0b64;
   color: white;
   border: none;
   border-radius: 5px;
@@ -26,22 +26,9 @@
   height: 40px;
   font-size: 14px;
   font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .reservation-button:hover {
-  background-color: #ff385c;
-
-}
-
-.reservation-button::after {
-  transition: 500ms all ease-in-out;
-  content: "";
-  left: 0px;
-}
-
-.reservation-button:hover::after {
-  position: relative;
-  background-color: aqua;
-  left: 10px;
-  width: 100%;
+  background: #b80a4f;
 }
