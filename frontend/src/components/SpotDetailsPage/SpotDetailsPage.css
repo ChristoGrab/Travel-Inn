@@ -53,6 +53,8 @@
   gap: 20px;
 }
 
+
+
 .spot-page-box {
   padding: 20px 0;
   border-bottom: 1px solid #ebebeb;
@@ -105,6 +107,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  object-fit: cover;
   max-width: 45%;
   border-radius: 10px 0 0 10px;
 }
@@ -114,27 +117,20 @@
   color: #827b7e;
 }
 
-.spot-owner-div {
-  display: flex;
-  justify-content: flex-start;
-}
+/* Section 2 contains spot details on the left.
+The right conditionally render either:
+1. Buttons to edit or delete the spot if the user is the owner
+2. The datepicker to create a booking if the user is not the owner
+*/
 
-/* MIDDLE SECTION */
-
-.spot-owner-links {
+.spot-page-section-2-right-owner-container {
   display: flex;
+  width: 80%;
+  flex-direction: column;
   justify-content: center;
-  text-decoration: none;
-  color: white;
-  background-color: #e21b5f;
-  padding: 10px;
-  border-radius: 5em;
-  margin: 5px;
-  width: 150px;
-}
-
-.spot-owner-links:hover {
-  box-shadow: 2px 2px 3px lightslategray;
+  align-items: center;
+  gap: 32px;
+  max-height: 400px;
 }
 
 .create-new-review-box {

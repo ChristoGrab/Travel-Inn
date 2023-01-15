@@ -58,7 +58,9 @@ const UserBookings = () => {
               <img className="medium-image" src={booking.Spot.previewImage}></img>
             </Link>
             <div className="upcoming-booking-box-3">
-              <button className="action-button">Change Reservation</button>
+              <button 
+              className="action-button"
+              >Change Reservation</button>
               <DeleteBooking bookingId={booking.id} />
             </div>
           </div>
@@ -74,8 +76,8 @@ const UserBookings = () => {
             <div className="previous-booking-details">
               <span className="bold">{booking.Spot.city}</span>
               <span>Hosted by <span className="bold">{booking.Spot.host}</span></span>
-              <span>{convertDates(booking.startDate)}</span>
-              <span>{convertDates(booking.endDate)}</span>
+              <span>Stayed from {convertDates(booking.startDate)}</span>
+              <span>to {convertDates(booking.endDate)}</span>
             </div>
           </Link>
         ))

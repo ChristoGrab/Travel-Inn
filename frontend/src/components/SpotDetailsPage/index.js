@@ -70,16 +70,14 @@ function SpotDetails() {
         </div>
         <div className="spot-page-section-2-right">
         {currentUser && currentUser.id === spot.Owner.id ?
-          <div className="listing-owner-container">
-            <div className="spot-owner-div">
+          <div className="spot-page-section-2-right-owner-container">
               <Link
-                className="spot-owner-links"
-                to={`/spots/${spot.id}/edit`}>Edit your listing</Link>
-            </div>
-            <div className="spot-owner-div">
-              <Link className="spot-owner-links"
-                to={`/spots/${spot.id}/delete`}>Delete your listing</Link>
-            </div>
+                className="action-link"
+                to={`/spots/${spot.id}/edit`}>Edit listing
+              </Link>
+              <Link className="action-link"
+                to={`/spots/${spot.id}/delete`}>Remove listing
+              </Link>
           </div>
           : <ReservationBox spot={spot} />
         }

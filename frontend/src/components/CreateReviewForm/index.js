@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { createReviewThunk } from '../../store/reviews';
 import ReviewStars from "./ReviewStars"
+import { reviewFormValidations } from '../../functions/reviewFormValidations';
 import "./CreateReviewForm.css"
 
 function CreateReviewForm() {
@@ -15,7 +16,7 @@ function CreateReviewForm() {
 
   // list of state variables
   const [review, setReview] = useState("");
-  const [stars, setStars] = useState(0)
+  const [stars, setStars] = useState(null)
   const [inputErrors, setInputErrors] = useState([]);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -25,12 +26,15 @@ function CreateReviewForm() {
 
   // list of input errors
   useEffect(() => {
+    
     let errors = []
-    if (review.length <= 5) errors.push("Please provide some specific feedback for your host!");
+    if (!stars) errors.push("Please provide a rating for your host")
+    if (review.length <= 5) errors.push("Please provide some specific feedback for your host");
     if (review.toLowerCase().includes("fuck")
       || review.toLowerCase().includes("shit")) errors.push("Please refrain from using inappropriate language")
+    
     setInputErrors(errors)
-  }, [review])
+  }, [review, stars])
 
 
   const handleSubmit = async (e) => {
@@ -60,17 +64,17 @@ function CreateReviewForm() {
       
       <form className='create-review-form'>
 
-        {formSubmitted && <div className="create-review-errors">
-          <div className="spot-errors-list">
+        {formSubmitted && 
+          <div className="create-review-errors">
             {inputErrors.map((error, idx) => (
               <li className="form-error" key={idx}>
                 {error}
               </li>
             ))}
-          </div>
         </div>}
+        
         <div className="create-review-stars">
-          Rate your stay
+          Please Rate Your Stay
         <div className="create-hover">
           <ReviewStars stars={stars} setStars={setStars} />
         </div>
@@ -85,7 +89,7 @@ function CreateReviewForm() {
           placeholder='Write your review here...'
           value={review}
           onChange={updateReview} />
-        <button className='submit-review-button'
+        <button className='submit-button'
           onClick={handleSubmit}>Submit Review</button>
       </form>
     </>

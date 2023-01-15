@@ -1,8 +1,14 @@
+.user-bookings-page {
+  width: 90%;
+  max-width: 1700px;
+}
+
 .upcoming-bookings-container {
   display: flex;
   flex-direction: column;
-  width: 75%;
+  width: 90%;
   margin: 20px auto;
+  gap: 20px;
 }
 
 .upcoming-booking-card {
@@ -15,12 +21,13 @@
   border-radius: 10px;
 }
 
-/* First box */
+/* box 1 Contains the name of the booking, the dates, and the location
+*/
 .upcoming-booking-box-1 {
   display: grid;
   grid-template-areas:
-  "header header header"
-  "dates location location";
+  "header header header header"
+  "dates dates location location";
   text-decoration: none;
   color: black;
 }
@@ -52,7 +59,7 @@
 }
 
 
-/* Second box */
+/* box 2 contains the image */
 
 .upcoming-booking-box-2 {
   width: 60%;
@@ -67,10 +74,14 @@
   border-radius: 10px;
 }
 
+/* box 3 contains the buttons */
+
 .upcoming-booking-box-3 {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 32px;
+  width: 100%;
 }
 
 .previous-bookings-container {

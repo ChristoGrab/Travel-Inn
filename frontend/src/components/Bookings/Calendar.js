@@ -14,6 +14,7 @@ const Styles = styled.div`
 
   .react-datepicker-popper {
     margin: 0;
+    width: 100%;
   }
   
   .react-datepicker-month-container {
@@ -105,6 +106,7 @@ const DatePickerRange = () => {
             endDate={endDate}
             minDate={new Date()}
             isClearable
+            monthsShown={2}
           />
         </div>
         <div className="check-out-container">
@@ -122,6 +124,7 @@ const DatePickerRange = () => {
             onChange={date => setEndDate(date)}
             minDate={startDate}
             isClearable
+            monthsShown={2}
           />
         </div>
       </div>
