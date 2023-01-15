@@ -15,17 +15,17 @@ const Map = () => {
   
   const defaultProps = {
     center: {
-      lat: 10.99835602,
-      lng: 77.01502627
+      lat: 35.9499506,
+      lng: -79.053921
     },
-    zoom: 11
+    zoom: 16
   };
   
   if (!key) return null;
   
   return (
   <div className="map">
-    <div className="google-map" style={{ height: '350px', width: '80%' }}>
+    <div className="google-map" style={{ height: '450px', width: '80%' }}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: key }}
         defaultCenter={defaultProps.center}
