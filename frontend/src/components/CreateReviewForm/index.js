@@ -16,7 +16,7 @@ function CreateReviewForm() {
 
   // list of state variables
   const [review, setReview] = useState("");
-  const [stars, setStars] = useState(null)
+  const [stars, setStars] = useState(0)
   const [inputErrors, setInputErrors] = useState([]);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -34,7 +34,7 @@ function CreateReviewForm() {
       || review.toLowerCase().includes("shit")) errors.push("Please refrain from using inappropriate language")
     
     setInputErrors(errors)
-  }, [review, stars])
+  }, [review])
 
 
   const handleSubmit = async (e) => {

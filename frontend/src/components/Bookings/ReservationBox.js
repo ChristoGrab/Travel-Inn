@@ -21,6 +21,19 @@ const ReservationBox = ({ spot }) => {
         <span>No reviews</span>
       )
     }
+    
+  useEffect(() => {
+    
+    const firstDate = async () => {
+      let start = document.querySelector("#check-in")
+      window.addEventListener("click", start)
+      let startDate = await start.value
+      setStartDate(startDate)
+    }
+    
+    return window.removeEventListener("click", firstDate)
+
+  }, [])
   
   // useEffect(() => {
   //   // let quote = calculateTotalPrice(0, endDate, spot.price)
@@ -40,7 +53,7 @@ const ReservationBox = ({ spot }) => {
           <span className="bold">${spot.price}</span> x nights
         </div>
         <div className="reservation-box-footer-prices">
-          <span>Total after taxes</span> ${totalPrice}
+          <span>Total after taxes</span> ${startDate}
         </div>
       </div>
     </div>

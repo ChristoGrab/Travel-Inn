@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { updateReviewThunk } from '../../store/reviews';
+import ReviewStars from '../CreateReviewForm/ReviewStars';
 import LoadingScreen from '../LoadingScreen';
 import './UpdateReviewForm.css';
 
@@ -13,8 +14,7 @@ function UpdateReviewForm() {
   const review = useSelector(state => state.reviews.spot[reviewId])
   const spotId = review.spotId
   
-  console.log(review.sp)
-
+  
   // list of state variables
   const [reviewText, setReviewText] = useState(review.review);
   const [stars, setStars] = useState(review.stars)
@@ -71,27 +71,19 @@ function UpdateReviewForm() {
             ))}
           </div>
           </div>}
-          <textarea
+        <div className="create-review-stars">
+          Rating
+        <div className="create-hover">
+          <ReviewStars stars={stars} setStars={setStars} />
+        </div>
+        </div>
+        <textarea
           className="create-review-textarea"
             type="text"
             required
             value={reviewText}
             onChange={updateReview} />
-        <label className="create-review-stars">
-          Rating
-          <select
-          className="review-stars-dropdown"
-            id="stars"
-            value={stars}
-            onChange={updateStars}>
-            <option value={1}>1 - Terrible</option>
-            <option value={2}>2 - Bad</option>
-            <option value={3}>3 - Fair</option>
-            <option value={4}>4 - Good</option>
-            <option value={5}>5 - Excellent</option>
-          </select>
-        </label>
-        <button className='submit-review-button'
+        <button className='submit-button'
           onClick={handleSubmit}>Submit Review</button>
       </form>
     </div>

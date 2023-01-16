@@ -36,18 +36,6 @@ function ReviewCard( {review, userHasDeletedReview} ) {
     <span className="spot-review-stars">★ {review?.stars}</span>
     </div>
     <div className="spot-review-text">{review?.review}</div>
-    { user && user.id === review.User?.id && (
-      <div className="spot-review-buttons">
-        <button className="review-delete-button" 
-          onClick={updateReview}>
-            Update your Review
-        </button>
-        <button className="review-delete-button" 
-          onClick={handleDelete}>
-              Delete your Review
-        </button>
-      </div>
-    )}
   </div>
   {updateForm}
   </>

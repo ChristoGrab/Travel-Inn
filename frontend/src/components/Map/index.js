@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from "react"
 import { getKey } from '../../store/map'
 
-const Map = () => {
+const Map = ( {lat, lng} ) => {
   const dispatch = useDispatch();
   const key = useSelector(state => state.map.key)
   
@@ -15,8 +15,8 @@ const Map = () => {
   
   const defaultProps = {
     center: {
-      lat: 35.9499506,
-      lng: -79.053921
+      lat,
+      lng
     },
     zoom: 16
   };
@@ -30,9 +30,7 @@ const Map = () => {
         bootstrapURLKeys={{ key: key }}
         defaultCenter={defaultProps.center}
         defaultZoom={defaultProps.zoom}
-        yesIWantToUseGoogleMapApiInternals
-        
-      >
+        yesIWantToUseGoogleMapApiInternals>
       </GoogleMapReact>
     </div>
   </div>

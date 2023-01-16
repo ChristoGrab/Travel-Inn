@@ -122,6 +122,7 @@ const DatePickerRange = () => {
         <div className="check-in-container">
           <label className="booking-label">CHECK-IN</label>
           <DatePicker
+            id="check-in"
             selected={startDate}
             excludeDates={unavailableDates}
             placeholderText="Select Start Date"
