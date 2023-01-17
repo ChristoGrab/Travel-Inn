@@ -6,7 +6,6 @@ import styled from "styled-components";
 import { findBookedDates } from '../../functions/findBookedDates';
 import { updateBookingThunk, getBookingsThunk, clearBookingsAction,  } from '../../store/bookings';
 import LoadingScreen from '../LoadingScreen';
-import { calculateTotalPrice } from '../../functions/calculateTotalPrice';
 import "react-datepicker/dist/react-datepicker.css";
 import "./Calendar.css"
 
@@ -55,6 +54,7 @@ const UpdateStyles = styled.div`
     background-color: white;
     // preventOverflow: offset;
     flip: offset;
+    border-radius: 7px;
   }
   
   .react-datepicker__day:hover {
@@ -65,19 +65,16 @@ const UpdateStyles = styled.div`
   
 `;
 
-const DatePickerRange = ({ pullDates, currentStart, currentEnd }) => {
+const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => {
 
   const dispatch = useDispatch();
   const history = useHistory();
   const { spotId } = useParams();
-  const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
+  let bookings = useSelector(state => Object.values(state.bookings.spotBookings))
   const [startDate, setStartDate] = useState(new Date(currentStart));
   const [endDate, setEndDate] = useState(new Date(currentEnd));
   const [errors, setErrors] = useState([]);
-  const [loadingScreen, setLoadingScreen] = useState(false)
-  
-  console.log("Dates in datepicker", new Date(currentStart), new Date(currentEnd))
-
+  const [loadingScreen, setLoadingScreen] = useState(false)  
   useEffect(() => {
     dispatch(getBookingsThunk(spotId))
 
@@ -90,11 +87,13 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd }) => {
     }
   }, [errors])
 
-  // Create an array of all the dates that are booked
   let unavailableDates = []
-  for (let booking of bookings) {
-    unavailableDates = unavailableDates.concat(findBookedDates(booking.startDate, booking.endDate))
+  
+  if (bookings.length) {
+    for (let booking of bookings) 
+    unavailableDates = unavailableDates.concat(findBookedDates(bookings, bookingId))
   }
+  
   
   useEffect(() => {
       pullDates(startDate, endDate)
@@ -116,7 +115,10 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd }) => {
       .catch(async (res) => {
         const data = await res.json();
         console.log("Data from booking", data)
-        if (data && data.errors) return setErrors([data.errors])
+        if (data && data.errors) {
+          setLoadingScreen(false)
+          return setErrors([data.errors])
+        }
       }
       )
   }
@@ -124,7 +126,7 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd }) => {
   return (
     <>
       {loadingScreen && <LoadingScreen />}
-      <div className="calendar-container">
+      <div className="update-calendar-container">
         <div className="check-in-container">
           <label className="booking-label">CHECK-IN</label>
           <DatePicker

@@ -105,6 +105,8 @@ export const deleteBookingThunk = (bookingId) => async (dispatch) => {
 }
 
 export const updateBookingThunk = (booking, id) => async (dispatch) => {
+  
+  console.log(id)
   const response = await csrfFetch(`/api/bookings/${id}`, {
     method: "PUT",
     headers: {

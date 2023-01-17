@@ -12,17 +12,14 @@
 .spot-page-section-1 {
   display: flex;
   flex-direction: column;
-  border: 3px solid green;
   gap: 1em;
   width: 100%;
 }
 
 .spot-page-section-2 {
   width: 100%;
-  border: 3px solid red;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #ebebeb;
 }
 
 .spot-page-section-2-left {
@@ -30,12 +27,10 @@
   flex-direction: column;
   gap: 20px;
   width: 50%;
-  border: 3px solid yellow;
 }
 
 .spot-page-section-2-right {
   width: 50%;
-  border: 3px solid orange;
   display: flex;
   justify-content: center;
 }
@@ -43,22 +38,24 @@
 .spot-page-section-3 {
   width: 100%;
   border-top: 1px solid #ebebeb;
-  /* border: 3px solid blue; */
 }
 
 .spot-page-section-4 {
   width: 100%;
-  border: 3px solid purple;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-
-
 .spot-page-box {
   padding: 20px 0;
   border-bottom: 1px solid #ebebeb;
+  display: flex;
+  flex-direction: column;
+}
+
+.last-spot-page-box {
+  padding: 20px 0;
   display: flex;
   flex-direction: column;
 }
@@ -140,16 +137,17 @@
   border-radius: 0 0 18px 0;
 }
 
-.spot-details-description {
-  display: flex;
-  color: #827b7e;
-}
-
 /* Section 2 contains spot details on the left.
 The right conditionally render either:
 1. Buttons to edit or delete the spot if the user is the owner
 2. The datepicker to create a booking if the user is not the owner
 */
+
+.air-cover-text {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
 
 .spot-page-section-2-right-owner-container {
   display: flex;

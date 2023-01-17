@@ -1,0 +1,26 @@
+.main-page-footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  margin-top: 20px;
+  border-top: 2px solid #c7c7c7;
+}
+
+#about-me {
+  color: #ff385c;
+  font-size: 15px;
+}
+
+#about-me-links {
+  font-size: 32px;
+  display: flex;
+  justify-content: space-evenly;
+  width: 100px;
+}
+
+.fa-github,
+.fa-linkedin {
+  color: #ff385c;
+}

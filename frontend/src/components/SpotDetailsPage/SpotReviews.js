@@ -77,7 +77,7 @@ function ReviewsBySpot({ spotId, spotOwnerId, currentUser, averageRating }) {
       <div className="spot-review-ratings">
         {(averageRating !== "NaN" && averageRating > 0) ?
           <h2>★ {averageRating} • {reviewNums} Reviews</h2>
-          : <h2>Be the first to review this listing!</h2>}
+          : <h2>This listing does not have any reviews yet</h2>}
 
       </div>
 

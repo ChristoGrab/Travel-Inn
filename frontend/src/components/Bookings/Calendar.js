@@ -55,6 +55,7 @@ const Styles = styled.div`
     background-color: white;
     // preventOverflow: offset;
     flip: offset;
+    border-radius: 7px;
   }
   
   .react-datepicker__day:hover {

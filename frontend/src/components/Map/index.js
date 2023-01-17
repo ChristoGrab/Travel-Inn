@@ -4,12 +4,11 @@ import { useEffect } from "react"
 import { getKey } from '../../store/map'
 import './Map.css'
 
-
-const LocationPin = () => (
-  <div className="pin">
-    <i className="fa-solid fa-house" />
-  </div>
-)
+// const LocationPin = () => (
+//   <div className="pin">
+//     <i className="fa-solid fa-house" />
+//   </div>
+// )
 
 const Map = ( {lat, lng} ) => {
   const dispatch = useDispatch();

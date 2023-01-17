@@ -6,9 +6,10 @@ import { getOneSpot } from "../../store/spots";
 import UpdateCalendar from "./UpdateCalendar";
 import { calculateLengthOfStay } from "../../functions/lengthOfStay";
 import { calculateTotalPrice } from "../../functions/calculateTotalPrice";
+import "./UpdateBookingPage.css"
 
 const UpdateBookingPage = () => {
-  
+
   const { spotId } = useParams();
   const { bookingId } = useParams();
   const dispatch = useDispatch();
@@ -18,66 +19,58 @@ const UpdateBookingPage = () => {
   const [currentEnd, setCurrentEnd] = useState(null);
   const [nights, setNights] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
-  let reviewDiv;
-  
-  console.log(spot)
-  console.log(bookingToUpdate)
 
-  
   useEffect(() => {
     dispatch(getOneSpot(spotId))
     dispatch(getUserBookingsThunk())
   }, [dispatch, spotId])
-  
-  
+
+
   const pullDates = async (start, end) => {
     setCurrentStart(start)
     setCurrentEnd(end)
     setNights(calculateLengthOfStay(start, end))
   }
-  
+
   useEffect(() => {
     setTotalPrice(calculateTotalPrice(nights, spot.price))
   }, [nights])
-  
+
   useEffect(() => {
     if (bookingToUpdate) {
       setCurrentStart(bookingToUpdate.startDate)
       setCurrentEnd(bookingToUpdate.endDate)
-    }}, [bookingToUpdate])
+    }
+  }, [bookingToUpdate])
 
 
   if (!spot) return null;
   if (!bookingToUpdate) return null;
-      
-  if (spot.numReviews > 0) {
-    reviewDiv = (
-      <span><i className="fa-solid fa-star" />{spot.avgStarRating} • {spot.numReviews} reviews</span>
-    )} else {
-      reviewDiv = (
-        <span>No reviews</span>
-      )
-    }
 
-  
   return (
-    <div className="reservation-box">
-    <div className="reservation-box-header">
-    <span> <span className="bold">${spot.price} </span>night</span> 
-      {reviewDiv}
-    </div>
-    <UpdateCalendar price={spot.price} pullDates={pullDates} currentStart={currentStart} currentEnd={currentEnd} />
-    {currentStart && currentEnd && (
-    <div className="reservation-box-footer">
-      <div className="reservation-box-footer-prices">
-        <span className="bold">${spot.price}</span> x {nights} nights
+    <div className="update-reservation-box">
+      <div className="update-reservation-box-header">
+        <h3>Please select your new desired dates</h3>
+        <span> <span className="bold">${spot.price} </span>night</span>
       </div>
-      <div className="reservation-box-footer-prices">
-        <span>Total after taxes</span> ${totalPrice}
-      </div>
+      <UpdateCalendar 
+        price={spot.price} 
+        pullDates={pullDates} 
+        currentStart={currentStart} 
+        currentEnd={currentEnd}
+        bookingId={bookingId}
+      />
+      {currentStart && currentEnd && (
+        <div className="reservation-box-footer">
+          <div className="reservation-box-footer-prices">
+            <span className="bold">${spot.price}</span> x {nights} nights
+          </div>
+          <div className="reservation-box-footer-prices">
+            <span>Total after taxes</span> ${totalPrice}
+          </div>
+        </div>
+      )}
     </div>
-    )}
-  </div>
   )
 }
 

@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { useState, useEffect } from 'react';
 import { getSpots } from '../../store/spots';
+import Footer from '../Footer';
 import SpotCardInfo from './SpotCard'
 import "./LandingPage.css"
 
@@ -17,15 +18,18 @@ function LandingPage() {
 
 
   return (
-    <div className="spot-card-container">
+    <>
       {dataLoaded && (
-        <div className="landing-page-grid">
-          {spotsList.map(spot => (
-            <SpotCardInfo key={spot.id} spot={spot}/>
-          ))}
+        <div className="spot-card-container">
+          <div className="landing-page-grid">
+            {spotsList.map(spot => (
+              <SpotCardInfo key={spot.id} spot={spot} />
+            ))}
+          </div>
+          <Footer />
         </div>
       )}
-    </div>
+    </>
   )
 }
 

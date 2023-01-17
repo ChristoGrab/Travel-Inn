@@ -6,6 +6,7 @@ import { clearSpot } from '../../store/spots'
 import ReviewsBySpot from './SpotReviews'
 import ReservationBox from '../Bookings/ReservationBox';
 import Map from '../Map';
+import Footer from '../Footer';
 import './SpotDetailsPage.css';
 
 function SpotDetails() {
@@ -60,10 +61,10 @@ function SpotDetails() {
             Free cancellation until 24 hours before check-in
           </div>
           <div className="spot-page-box">
-            <span className="bold"><span className="light-red">Inn</span>Cover</span>
+            <span className="air-cover-text"><span className="light-red">Inn</span>Cover</span>
             <span>Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.</span>
           </div>
-          <div className="spot-page-box">
+          <div className="last-spot-page-box">
             {spot.description}
           </div>
         </div>
@@ -92,6 +93,8 @@ function SpotDetails() {
         <Map lat={spot.lat} lng={spot.lng}/>
         <span className="bold">{spot.city}, {spot.state}, {spot.country}</span>
       </div>
+      
+      <Footer />
     </div>
   )
 }
