@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react'
 import { loadUserReviewsThunk } from '../../store/reviews';
 import { getSpots } from '../../store/spots';
+import SpotCardInfo from '../LandingPage/SpotCard';
 import './ProfilePage.css'
 
 function ProfilePage() {
@@ -28,7 +29,6 @@ function ProfilePage() {
     return null;
   }
 
-
   return (
     <div className="user-page-container">
       <div className="user-page-welcome">
@@ -39,10 +39,7 @@ function ProfilePage() {
       <p>These are your current listings with us:</p>
       <div className="user-spots-list">
         {mySpots.map(spot => (
-          <Link to={`/spots/${spot.id}`} key={spot.id} className='user-spot-links'>
-            <img src={spot.previewImage}></img>
-            {spot.name}
-            </Link>
+            <SpotCardInfo key={spot.id} spot={spot} />
         ))}
       </div>
       </>

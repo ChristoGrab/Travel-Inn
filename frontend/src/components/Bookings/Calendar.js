@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { findBookedDates } from '../../functions/findBookedDates';
 import { createBookingThunk, getBookingsThunk, clearBookingsAction } from '../../store/bookings';
 import LoadingScreen from '../LoadingScreen';
+import { calculateTotalPrice } from '../../functions/calculateTotalPrice';
 import "react-datepicker/dist/react-datepicker.css";
 import "./Calendar.css"
 
@@ -64,7 +65,7 @@ const Styles = styled.div`
   
 `;
 
-const DatePickerRange = () => {
+const DatePickerRange = ( {price, pullDates} ) => {
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -87,12 +88,17 @@ const DatePickerRange = () => {
     }
   }, [errors])
 
+  // Create an array of all the dates that are booked
   let unavailableDates = []
-
   for (let booking of bookings) {
     unavailableDates = unavailableDates.concat(findBookedDates(booking.startDate, booking.endDate))
   }
+  
+  useEffect(() => {
+      pullDates(startDate, endDate)
+      }, [startDate, endDate])
 
+  // Create a new booking and send it to the backend
   const createReservation = async (e) => {
     e.preventDefault();
 
@@ -102,8 +108,6 @@ const DatePickerRange = () => {
       startDate,
       endDate
     }
-
-    console.log("Booking object to send to backend: ", new_booking)
 
     dispatch(createBookingThunk(spotId, new_booking))
       .then(response => history.push(`/user/bookings`))
@@ -170,7 +174,7 @@ const DatePickerRange = () => {
               onClick={createReservation}>
               Reserve
             </button>
-            : <button className="reservation-button">
+            : <button className="disabled-reservation">
               Select Dates
             </button>
         }
@@ -179,10 +183,10 @@ const DatePickerRange = () => {
   )
 }
 
-const Calendar = () => {
+const Calendar = ({price, pullDates}) => {
   return (
     <Styles>
-      <DatePickerRange />
+      <DatePickerRange pullDates={pullDates} price={price}/>
     </Styles>
   )
 }
