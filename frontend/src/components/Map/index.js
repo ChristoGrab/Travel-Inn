@@ -3,18 +3,25 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from "react"
 import { getKey } from '../../store/map'
 import './Map.css'
-import { Icon } from '@iconify/react'
-import locationIcon from '@iconify/icons-mdi/map-marker'
 
 
-const LocationPin = ({ text }) => (
+const LocationPin = () => (
   <div className="pin">
+    <i className="fa-solid fa-house" />
   </div>
 )
 
 const Map = ( {lat, lng} ) => {
   const dispatch = useDispatch();
   const key = useSelector(state => state.map.key)
+  const renderMarkers = (map, maps) => {
+    let marker = new maps.Marker({
+      position: { lat, lng },
+      map,
+      title: 'Location is approximate. Exact location will be provided after booking.'
+    });
+    return marker;
+  };
   
   useEffect(() => {
     if (!key) {
@@ -39,12 +46,9 @@ const Map = ( {lat, lng} ) => {
         bootstrapURLKeys={{ key: key }}
         defaultCenter={defaultProps.center}
         defaultZoom={defaultProps.zoom}
-        yesIWantToUseGoogleMapApiInternals>
-          <LocationPin
-            lat={lat}
-            lng={lng}
-            text="My Marker"
-          />
+        yesIWantToUseGoogleMapApiInternals
+        onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}>
+
       </GoogleMapReact>
     </div>
   </div>
