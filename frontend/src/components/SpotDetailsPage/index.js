@@ -56,11 +56,11 @@ function SpotDetails() {
 
       <div className="spot-page-section-2">
         <div className="spot-page-section-2-left">
-          <div className="spot-page-box">
+          <div className="spot-page-box bold">
             Free cancellation until 24 hours before check-in
           </div>
           <div className="spot-page-box">
-            <span><span className="light-red">Inn</span>Cover</span>
+            <span className="bold"><span className="light-red">Inn</span>Cover</span>
             <span>Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.</span>
           </div>
           <div className="spot-page-box">

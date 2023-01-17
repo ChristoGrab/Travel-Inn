@@ -35,6 +35,26 @@ module.exports = {
       preview: true
     },
     {
+      spotId: 3,
+      url: 'https://a0.muscache.com/im/pictures/miso/Hosting-44106940/original/66a4178c-8c97-4a18-80fb-1da7842a2f9a.jpeg?im_w=1200',
+      preview: false
+    },
+    {
+      spotId: 3,
+      url: 'https://a0.muscache.com/im/pictures/3ec267ac-67a2-42f0-837a-daacd03803eb.jpg?im_w=720',
+      preview: false
+    },
+    {
+      spotId: 3,
+      url: 'https://a0.muscache.com/im/pictures/4e367eea-801c-43fa-a7f0-4020a57ac21e.jpg?im_w=720',
+      preview: false
+    },
+    {
+      spotId: 3,
+      url: 'https://a0.muscache.com/im/pictures/4e367eea-801c-43fa-a7f0-4020a57ac21e.jpg?im_w=720',
+      preview: false
+    },
+    {
       spotId: 4,
       url: 'https://a0.muscache.com/im/pictures/da9516c7-04a3-4787-a82e-b58c3ac5e865.jpg?im_w=720',
       preview: true

@@ -24,8 +24,6 @@ function ReviewsBySpot({ spotId, spotOwnerId, currentUser, averageRating }) {
   const checkForUserReview = (reviews) => {
 
     if (!reviews) return
-    
-    console.log("Reviews in user review check: ", reviews)
 
     reviews.forEach(review => {
       if (review.userId === currentUser.id) {
@@ -91,11 +89,13 @@ function ReviewsBySpot({ spotId, spotOwnerId, currentUser, averageRating }) {
       <div className="spot-page-user-review-container">
         {
           currentUser && !userReview && !userOwnsSpot && (
-            <button className="action-button" onClick={openCreateReviewForm}>Create a Review</button>
+            <div className="spot-page-user-review-buttons">
+              <button className="action-button" onClick={openCreateReviewForm}>Create a Review</button>
+            </div>
           )}
         {
           currentUser && userReview && !userOwnsSpot && (
-            <div width="50%">
+            <div className="spot-page-user-review-buttons">
               <button className="action-button" onClick={openEditReviewForm}>Edit your Review</button>
               <button className="action-button" onClick={deleteReview}>Delete your Review</button>
             </div>

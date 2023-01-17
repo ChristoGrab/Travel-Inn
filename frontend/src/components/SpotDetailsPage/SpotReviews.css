@@ -1,8 +1,6 @@
 .spot-review-container {
   display: flex;
   flex-direction: column;
-  margin-top: 60px;
-  border-top: 1px solid lightgray;
 }
 
 .spot-review-ratings {
@@ -44,9 +42,13 @@
   overflow-y: auto;
 }
 
-.spot-review-buttons {
+/* If there are two buttons */
+.spot-page-user-review-buttons {
   display: flex;
-  flex-direction: column;
+  margin: 10px auto;
+  gap: 20px;
+  width: 50%;
+  justify-content: center;
 }
 
 .review-delete-button {

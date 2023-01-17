@@ -135,6 +135,7 @@ const DatePickerRange = ( {price, pullDates} ) => {
             startDate={startDate}
             endDate={endDate}
             minDate={new Date()}
+            maxDate={endDate}
             isClearable
             monthsShown={2}
           />
