@@ -5,7 +5,7 @@ const GET_USER_BOOKINGS = 'bookings/get/user';
 const CREATE_BOOKING = "bookings/create";
 const DELETE_BOOKING = "bookings/delete";
 const CLEAR_BOOKINGS = "bookings/clear";
-
+const UPDATE_BOOKING = "bookings/update";
 
 // Action Creators
 const getBookingsAction = (bookings) => {
@@ -104,6 +104,26 @@ export const deleteBookingThunk = (bookingId) => async (dispatch) => {
   }
 }
 
+export const updateBookingThunk = (booking, id) => async (dispatch) => {
+  const response = await csrfFetch(`/api/bookings/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(booking)
+  })
+  
+  if (response.ok) {
+    const data = await response.json()
+    dispatch(postBookingAction(data))
+    return data;
+  } else {
+    const data = await response.json()
+    console.log(data)
+    return data;
+  }
+}
+
 const bookingsReducer = (state = { spotBookings: {}, userBookings: {} }, action) => {
   
   switch (action.type) {
@@ -165,6 +185,7 @@ const bookingsReducer = (state = { spotBookings: {}, userBookings: {} }, action)
     delete newState.userBookings[action.bookingId]
     return newState;
   }
+  
   
   case CLEAR_BOOKINGS: {
 

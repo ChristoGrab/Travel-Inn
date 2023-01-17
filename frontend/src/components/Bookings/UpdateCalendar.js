@@ -4,7 +4,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import styled from "styled-components";
 import { findBookedDates } from '../../functions/findBookedDates';
-import { createBookingThunk, getBookingsThunk, clearBookingsAction } from '../../store/bookings';
+import { updateBookingThunk, getBookingsThunk, clearBookingsAction,  } from '../../store/bookings';
 import LoadingScreen from '../LoadingScreen';
 import { calculateTotalPrice } from '../../functions/calculateTotalPrice';
 import "react-datepicker/dist/react-datepicker.css";
@@ -111,7 +111,7 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd }) => {
       endDate
     }
 
-    dispatch(createBookingThunk(spotId, new_booking))
+    dispatch(updateBookingThunk(new_booking, spotId))
       .then(response => history.push(`/user/bookings`))
       .catch(async (res) => {
         const data = await res.json();
