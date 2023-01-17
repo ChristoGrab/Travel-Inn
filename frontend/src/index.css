@@ -24,46 +24,51 @@ body::before {
 
 input {
   border: 1px solid lightgray;
-  height: 30px;
+  height: 34px;
   width: 100%;
-  border-radius: 5px;
+  border-radius: 14px;
   box-sizing: border-box;
+  padding: 0 6px;
 }
 
 input:hover {
   box-shadow: 1px 1px 2px lightgray;
 }
 
+input:focus {
+  outline: solid 1px #e21b5f;
+}
+
 label {
   display: flex;
   flex-direction: column;
   color: lightslategray;
-  font-size: 14px;
+  font-size: 15px;
   width: 100%;
-}
-
-.form-textarea {
-  border: 1px solid lightgray;
 }
 
 .error-list-item {
   font-size: 11pt;
 }
 
-form {
-  width: 45vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+textarea {
+  resize: none;
 }
 
-textarea {
-  font-family: sans-serif;
-  resize: none;
+textarea:hover {
+  box-shadow: 1px 1px 2px lightgray;
+}
+
+textarea:focus {
+  outline: solid 1px #e21b5f;
 }
 
 .bold {
   font-weight: bold;
+}
+
+.small-text {
+  font-size: 12px;
 }
 
 /* Global button styles

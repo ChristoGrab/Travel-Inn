@@ -34,6 +34,9 @@ function App() {
           <Route path="/" exact>
             <LandingPage />
           </Route>
+          <Route path="/spots/create" exact>
+            <CreateSpotForm />
+          </Route>
           <Route path="/spots/:spotId" exact>
             <SpotDetails />
           </Route>
@@ -61,9 +64,7 @@ function App() {
           <Route ptha='/user/bookings' exact>
             <UserBookings />
           </Route>
-          <Route path="/create" exact>
-            <CreateSpotForm />
-          </Route>
+
 
         </Switch>
       )}

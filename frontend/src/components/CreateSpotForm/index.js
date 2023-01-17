@@ -1,25 +1,19 @@
-import { useState } from 'react';
-import { Modal } from '../../context/Modal';
-import CreateSpotForm from './CreateSpotForm'
+import { useHistory } from "react-router-dom"
 import "./CreateSpotForm.css"
 import "./BecomeHostButton.css"
 
 function CreateSpotButton() {
+  
+  const history = useHistory();
 
-  const [showModal, setShowModal] = useState(false);
-  const hideModal = () => {
-    setShowModal(false)
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    history.push('/spots/create')
   }
 
   return (
-    <>
-      <button id="become-host-button" onClick={() => setShowModal(true)}>Become a Host</button>
-      {showModal && (
-        <Modal className='create-spot-modal' onClose={() => setShowModal(false)}>
-          <CreateSpotForm hideModal={hideModal}/>
-        </Modal>
-      )}
-    </>
+      <button id="become-host-button" onClick={handleSubmit}>Become a Host</button>
   )
 }
 
