@@ -6,23 +6,20 @@
   margin: auto;
   max-width: 1700px;
   width: 80%;
-  gap: 30px;
+  gap: 55px;
 }
 
 .spot-page-section-1 {
   display: flex;
   flex-direction: column;
-  border: 3px solid green;
   gap: 1em;
   width: 100%;
 }
 
 .spot-page-section-2 {
   width: 100%;
-  border: 3px solid red;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #ebebeb;
 }
 
 .spot-page-section-2-left {
@@ -30,34 +27,35 @@
   flex-direction: column;
   gap: 20px;
   width: 50%;
-  border: 3px solid yellow;
 }
 
 .spot-page-section-2-right {
   width: 50%;
-  border: 3px solid orange;
   display: flex;
   justify-content: center;
 }
 
 .spot-page-section-3 {
   width: 100%;
-  border: 3px solid blue;
+  border-top: 1px solid #ebebeb;
 }
 
 .spot-page-section-4 {
   width: 100%;
-  border: 3px solid purple;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-
-
 .spot-page-box {
   padding: 20px 0;
   border-bottom: 1px solid #ebebeb;
+  display: flex;
+  flex-direction: column;
+}
+
+.last-spot-page-box {
+  padding: 20px 0;
   display: flex;
   flex-direction: column;
 }
@@ -97,24 +95,46 @@
 }
 
 .spot-details-image-list {
-  display: flex;
-  gap: .75%;
+  display: grid;
+  grid-template-areas: 
+  "img1 img1 img2 img3"
+  "img1 img1 img4 img5";
+  gap: 10px;
   box-sizing: border-box;
   max-height: 400px;
 }
 
 .spot-details-image-list > img {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
   object-fit: cover;
-  max-width: 45%;
-  border-radius: 10px 0 0 10px;
+  width: 100%;
 }
 
-.spot-details-description {
-  display: flex;
-  color: #827b7e;
+.spot-details-image-list > img:nth-child(1) {
+  grid-area: img1;
+  height: 400px;
+  border-radius: 18px 0 0 18px;
+}
+
+.spot-details-image-list > img:nth-child(2) {
+  grid-area: img2;
+  height: 195px;
+}
+
+.spot-details-image-list > img:nth-child(3) {
+  grid-area: img3;
+  height: 195px;
+  border-radius: 0 18px 0 0;
+}
+
+.spot-details-image-list > img:nth-child(4) {
+  grid-area: img4;
+  height: 195px;
+}
+
+.spot-details-image-list > img:nth-child(5) {
+  grid-area: img5;
+  height: 195px;
+  border-radius: 0 0 18px 0;
 }
 
 /* Section 2 contains spot details on the left.
@@ -122,6 +142,12 @@ The right conditionally render either:
 1. Buttons to edit or delete the spot if the user is the owner
 2. The datepicker to create a booking if the user is not the owner
 */
+
+.air-cover-text {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
 
 .spot-page-section-2-right-owner-container {
   display: flex;

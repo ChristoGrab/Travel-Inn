@@ -1,6 +1,7 @@
 .user-bookings-page {
   width: 90%;
   max-width: 1700px;
+  margin: 0 auto;
 }
 
 .upcoming-bookings-container {
@@ -8,7 +9,7 @@
   flex-direction: column;
   width: 90%;
   margin: 20px auto;
-  gap: 20px;
+  gap: 40px;
 }
 
 .upcoming-booking-card {
@@ -94,7 +95,6 @@
 }
 
 .previous-booking-card {
-  border: 3px solid lightgray;
   text-decoration: none;
   color: black;
   display: flex;

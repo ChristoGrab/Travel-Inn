@@ -1,5 +1,6 @@
 .reservation-box {
   background-color: white;
+  height: 270px;
   width: 50%;
   display: flex;
   flex-direction: column;
@@ -16,6 +17,8 @@
 }
 
 .reservation-box-footer-prices {
+  margin-top: 3px;
+  height: 30px;
   display: flex;
   justify-content: space-between;
 }

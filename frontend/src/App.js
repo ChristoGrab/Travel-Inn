@@ -12,7 +12,7 @@ import CreateReviewForm from "./components/CreateReviewForm";
 import ProfilePage from "./components/UserAccount";
 import UserBookings from "./components/UserAccount/UserBookings";
 import UpdateReviewForm from "./components/UpdateReviewForm";
-import UpdateBookingPage from "./components/Bookings/UpdateBookingPage";
+import UpdateBookingPage from "./components/UpdateBooking/UpdateBookingPage";
 import Upload from "./components/Upload";
 import "./index.css";
 
@@ -34,6 +34,9 @@ function App() {
           <Route path="/" exact>
             <LandingPage />
           </Route>
+          <Route path="/spots/create" exact>
+            <CreateSpotForm />
+          </Route>
           <Route path="/spots/:spotId" exact>
             <SpotDetails />
           </Route>
@@ -49,7 +52,7 @@ function App() {
           <Route path='/reviews/:reviewId/edit' exact>
             <UpdateReviewForm />
           </Route>
-          <Route path='/bookings/:spotId/update' exact>
+          <Route path='/bookings/:spotId/update/:bookingId' exact>
             <UpdateBookingPage />
           </Route>
           <Route path='/testing' exact>
@@ -61,9 +64,7 @@ function App() {
           <Route ptha='/user/bookings' exact>
             <UserBookings />
           </Route>
-          <Route path="/create" exact>
-            <CreateSpotForm />
-          </Route>
+
 
         </Switch>
       )}

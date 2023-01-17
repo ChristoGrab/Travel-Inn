@@ -4,14 +4,11 @@ import { useParams, useHistory } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import styled from "styled-components";
 import { findBookedDates } from '../../functions/findBookedDates';
-import { createBookingThunk, getBookingsThunk, clearBookingsAction } from '../../store/bookings';
+import { updateBookingThunk, getBookingsThunk, clearBookingsAction,  } from '../../store/bookings';
 import LoadingScreen from '../LoadingScreen';
-import { calculateTotalPrice } from '../../functions/calculateTotalPrice';
 import "react-datepicker/dist/react-datepicker.css";
-import "./Calendar.css"
 
-
-const Styles = styled.div`
+const UpdateStyles = styled.div`
 
   .react-datepicker-popper {
     margin: 0;
@@ -66,22 +63,27 @@ const Styles = styled.div`
   
 `;
 
-const DatePickerRange = ( {price, pullDates} ) => {
+const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => {
 
   const dispatch = useDispatch();
   const history = useHistory();
   const { spotId } = useParams();
-  const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [errors, setErrors] = useState([]);
   const [loadingScreen, setLoadingScreen] = useState(false)
-
+  
   useEffect(() => {
     dispatch(getBookingsThunk(spotId))
-
     return (() => dispatch(clearBookingsAction()))
   }, [dispatch, spotId])
+  
+  useEffect(() => {
+    if (currentStart && currentEnd) {
+    setStartDate(new Date(currentStart))
+    setEndDate(new Date(currentEnd))
+    }
+  }, [])
 
   useEffect(() => {
     if (errors.length) {
@@ -89,11 +91,7 @@ const DatePickerRange = ( {price, pullDates} ) => {
     }
   }, [errors])
 
-  // Create an array of all the dates that are booked
   let unavailableDates = []
-  for (let booking of bookings) {
-    unavailableDates = unavailableDates.concat(findBookedDates(booking.startDate, booking.endDate))
-  }
   
   useEffect(() => {
       pullDates(startDate, endDate)
@@ -110,12 +108,14 @@ const DatePickerRange = ( {price, pullDates} ) => {
       endDate
     }
 
-    dispatch(createBookingThunk(spotId, new_booking))
+    dispatch(updateBookingThunk(new_booking, bookingId))
       .then(response => history.push(`/user/bookings`))
       .catch(async (res) => {
         const data = await res.json();
         console.log("Data from booking", data)
-        if (data && data.errors) return setErrors([data.errors])
+        if (data && data.errors) {
+          setErrors([data.errors])
+        }
       }
       )
   }
@@ -123,14 +123,14 @@ const DatePickerRange = ( {price, pullDates} ) => {
   return (
     <>
       {loadingScreen && <LoadingScreen />}
-      <div className="calendar-container">
+      <div className="update-calendar-container">
         <div className="check-in-container">
           <label className="booking-label">CHECK-IN</label>
           <DatePicker
             id="check-in"
             selected={startDate}
             excludeDates={unavailableDates}
-            placeholderText="Select Start Date"
+            placeholderText="Select New Start Date"
             onChange={date => setStartDate(date)}
             selectsStart
             startDate={startDate}
@@ -149,7 +149,7 @@ const DatePickerRange = ( {price, pullDates} ) => {
             }}
             selected={endDate}
             excludeDates={unavailableDates}
-            placeholderText="Select End Date"
+            placeholderText="Select New End Date"
             selectsEnd
             startDate={startDate}
             endDate={endDate}
@@ -185,13 +185,23 @@ const DatePickerRange = ( {price, pullDates} ) => {
   )
 }
 
-const Calendar = ({price, pullDates}) => {
+const UpdateCalendar = ({ pullDates, currentStart, currentEnd, bookingId }) => {
+  
+  console.log("Current Start", currentStart)
+  console.log("Current End", currentEnd)
+  console.log("Booking ID", bookingId)
+  
   return (
-    <Styles>
-      <DatePickerRange pullDates={pullDates} price={price}/>
-    </Styles>
+    <UpdateStyles>
+      <DatePickerRange 
+        pullDates={pullDates}  
+        currentStart={currentStart} 
+        currentEnd={currentEnd}
+        bookingId={bookingId}
+      />
+    </UpdateStyles>
   )
 }
 
-export default Calendar;
+export default UpdateCalendar;
 

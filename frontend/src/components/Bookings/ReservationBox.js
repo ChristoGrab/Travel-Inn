@@ -38,6 +38,7 @@ const ReservationBox = ({ spot }) => {
         {reviewDiv}
       </div>
       <Calendar price={spot.price} pullDates={pullDates}/>
+      {startDate && endDate && (
       <div className="reservation-box-footer">
         <div className="reservation-box-footer-prices">
           <span className="bold">${spot.price}</span> x {nights} nights
@@ -46,6 +47,7 @@ const ReservationBox = ({ spot }) => {
           <span>Total after taxes</span> ${totalPrice}
         </div>
       </div>
+      )}
     </div>
   )
 }

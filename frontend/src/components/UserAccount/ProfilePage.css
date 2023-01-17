@@ -3,10 +3,10 @@
 }
 
 .user-spots-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 30px;
-  width: 50%;
+  width: 100%;
   flex-wrap: wrap;
   padding-left: 0;
   max-height: 95%;
