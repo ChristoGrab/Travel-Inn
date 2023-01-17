@@ -49,7 +49,7 @@ function App() {
           <Route path='/reviews/:reviewId/edit' exact>
             <UpdateReviewForm />
           </Route>
-          <Route path='/bookings/:spotId/update' exact>
+          <Route path='/bookings/:spotId/update/:bookingId' exact>
             <UpdateBookingPage />
           </Route>
           <Route path='/testing' exact>

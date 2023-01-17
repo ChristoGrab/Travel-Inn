@@ -31,10 +31,10 @@ const UserBookings = () => {
     return (() => dispatch(clearBookingsAction()))
   }, [dispatch])
 
-  const openReservationBox = (e) => {
+  const openReservationBox = (e, bookingId, spotId) => {
     e.preventDefault();
 
-    history.push(`/bookings/${e.target.id}/update`)
+    history.push(`/bookings/${spotId}/update/${bookingId}`)
   }
 
 
@@ -67,8 +67,7 @@ const UserBookings = () => {
               <div className="upcoming-booking-box-3">
                 <button
                   className="action-button"
-                  onClick={openReservationBox}
-                  id={booking.id}
+                  onClick={(e) => openReservationBox(e, booking.id, booking.spotId)}
                 >Change Reservation</button>
                 <DeleteBooking bookingId={booking.id} />
               </div>
