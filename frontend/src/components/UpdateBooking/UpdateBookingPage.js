@@ -36,10 +36,15 @@ const UpdateBookingPage = () => {
   }, [nights])
 
   useEffect(() => {
-    if (bookingToUpdate) {
-      console.log("booking in component: ", bookingToUpdate)
-      setCurrentStart(bookingToUpdate.startDate)
-      setCurrentEnd(bookingToUpdate.endDate)
+    if (bookingToUpdate) {  
+      console.log("it's a booking to update", bookingToUpdate)    
+      let fixedStart = new Date(bookingToUpdate.startDate)
+      let fixedEnd = new Date(bookingToUpdate.endDate)
+      fixedStart.setDate(fixedStart.getDate() + 1)
+      fixedEnd.setDate(fixedEnd.getDate() + 1)
+      
+      setCurrentStart(fixedStart)
+      setCurrentEnd(fixedEnd)
     }
   }, [bookingToUpdate])
 

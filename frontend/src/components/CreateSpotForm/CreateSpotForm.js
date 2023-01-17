@@ -57,20 +57,18 @@ function CreateSpotForm() {
   const validateImageUpload = (imageFile) => {
 
     let imageErrors = []
+    let userImage = imageFile.files[0]
 
     if (!imageFile.files.length) {
       imageErrors.push("Please provide an image file for your listing")
       return setInputErrors(imageErrors)
-    }
-
-    let userImage = imageFile.files[0]
-
-    if (userImage.type !== "image/jpeg" && userImage.type !== "image/png") {
+      
+    } else if (userImage.type !== "image/jpeg" && userImage.type !== "image/png") {
       imageErrors.push("The provided filetype is not supported (jpg or png only)")
       return setInputErrors(imageErrors)
     }
-
-    return;
+    
+    return
   }
 
   const handleSubmit = async (e) => {
@@ -87,7 +85,7 @@ function CreateSpotForm() {
     validateImageUpload(imageFile)
     
     if (inputErrors.length) {
-      
+      return inputErrors
     }
 
     formData.append("image", imageFile.files[0])

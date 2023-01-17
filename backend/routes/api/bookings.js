@@ -2,10 +2,32 @@ const express = require('express');
 const router = express.Router()
 const { Booking, Spot, User, SpotImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
+const { Op } = require("sequelize");
 
+
+
+// GET ALL SPOT BOOKINGS THAT ARE NOT CURRENT BOOKING
+router.get('/restricted/:spotId/:bookingId', requireAuth, async (req, res) => {
+  const restrictedBookings = await Booking.findAll({
+    where: {
+      spotId: req.params.spotId,
+      id: {
+        [Op.ne]: req.params.bookingId
+      }
+    }
+  })
+  
+  let bookingsList = []
+  
+  // create an array of the bookings and convert them to JSON
+  restrictedBookings.forEach(booking => {
+    bookingsList.push(booking.toJSON())
+  })
+  
+  return res.json({"Bookings": bookingsList})
+})
 
 // GET ALL OF THE CURRENT USER'S BOOKINGS
-
 router.get('/current', requireAuth, async (req, res) => {
   const myBookings = await Booking.findAll({
     where: {
@@ -29,37 +51,24 @@ router.get('/current', requireAuth, async (req, res) => {
     }
   })
   
-  myBookings.forEach(booking => {
-    console.log(booking.toJSON())
-  })
-  
   // create an array of the bookings and convert them to JSON
   let bookingsList = []
+  
   myBookings.forEach(booking => {
     bookingsList.push(booking.toJSON())
   })
 
-  
   bookingsList.forEach(booking => {
-    
     booking.Spot["host"] = booking.Spot.Owner.firstName
-    delete booking.Spot.Owner;
-    
     booking.Spot.SpotImages.forEach(spotImage => {
-      
       if (spotImage.preview) {
         booking.Spot.previewImage = spotImage.url
-      
-      } else {
-        booking.Spot.previewImage = "This spot doesn't have a preview image"
       }
-
     })
-    
+      
     delete booking.Spot.SpotImages;
+    delete booking.Spot.Owner;
   })
-  
-    
   
   res.json({"Bookings": bookingsList})
 })
@@ -93,6 +102,14 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
     return res.json({
       "message": "This booking has already ended and cannot be modified",
       "statusCode": 403
+    })
+  }
+  
+  if (startDate > endDate) {
+    res.status(400);
+    return res.json({
+      "message": "Start date must be before end date",
+      "statusCode": 400
     })
   }
   
