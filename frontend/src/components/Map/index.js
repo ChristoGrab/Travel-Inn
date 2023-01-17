@@ -2,6 +2,15 @@ import GoogleMapReact from 'google-map-react';
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from "react"
 import { getKey } from '../../store/map'
+import './Map.css'
+import { Icon } from '@iconify/react'
+import locationIcon from '@iconify/icons-mdi/map-marker'
+
+
+const LocationPin = ({ text }) => (
+  <div className="pin">
+  </div>
+)
 
 const Map = ( {lat, lng} ) => {
   const dispatch = useDispatch();
@@ -31,6 +40,11 @@ const Map = ( {lat, lng} ) => {
         defaultCenter={defaultProps.center}
         defaultZoom={defaultProps.zoom}
         yesIWantToUseGoogleMapApiInternals>
+          <LocationPin
+            lat={lat}
+            lng={lng}
+            text="My Marker"
+          />
       </GoogleMapReact>
     </div>
   </div>
