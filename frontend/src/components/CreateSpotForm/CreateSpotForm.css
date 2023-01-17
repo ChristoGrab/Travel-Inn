@@ -10,7 +10,7 @@
 .create-spot-form {
   display: grid;
   grid-template-areas:
-    "header header"
+    "header errors"
     "box1 box2"
     "button button";
   gap: 20px;
@@ -21,6 +21,11 @@
 
 .create-spot-form-header {
   grid-area: header;
+}
+
+.create-spot-form-errors {
+  grid-area: errors;
+  color: red;
 }
 
 .create-spot-form-left {
