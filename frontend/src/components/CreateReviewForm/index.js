@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { createReviewThunk } from '../../store/reviews';
-
+import ReviewStars from "./ReviewStars"
+import { reviewFormValidations } from '../../functions/reviewFormValidations';
 import "./CreateReviewForm.css"
 
 function CreateReviewForm() {
@@ -15,7 +16,7 @@ function CreateReviewForm() {
 
   // list of state variables
   const [review, setReview] = useState("");
-  const [stars, setStars] = useState(3)
+  const [stars, setStars] = useState(0)
   const [inputErrors, setInputErrors] = useState([]);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -25,10 +26,13 @@ function CreateReviewForm() {
 
   // list of input errors
   useEffect(() => {
+    
     let errors = []
-    if (review.length <= 5) errors.push("Please provide some specific feedback for your host!");
+    if (!stars) errors.push("Please provide a rating for your host")
+    if (review.length <= 5) errors.push("Please provide some specific feedback for your host");
     if (review.toLowerCase().includes("fuck")
-    || review.toLowerCase().includes("shit")) errors.push("Please refrain from using inappropriate language")
+      || review.toLowerCase().includes("shit")) errors.push("Please refrain from using inappropriate language")
+    
     setInputErrors(errors)
   }, [review])
 
@@ -36,7 +40,7 @@ function CreateReviewForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormSubmitted(true)
-    
+
     if (inputErrors.length) return;
 
     const payload = {
@@ -50,45 +54,45 @@ function CreateReviewForm() {
   }
 
   return (
-    <div className="create-review-form-container">
+    <>
+      <div className="create-review-form-greeting">
+      <h1>Share Your Experience!</h1>
+      <div>
+        Leaving some thoughts and insights on your stay here will help other guests get a better idea of what to expect, and will help your host improve their listing for future guests.
+      </div>
+      </div>
+      
       <form className='create-review-form'>
-        <div
-          className="create-review-form-greeting">
-          Share some thoughts on your stay here!
-        </div>
-        {formSubmitted && <div className="create-review-errors">
-          <div className="spot-errors-list">
+
+        {formSubmitted && 
+          <div className="create-review-errors">
             {inputErrors.map((error, idx) => (
               <li className="form-error" key={idx}>
                 {error}
               </li>
             ))}
-          </div>
-          </div>}
-          <textarea
+        </div>}
+        
+        <div className="create-review-stars">
+          Please Rate Your Stay
+        <div className="create-hover">
+          <ReviewStars stars={stars} setStars={setStars} />
+        </div>
+        </div>
+        <div className="form-instructions">
+          Now share some thoughts on your stay. Try to be specific and helpful! Constructive feedback is a great way to help the Travel-Inn community continue to grow and improve.
+        </div>
+        <textarea
           className="create-review-textarea"
-            type="text"
-            required
-            value={review}
-            onChange={updateReview} />
-        <label className="create-review-stars">
-          Rating
-          <select
-          className="review-stars-dropdown"
-            id="stars"
-            value={stars}
-            onChange={updateStars}>
-            <option value={1}>1 - Terrible</option>
-            <option value={2}>2 - Bad</option>
-            <option value={3}>3 - Fair</option>
-            <option value={4}>4 - Good</option>
-            <option value={5}>5 - Excellent</option>
-          </select>
-        </label>
-        <button className='submit-review-button'
+          type="text"
+          required
+          placeholder='Write your review here...'
+          value={review}
+          onChange={updateReview} />
+        <button className='submit-button'
           onClick={handleSubmit}>Submit Review</button>
       </form>
-    </div>
+    </>
   )
 }
 

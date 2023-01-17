@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateSpot } from '../../store/spots'
 import "./EditSpotForm.css"
 
@@ -9,16 +9,17 @@ function EditSpotForm() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { spotId } = useParams();
+  const spot = useSelector(state => state.spots.spotsList[spotId])
 
   // list of state variables
   const [inputErrors, setInputErrors] = useState([]);
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [region, setRegion] = useState("");
-  const [country, setCountry] = useState("");
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState(0);
+  const [address, setAddress] = useState(`${spot.address}`);
+  const [city, setCity] = useState(`${spot.city}`);
+  const [region, setRegion] = useState(`${spot.state}`);
+  const [country, setCountry] = useState(`${spot.country}`);
+  const [name, setName] = useState(`${spot.name}`);
+  const [description, setDescription] = useState(`${spot.description}`);
+  const [price, setPrice] = useState(spot.price);
   const [formSubmitted, setFormSubmitted] = useState(false)
 
   // list of input functions

@@ -5,6 +5,7 @@ const LOAD_SPOT_REVIEWS = '/review/spot/load';
 const LOAD_USER_REVIEWS = '/review/user/load';
 const DELETE_REVIEW = "/review/delete";
 const CREATE_REVIEW = '/review/create';
+const UPDATE_REVIEW = "/review/update";
 
 // Action Creators
 const loadSpotReviews = (reviews) => {
@@ -37,6 +38,13 @@ const deleteReview = (reviewId) => {
   }
 }
 
+const updateReview = (review) => {
+  return {
+    type: UPDATE_REVIEW,
+    review
+  }
+}
+
 // Action Thunks
 
 export const loadSpotReviewsThunk = (spotId) => async (dispatch) => {
@@ -44,14 +52,10 @@ export const loadSpotReviewsThunk = (spotId) => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json();
+    
+    console.log(data)
     dispatch(loadSpotReviews(data))
   }
-  
-  // need to handle error response for new spots without reviews
-  // else {
-  //   const noData = await response.json()
-  //   return noData;
-  // }
 }
 
 export const loadUserReviewsThunk = () => async (dispatch) => {
@@ -79,6 +83,25 @@ export const createReviewThunk = (review, spotId) => async (dispatch) => {
   }
 }
 
+export const updateReviewThunk = (review, reviewId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(review)
+  })
+  
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(updateReview(data))
+  }
+  else {
+    const errorData = await response.json()
+    return errorData;
+  }
+}
+
 export const deleteReviewThunk = (reviewId) => async (dispatch) => {
   const response = await csrfFetch(`/api/reviews/${reviewId}`, {
     method: "DELETE"
@@ -91,7 +114,7 @@ export const deleteReviewThunk = (reviewId) => async (dispatch) => {
 
 // ------ Reviews Reducer ------ //
 
-const initialState = {spot: {}, user: {}}
+const initialState = { spot: {}, user: {} }
 
 const reviewsReducer = (state = initialState, action) => {
 
@@ -99,16 +122,18 @@ const reviewsReducer = (state = initialState, action) => {
 
     case LOAD_SPOT_REVIEWS: {
 
-      const newReviewObj = {
-        // don't spread state when loading data!!
-        spot: {}
-      };
-
-      // console.log(reviewsObj)
+      const newReviewObj = { spot: {} };
+      
       action.reviews.Reviews.forEach(review => {
-        newReviewObj.spot[review.id] = review});
+        newReviewObj.spot[review.id] = review
+      });
+      
+      if (!newReviewObj.spot) return state;
 
-      return newReviewObj;
+      return {
+        ...state,
+        spot: newReviewObj.spot
+      }
     }
 
     case LOAD_USER_REVIEWS: {
@@ -134,6 +159,19 @@ const reviewsReducer = (state = initialState, action) => {
       newReviewObject.spot[action.review.id] = action.review
       return newReviewObject;
     }
+    
+    case UPDATE_REVIEW: {
+      
+      const newReviewObject = {
+        ...state,
+        spot: {...state.spot}
+      }
+      
+      newReviewObject.spot[action.review.id] = action.review
+      return newReviewObject;
+    }
+    
+
     
     case DELETE_REVIEW: {
       // copy both nested objects

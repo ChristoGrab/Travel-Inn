@@ -1,10 +1,13 @@
 /* TODO Add site wide styles */
-body {
-  font-family: Helvetica, sans-serif;
+
+
+html {
+  overflow-y: scroll;
+  box-sizing: border-box;
 }
 
-button:hover {
-  background-color: #f7f7f7;
+body {
+  font-family: Helvetica, sans-serif;
 }
 
 body::before {
@@ -16,7 +19,7 @@ body::before {
 .form-error {
   color: #ff385c;
   list-style: none;
-  font-size: 15px;
+  font-size: 13px;
 }
 
 input {
@@ -37,7 +40,6 @@ label {
   color: lightslategray;
   font-size: 14px;
   width: 100%;
-  
 }
 
 .form-textarea {
@@ -49,7 +51,7 @@ label {
 }
 
 form {
-  width: 70%;
+  width: 45vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -58,4 +60,98 @@ form {
 textarea {
   font-family: sans-serif;
   resize: none;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+/* Global button styles
+
+There are two kinds of buttons in the app: submit buttons and action buttons. 
+Submit buttons are used to submit forms, and action buttons are used to perform actions on the page. 
+Submit buttons are red, and action buttons are white with a red border. 
+
+*/
+
+.submit-button {
+  background-color: #e21b5f;
+  border: 2px solid #e21b5f;
+  color: white;
+  border-radius: 5em;
+  width: 50%;
+  margin-top: 20px;
+  font-size: 15px;
+  font-weight: bold;
+  height: 40px;
+  padding: 5px 10px;
+  transition: all 280ms ease-in-out;
+}
+
+.submit-button:hover {
+  background-color: #ef3b5e;
+  border: 2px solid #ef3b5e;
+  box-shadow: 1px 1px 5px lightgray;
+}
+
+.action-button {
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 15px;
+  border: 2px solid #bebebe;
+  padding: 5px 10px;
+  width: 50%;
+  height: 32px;
+  font-size: 14px;
+  transition: all 280ms ease-in-out;
+  font-size: 14px;
+}
+
+.action-button:hover {
+  background-color: #e21b5f;
+  border: 2px solid #e21b5f;
+  color: white;
+  border-radius: 3px;
+  box-shadow: 1px 1px 5px lightgray;
+}
+
+.action-link {
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 15px;
+  border: 2px solid #bebebe;
+  padding: 5px 10px;
+  width: 50%;
+  height: 32px;
+  font-size: 14px;
+  transition: all 280ms ease-in-out;
+  font-size: 14px;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.action-link:hover {
+  background-color: #e21b5f;
+  border: 2px solid #e21b5f;
+  color: white;
+  border-radius: 3px;
+  box-shadow: 1px 1px 3px lightgray;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+/* Colors */
+
+.light-red {
+  color: #e21b5f;
+}
+
+.dark-red {
+  color: #be0000;
 }

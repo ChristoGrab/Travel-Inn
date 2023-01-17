@@ -16,17 +16,35 @@ router.get('/current', requireAuth, async (req, res) => {
       attributes: {
         exclude: ['description', 'createdAt', 'updatedAt']
       },
-      include:
-        { model: SpotImage }
+      include: [
+        { 
+          model: SpotImage,
+        },
+        {
+          model: User,
+          as: "Owner",
+          attributes: ["firstName"]
+        }
+      ]
     }
   })
   
+  myBookings.forEach(booking => {
+    console.log(booking.toJSON())
+  })
+  
+  // create an array of the bookings and convert them to JSON
   let bookingsList = []
   myBookings.forEach(booking => {
     bookingsList.push(booking.toJSON())
   })
+
   
   bookingsList.forEach(booking => {
+    
+    booking.Spot["host"] = booking.Spot.Owner.firstName
+    delete booking.Spot.Owner;
+    
     booking.Spot.SpotImages.forEach(spotImage => {
       
       if (spotImage.preview) {
@@ -35,11 +53,13 @@ router.get('/current', requireAuth, async (req, res) => {
       } else {
         booking.Spot.previewImage = "This spot doesn't have a preview image"
       }
-      
+
     })
     
     delete booking.Spot.SpotImages;
   })
+  
+    
   
   res.json({"Bookings": bookingsList})
 })

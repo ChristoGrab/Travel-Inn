@@ -1,0 +1,115 @@
+.user-bookings-page {
+  width: 90%;
+  max-width: 1700px;
+}
+
+.upcoming-bookings-container {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: 20px auto;
+  gap: 20px;
+}
+
+.upcoming-booking-card {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  justify-content: space-evenly;
+  padding: 10px;
+  height: 200px;
+  box-shadow: 1px 1px 5px 1px lightgray;
+  border-radius: 10px;
+}
+
+/* box 1 Contains the name of the booking, the dates, and the location
+*/
+.upcoming-booking-box-1 {
+  display: grid;
+  grid-template-areas:
+  "header header header header"
+  "dates dates location location";
+  text-decoration: none;
+  color: black;
+}
+
+.upcoming-booking-name {
+  grid-area: header;
+  border-bottom: 2px solid lightgray;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.upcoming-booking-dates {
+  grid-area: dates;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  border-right: 2px solid lightgray;
+}
+
+.upcoming-booking-place {
+  grid-area: location;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  margin-right: 10px;
+}
+
+
+/* box 2 contains the image */
+
+.upcoming-booking-box-2 {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+}
+
+.medium-image {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* box 3 contains the buttons */
+
+.upcoming-booking-box-3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
+  width: 100%;
+}
+
+.previous-bookings-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 90%;
+  max-width: 1500px;
+  margin: 10px auto;
+}
+
+.previous-booking-card {
+  border: 3px solid lightgray;
+  text-decoration: none;
+  color: black;
+  display: flex;
+}
+
+.previous-booking-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-right: 30px;
+}
+
+.previous-booking-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}

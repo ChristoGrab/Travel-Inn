@@ -1,17 +1,68 @@
-.spot-details-outer-container {
+/* CONTAINERS */
+
+.spot-page-outer-container {
   display: flex;
   flex-direction: column;
   margin: auto;
   max-width: 1700px;
   width: 80%;
+  gap: 30px;
 }
 
-.spot-details-container {
+.spot-page-section-1 {
   display: flex;
   flex-direction: column;
-  /* border: 3px solid lightgray; */
+  border: 3px solid green;
   gap: 1em;
+  width: 100%;
 }
+
+.spot-page-section-2 {
+  width: 100%;
+  border: 3px solid red;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.spot-page-section-2-left {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 50%;
+  border: 3px solid yellow;
+}
+
+.spot-page-section-2-right {
+  width: 50%;
+  border: 3px solid orange;
+  display: flex;
+  justify-content: center;
+}
+
+.spot-page-section-3 {
+  width: 100%;
+  border: 3px solid blue;
+}
+
+.spot-page-section-4 {
+  width: 100%;
+  border: 3px solid purple;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+
+.spot-page-box {
+  padding: 20px 0;
+  border-bottom: 1px solid #ebebeb;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOP CONTAINER */
 
 .spot-details-header {
   display: flex;
@@ -56,6 +107,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  object-fit: cover;
   max-width: 45%;
   border-radius: 10px 0 0 10px;
 }
@@ -65,25 +117,20 @@
   color: #827b7e;
 }
 
-.spot-owner-div {
-  display: flex;
-  justify-content: flex-start;
-}
+/* Section 2 contains spot details on the left.
+The right conditionally render either:
+1. Buttons to edit or delete the spot if the user is the owner
+2. The datepicker to create a booking if the user is not the owner
+*/
 
-.spot-owner-links {
+.spot-page-section-2-right-owner-container {
   display: flex;
+  width: 80%;
+  flex-direction: column;
   justify-content: center;
-  text-decoration: none;
-  color: white;
-  background-color: #e21b5f;
-  padding: 10px;
-  border-radius: 5em;
-  margin: 5px;
-  width: 150px;
-}
-
-.spot-owner-links:hover {
-  box-shadow: 2px 2px 3px lightslategray;
+  align-items: center;
+  gap: 32px;
+  max-height: 400px;
 }
 
 .create-new-review-box {

@@ -1,5 +1,5 @@
 .login-form {
-  width: 66%;
+  width: 40vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

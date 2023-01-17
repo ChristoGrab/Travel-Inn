@@ -1,16 +1,12 @@
 .user-page-container {
-  display: flex;
-  width: 75%;
-  flex-direction: column;
-  margin: auto;
-  align-items: flex-start;
-  flex-wrap:wrap;
+  width: 90%;
 }
 
 .user-spots-list {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  width: 50%;
   flex-wrap: wrap;
   padding-left: 0;
   max-height: 95%;
@@ -24,7 +20,6 @@
   background-color: #e21b5f;
   padding: 10px;
   border-radius: 15px;
-  width: 135%;
   flex: 1 1 25px;
 }
 

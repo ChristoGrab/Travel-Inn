@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { csrfFetch } from '../../store/csrf';
 import { createNewSpot } from '../../store/spots'
 import { createImageThunk } from '../../store/spots';
 import './CreateSpotForm.css'
@@ -20,8 +21,8 @@ function CreateSpotForm({hideModal}) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
-  const [url, setUrl] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const formData = new FormData();
 
   // list of input functions
   const updateAddress = (e) => setAddress(e.target.value)
@@ -31,10 +32,10 @@ function CreateSpotForm({hideModal}) {
   const updateName = (e) => setName(e.target.value)
   const updateDescription = (e) => setDescription(e.target.value)
   const updatePrice = (e) => setPrice(e.target.value)
-  const updateUrl = (e) => setUrl(e.target.value)
 
   // list of input errors
   useEffect(() => {
+    
     let errors = []
     if (address.length <= 5) errors.push("Please provide a valid address")
     if (name.length <= 2) errors.push("Please provide a name for your listing")
@@ -42,17 +43,60 @@ function CreateSpotForm({hideModal}) {
     if (region.length <= 1) errors.push("Please provide at least 2 initials for your state")
     if (country.length <= 1) errors.push("Please provide at least 2 initials for your country")
     if (description.length <= 10) errors.push("Please provide at least a brief description of your listing (10 char min)")
-    if (isNaN(price) || price <1 || price > 10000) errors.push("Please provide a valid price per night within the $1-10000 range")
-    if (!url.length) errors.push("Please provide an image url to display as a preview image")
+    if (isNaN(price) || price < 10 || price > 10000) errors.push("Please provide a valid price per night within the $1-10000 range")
     setInputErrors(errors)
-  }, [address, name, city, region, country, description, price, url])
+  }, [address, name, city, region, country, description, price])
+  
+  const validateImageUpload = (imageFile) => {
+    
+    let imageErrors = []
+    
+    if (!imageFile.files.length) {
+      imageErrors.push("Please provide an image file for your listing")
+      return setInputErrors(imageErrors)
+    }
+    
+    let userImage = imageFile.files[0]
+    
+    if (userImage.type !== "image/jpeg" && userImage.type !== "image/png") {
+      imageErrors.push("The provided filetype is not supported (jpg or png only)")
+      return setInputErrors(imageErrors)
+    }
+    
+    return;
+  }
 
   const handleSubmit = async (e) => {
 
     e.preventDefault();
     setFormSubmitted(true)
+    
+    if (inputErrors.length) return
+    
+    const imageFile = document.querySelector("#imageInput")
+    
+    console.log(imageFile.files)
+    
+    validateImageUpload(imageFile)
+    
+    formData.append("image", imageFile.files[0])
 
-    if (inputErrors.length) return;
+    
+    const picture = await csrfFetch('/api/spot-images/upload', {
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      body: formData,
+    })
+    
+    const previewImage = await picture.json();
+    
+    console.log(previewImage)
+
+    if (previewImage.errors) {
+      return setInputErrors(previewImage.errors);
+    }
 
     const payload = {
       address,
@@ -63,36 +107,45 @@ function CreateSpotForm({hideModal}) {
       description,
       price
     }
-
-    const imgPayload = {
-      url,
-      preview: true
-    }
-
-    // reset input errors
+    
     setInputErrors([])
 
-    // send new spot for validation check in backend
     const newSpot = await dispatch(createNewSpot(payload))
       .catch(async (response) => {
 
         const data = await response.json();
+        
+        console.log(data)
 
         // if new errors, return them
         if (data && data.errors) {
           setInputErrors(data.errors);
         }
       });
+      
+    const imgPayload = {
+      url: previewImage.imageUrl,
+      preview: true
+    }
+    
+    console.log(imgPayload)
 
-    //ok, now send the picture creation thunk
-    dispatch(createImageThunk(imgPayload, newSpot.id));
+    const finalDispatch = await dispatch(createImageThunk(imgPayload, newSpot.id))
+      .catch(async (response) => {
+        
+        const data = await response.json();
+        
+        if (data && data.errors) {
+          setInputErrors(data.errors);
+        }
+      });
 
-    // 
-    hideModal();
-    history.push(`/user/profile`)
+    // hideModal();
+    // history.push(`/user/profile`)
   }
 
   // Component JSX
+  
   return (
     <div className="create-spot-form-container">
       <form className="create-spot-form">
@@ -102,14 +155,14 @@ function CreateSpotForm({hideModal}) {
         {formSubmitted && <div className="create-spot-errors">
           <div className="spot-errors-list">
             {inputErrors.map((error, idx) => (
-              <li key={idx} className="error-list-item">
+              <li key={idx} className="form-error">
                 {error}
               </li>
             ))}
           </div>
         </div>}
         <label>
-          Address
+          Street Address
           <input className="create-spot-form-input"
             type="text"
             required
@@ -125,7 +178,7 @@ function CreateSpotForm({hideModal}) {
             onChange={updateCity} />
         </label>
         <label>
-          State
+          State/Region
           <input className="create-spot-form-input"
             type="text"
             value={region}
@@ -139,35 +192,36 @@ function CreateSpotForm({hideModal}) {
             onChange={updateCountry} />
         </label>
         <label>
-          Name
+          Name - What should we call your listing?
           <input className="create-spot-form-input"
             type="text"
             value={name}
             onChange={updateName} />
         </label>
         <label>
-          Description
+          Description - Tell us about your listing!
           <textarea className="create-spot-form-textarea"
             type="text"
             value={description}
             onChange={updateDescription} />
         </label>
         <label>
-          Price
+          Price in USD per night ($10-10000)
           <input className="create-spot-form-input"
-            type="text"
+            type="number"
             value={price}
             onChange={updatePrice} />
         </label>
         <label>
-          Preview Image url
+          Preview Image - jpeg or png only
           <input className='create-spot-form-input'
-            type='url'
-            value={url}
-            onChange={updateUrl} />
+            type='file'
+            name="image"
+            id="imageInput"
+            encType="multipart/form-data"
+          />
         </label>
         <button id="create-spot-submit-button"
-          // disabled={!!inputErrors.length}
           onClick={handleSubmit}>Add your listing!</button>
       </form>
     </div>

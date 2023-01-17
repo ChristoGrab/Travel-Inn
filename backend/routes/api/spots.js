@@ -1,10 +1,9 @@
 const express = require('express')
-const { Spot, Review, SpotImage, User, ReviewImage, Booking, sequelize } = require('../../db/models');
+const { Spot, Review, SpotImage, User, Booking, sequelize } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
 const router = express.Router();
-const { Op } = require('sequelize');
 const { validateReview, validateSpot } = require('../../utils/errors');
-
+const BookingError = require('../../utils/bookingErrors');
 
 // ADD AN IMAGE TO A SPOT BASED ON THE SPOT'S ID //
 router.post('/:spotId/images', requireAuth, async (req, res) => {
@@ -40,6 +39,7 @@ router.get('/:spotId/reviews', async (req, res) => {
   
   const spot = await Spot.findByPk(req.params.spotId)
   
+  // if spot doesn't exist, return 404
   if (!spot) {
     res.status(404)
     return res.json({
@@ -47,6 +47,7 @@ router.get('/:spotId/reviews', async (req, res) => {
       "statusCode": 404
     })
   }
+  
   
   const spotReviews = await Review.findAll({
     where: {
@@ -57,10 +58,10 @@ router.get('/:spotId/reviews', async (req, res) => {
         model: User,
         attributes: ['id', 'firstName', 'lastName']
       },
-      {
-        model: ReviewImage,
-        attributes: ['id', 'url']
-      }
+      // {
+      //   model: ReviewImage,
+      //   attributes: ['id', 'url']
+      // }
     ]
   })
 
@@ -70,6 +71,7 @@ router.get('/:spotId/reviews', async (req, res) => {
 
 // GET ALL BOOKINGS FOR A SPOT BASED ON THE SPOT'S ID
 router.get('/:spotId/bookings', requireAuth, async (req, res) => {
+  
   const idCheck = await Spot.findByPk(req.params.spotId)
 
   // If query array is empty spot doesn't exist
@@ -86,7 +88,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
       where: {
         spotId: req.params.spotId
       },
-      attributes: ['spotId', 'startDate', 'endDate']
+      attributes: ['id', 'spotId', 'startDate', 'endDate']
     })
     return res.json({
       "Bookings": nonOwnerBookings
@@ -283,7 +285,7 @@ router.get('/', async (req, res) => {
   spotsList.forEach(spot => {
     spot.avgRating = spot.avgRating / spot.numReviews;
   })
-  
+
   spotsList.forEach(spot => {
     if (!spot.avgRating) {
       spot.avgRating = "No Ratings"
@@ -364,7 +366,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
 
 
 // CREATE A BOOKING FROM A SPOT BASED ON THE SPOT'S ID
-router.post('/:spotId/bookings', requireAuth, async (req, res) => {
+router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId)
 
   // 404 error
@@ -415,24 +417,16 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
   for (let i = 0; i < bookingsList.length; i++) {
     let eleStart = new Date(bookingsList[i].startDate)
     let eleEnd = new Date(bookingsList[i].endDate)
+    
     if (startDateCheck >= eleStart && startDateCheck <= eleEnd) {
-      res.status(403)
-      return res.json({
-        "message": "Sorry, your start date conflicts with an existing booking",
-        "statusCode": 403
-      })
+      const err = new BookingError("Your check-in date conflicts with an existing booking.")
+      return next(err)
     } else if (endDateCheck >= eleStart && endDateCheck <= eleEnd) {
-      res.status(403)
-      return res.json({
-        "message": "Sorry, your end date conflicts with an existing booking",
-        "statusCode": 403
-      })
+      const err = new BookingError("Your check-out date conflicts with an existing booking.")
+      return next(err)
     } else if (startDateCheck < eleStart && endDateCheck > eleEnd) {
-      res.status(403)
-      return res.json({
-        "message": "Sorry, your booking dates are in conflict with an existing booking",
-        "statusCode": 403
-      })
+      const err = new BookingError("The dates you requested are in conflict with a pre-existing booking. Please avoid any greyed-out dates on the calendar.")
+      return next(err)
     }
   }
 

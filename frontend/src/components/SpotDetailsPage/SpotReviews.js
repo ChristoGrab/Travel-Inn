@@ -1,0 +1,108 @@
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux"
+import { useHistory } from "react-router-dom";
+import { loadSpotReviewsThunk } from "../../store/reviews";
+import { deleteReviewThunk } from "../../store/reviews";
+import ReviewCard from './ReviewCard'
+import "./SpotReviews.css"
+
+
+function ReviewsBySpot({ spotId, spotOwnerId, currentUser, averageRating }) {
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const reviews = useSelector(state => Object.values(state.reviews.spot))
+  const [userOwnsSpot, setUserOwnsSpot] = useState(false)
+  const [userReview, setUserReview] = useState(false)
+  const [dataLoaded, setDataLoaded] = useState(false)
+
+  useEffect(() => {
+    dispatch(loadSpotReviewsThunk(spotId)).then(setDataLoaded(true))
+  }, [dispatch, spotId])
+
+  // Function to check if user has left a review
+  const checkForUserReview = (reviews) => {
+
+    if (!reviews) return
+    
+    console.log("Reviews in user review check: ", reviews)
+
+    reviews.forEach(review => {
+      if (review.userId === currentUser.id) {
+        return setUserReview(review)
+      }
+    })
+  }
+
+  useEffect(() => {
+
+    if (currentUser) {
+      checkForUserReview(reviews)
+    }
+  }, [dispatch, reviews, currentUser])
+
+  useEffect(() => {
+
+    if (currentUser && currentUser.id === spotOwnerId) {
+      setUserOwnsSpot(true)
+    }
+  }, [currentUser, spotOwnerId])
+
+
+  const openCreateReviewForm = (e) => {
+    e.preventDefault();
+
+    history.push(`/spots/${spotId}/reviews/create`)
+  }
+
+  const userHasDeletedReview = () => {
+    setUserReview(false)
+  }
+
+  const openEditReviewForm = (e) => {
+    e.preventDefault();
+
+    history.push(`/reviews/${userReview.id}/edit`)
+  }
+
+  const deleteReview = (e) => {
+
+    dispatch(deleteReviewThunk(userReview.id))
+      .then(() => userHasDeletedReview())
+  }
+
+  if (!reviews) return null;
+  let reviewNums = reviews?.length
+
+  return (
+    <div className="spot-review-container">
+      <div className="spot-review-ratings">
+        {(averageRating !== "NaN" && averageRating > 0) ?
+          <h2>★ {averageRating} • {reviewNums} Reviews</h2>
+          : <h2>Be the first to review this listing!</h2>}
+
+      </div>
+
+      <div className="spot-review-list">
+        {reviews.map(review => (
+          <ReviewCard key={review.id} review={review} userHasDeletedReview={userHasDeletedReview} />
+        ))}
+      </div>
+      <div className="spot-page-user-review-container">
+        {
+          currentUser && !userReview && !userOwnsSpot && (
+            <button className="action-button" onClick={openCreateReviewForm}>Create a Review</button>
+          )}
+        {
+          currentUser && userReview && !userOwnsSpot && (
+            <div width="50%">
+              <button className="action-button" onClick={openEditReviewForm}>Edit your Review</button>
+              <button className="action-button" onClick={deleteReview}>Delete your Review</button>
+            </div>
+          )}
+      </div>
+    </div>
+  )
+}
+
+export default ReviewsBySpot;

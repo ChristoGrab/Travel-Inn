@@ -14,19 +14,16 @@
 }
 
 .spot-review-list {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 20%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   justify-content: space-evenly;
-  flex: 1 0 auto;
 }
 
 .spot-review-details-box {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 400px;
+  width: 100%;
   flex: 1 0 auto;
 }
 
@@ -47,16 +44,18 @@
   overflow-y: auto;
 }
 
+.spot-review-buttons {
+  display: flex;
+  flex-direction: column;
+}
+
 .review-delete-button {
   background-color: #f7f7f7;
   border: none;
   border-radius: 15px;
   font-size: 14px;
-  margin-top: 10px;
 }
 
 .review-delete-button:hover {
-  box-shadow: 1px 1px 0.5px lightgray;
-  border: 1px solid lightgray;
-  cursor: pointer;
+  box-shadow: 1px 1px 0.5px 1px lightgray;
 }

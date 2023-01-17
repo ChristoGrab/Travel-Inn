@@ -1,0 +1,21 @@
+.reservation-box {
+  background-color: white;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 12px;
+  padding: 24px;
+  gap: 5px;
+  box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+}
+
+.reservation-box-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.reservation-box-footer-prices {
+  display: flex;
+  justify-content: space-between;
+}

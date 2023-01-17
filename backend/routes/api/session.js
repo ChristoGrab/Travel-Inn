@@ -1,14 +1,32 @@
 const express = require('express');
-
-const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
-const { User } = require('../../db/models');
-
 const router = express.Router();
+const { setTokenCookie, restoreUser } = require('../../utils/auth');
+const { User } = require('../../db/models');
 
 // Import of validation middleware
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
+
+router.get(
+  '/',
+  restoreUser,
+  (req, res) => {
+      const { user } = req;
+      if (user) {
+          return res.json({
+              id: user.toSafeObject().id,
+              firstName: req.user.firstName,
+              lastName: req.user.lastName,
+              email: user.toSafeObject().email,
+              username: user.toSafeObject().username
+
+          });
+      } else {
+          res.json(null)
+      }
+  }
+);
 
 // Validate login function
 const validateLogin = [

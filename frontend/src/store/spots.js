@@ -1,7 +1,7 @@
 import { csrfFetch } from './csrf';
 
 // List of Actions
-const LOAD_SPOTS = 'spots/load';
+const GET_SPOTS = 'spots/load';
 const CREATE_SPOT = 'spots/create';
 const DELETE_SPOT = 'spots/delete';
 const UPDATE_SPOT = 'spots/update';
@@ -10,14 +10,14 @@ const ADD_IMAGE = 'spots/addImage';
 const CLEAR_SPOT = 'spots/clear';
 
 // ------ SESSION ACTION CREATORS ------ //
-const loadSpots = (spots) => {
+const getSpotsAction = (spots) => {
   return {
-    type: LOAD_SPOTS,
+    type: GET_SPOTS,
     spots
   };
 };
 
-const createSpot = (spot) => {
+const createSpotAction = (spot) => {
   return {
     type: CREATE_SPOT,
     spot
@@ -60,11 +60,11 @@ export const clearSpot = () => {
 
 // ------ SESSION THUNK CREATORS ------ //
 
-export const getAllSpots = () => async (dispatch) => {
+export const getSpots = () => async (dispatch) => {
   const response = await csrfFetch('/api/spots');
 
   const data = await response.json();
-  dispatch(loadSpots(data));
+  dispatch(getSpotsAction(data));
   return data;
 }
 
@@ -72,11 +72,15 @@ export const getOneSpot = (id) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${id}`)
 
   const data = await response.json();
-  dispatch(getSpot(data))
-  return data;
+  
+  if (response.ok) {
+    dispatch(getSpot(data))
+    return data
+  }
 }
 
 export const createNewSpot = (spot) => async (dispatch) => {
+  
   const response = await csrfFetch('/api/spots', {
     method: "POST",
     headers: {
@@ -84,17 +88,14 @@ export const createNewSpot = (spot) => async (dispatch) => {
     },
     body: JSON.stringify(spot)
   })
-  
-  // return data for previewImage thunk to use
-  // will want to change db so previewImage is
-  // part of Spots table.
+
 
   if (response.ok) {
     const newSpot = await response.json();
-    dispatch(createSpot(newSpot))
+    dispatch(createSpotAction(newSpot))
     return newSpot
+    
   } else {
-
     const errorData = await response.json();
     return errorData;
   }
@@ -139,6 +140,9 @@ export const createImageThunk = (payload, spotId) => async (dispatch) => {
     body: JSON.stringify(payload)
   })
   
+  
+  console.log(response.json())
+  
   if (response.ok) {
     const newImage = await response.json();
     console.log("New image in image thunk: ", newImage)
@@ -146,7 +150,7 @@ export const createImageThunk = (payload, spotId) => async (dispatch) => {
   }
 }
 
-const initialState = { spots: {}, singleSpot: {} }
+const initialState = { spotsList: {}, singleSpot: {} }
 
 // ------ SPOTS REDUCER ------ //
 const spotsReducer = (state = initialState, action) => {
@@ -155,7 +159,7 @@ const spotsReducer = (state = initialState, action) => {
   
   switch (action.type) {
 
-    case LOAD_SPOTS: {
+    case GET_SPOTS: {
       const allSpotsObject = {};
       action.spots.Spots.forEach(spot => {
         allSpotsObject[spot.id] = spot;
@@ -163,7 +167,7 @@ const spotsReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        spots: allSpotsObject
+        spotsList: allSpotsObject
       }
     }
 
@@ -179,7 +183,7 @@ const spotsReducer = (state = initialState, action) => {
       // and singleSpot set to the action spot.
       return {
         ...state,
-        spots: allSpotsObject,
+        spotsList: allSpotsObject,
         singleSpot: action.spot
       }
     }
@@ -200,7 +204,7 @@ const spotsReducer = (state = initialState, action) => {
     
     return {
       ...state,
-      spots: allSpotsObject,
+      spotsList: allSpotsObject,
       singleSpot: action.spot
     }
   }
@@ -212,7 +216,7 @@ const spotsReducer = (state = initialState, action) => {
     delete allSpotsObject[action.id]
     return {
       ...state,
-        spots: allSpotsObject,
+        spotsList: allSpotsObject,
         singleSpot: {}
     }
   }
