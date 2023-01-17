@@ -1,4 +1,5 @@
 import GoogleMapReact from 'google-map-react';
+import Geocode from 'react-geocode';
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from "react"
 import { getKey } from '../../store/map'
@@ -37,6 +38,8 @@ const Map = ( {lat, lng} ) => {
   };
   
   if (!key) return null;
+  
+  Geocode.setApiKey(key)
   
   return (
   <div className="map">

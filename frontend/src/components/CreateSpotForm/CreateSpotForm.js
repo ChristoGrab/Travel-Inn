@@ -131,8 +131,8 @@ function CreateSpotForm() {
 
     const finalDispatch = await dispatch(createImageThunk(imgPayload, newSpot.id))
       .catch(async (response) => {
-
-        const data = await response.json();
+        
+        const data = await response
 
         if (data && data.errors) {
           setInputErrors(data.errors);

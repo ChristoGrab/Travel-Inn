@@ -12,7 +12,7 @@ import CreateReviewForm from "./components/CreateReviewForm";
 import ProfilePage from "./components/UserAccount";
 import UserBookings from "./components/UserAccount/UserBookings";
 import UpdateReviewForm from "./components/UpdateReviewForm";
-import UpdateBookingPage from "./components/Bookings/UpdateBookingPage";
+import UpdateBookingPage from "./components/UpdateBooking/UpdateBookingPage";
 import Upload from "./components/Upload";
 import "./index.css";
 

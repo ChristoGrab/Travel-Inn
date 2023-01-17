@@ -10,9 +10,9 @@ import "./UpdateBookingPage.css"
 
 const UpdateBookingPage = () => {
 
+  const dispatch = useDispatch();
   const { spotId } = useParams();
   const { bookingId } = useParams();
-  const dispatch = useDispatch();
   const spot = useSelector(state => state.spots.singleSpot)
   const bookingToUpdate = useSelector(state => state.bookings.userBookings[bookingId])
   const [currentStart, setCurrentStart] = useState(null);
@@ -24,7 +24,6 @@ const UpdateBookingPage = () => {
     dispatch(getOneSpot(spotId))
     dispatch(getUserBookingsThunk())
   }, [dispatch, spotId])
-
 
   const pullDates = async (start, end) => {
     setCurrentStart(start)
@@ -38,11 +37,11 @@ const UpdateBookingPage = () => {
 
   useEffect(() => {
     if (bookingToUpdate) {
+      console.log("booking in component: ", bookingToUpdate)
       setCurrentStart(bookingToUpdate.startDate)
       setCurrentEnd(bookingToUpdate.endDate)
     }
   }, [bookingToUpdate])
-
 
   if (!spot) return null;
   if (!bookingToUpdate) return null;
@@ -54,7 +53,6 @@ const UpdateBookingPage = () => {
         <span> <span className="bold">${spot.price} </span>night</span>
       </div>
       <UpdateCalendar 
-        price={spot.price} 
         pullDates={pullDates} 
         currentStart={currentStart} 
         currentEnd={currentEnd}
