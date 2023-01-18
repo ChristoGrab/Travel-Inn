@@ -72,6 +72,7 @@ const DatePickerRange = ( {price, pullDates} ) => {
   const history = useHistory();
   const { spotId } = useParams();
   const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
+  const user = useSelector(state => state.session.user)
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [errors, setErrors] = useState([]);
@@ -119,6 +120,8 @@ const DatePickerRange = ( {price, pullDates} ) => {
       }
       )
   }
+  
+  if (!user) return null;
 
   return (
     <>

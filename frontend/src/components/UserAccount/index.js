@@ -25,7 +25,7 @@ function ProfilePage() {
   // filter through for spots where ownerId matches user Id
   const mySpots = spotsList.filter(spot => spot.ownerId === user.id)
   
-  if (!dataLoaded) {
+  if (!user || !dataLoaded) {
     return null;
   }
 
