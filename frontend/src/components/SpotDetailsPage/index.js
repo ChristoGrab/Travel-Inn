@@ -5,6 +5,7 @@ import { getOneSpot } from '../../store/spots';
 import { clearSpot } from '../../store/spots'
 import ReviewsBySpot from './SpotReviews'
 import ReservationBox from '../Bookings/ReservationBox';
+import convertDecimal from '../../functions/convertDecimal';
 import Map from '../Map';
 import Footer from '../Footer';
 import './SpotDetailsPage.css';
@@ -90,7 +91,7 @@ function SpotDetails() {
       
       <div className="spot-page-section-4">
         <h2>Where you'll be</h2>
-        <Map lat={spot.lat} lng={spot.lng}/>
+        <Map lat={convertDecimal(spot.lat)} lng={convertDecimal(spot.lng)}/>
         <span className="bold">{spot.city}, {spot.state}, {spot.country}</span>
       </div>
       
