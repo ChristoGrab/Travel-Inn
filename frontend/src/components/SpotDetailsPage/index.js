@@ -79,6 +79,7 @@ function SpotDetails() {
               <Link className="action-link"
                 to={`/spots/${spot.id}/delete`}>Remove listing
               </Link>
+              <button>Add Image</button>
           </div>
           : <ReservationBox spot={spot} />
         }
@@ -89,12 +90,14 @@ function SpotDetails() {
         <ReviewsBySpot spotId={spot.id} currentUser={currentUser} spotOwnerId={spot.Owner.id} averageRating={spot.avgStarRating}/>
       </div>
       
+      {currentUser && currentUser.id === spot.Owner.id ? null 
+      :
       <div className="spot-page-section-4">
         <h2>Where you'll be</h2>
         <Map lat={parseFloat(spot.lat)} lng={parseFloat(spot.lng)}/>
         <span className="bold">{spot.city}, {spot.state}, {spot.country}</span>
       </div>
-      
+      } 
       <Footer />
     </div>
   )

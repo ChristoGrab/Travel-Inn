@@ -11,13 +11,19 @@ const Upload = () => {
     
     formData.append("image", imageFile.files[0]);
     
-    const res = await csrfFetch("/api/spot-images/upload", {
-      method: "POST",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      body: formData,
-    });
+    try {
+      const res = await csrfFetch("/api/spot-images/upload", {
+        method: "POST",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        body: formData,
+      });
+    } catch (err) {
+      console.log(err);
+      const data = await err.json();
+      console.log(data)  
+    }
     const data = await res.json();
     console.log(data);
   };
@@ -27,6 +33,9 @@ const Upload = () => {
       <label>Image Upload Test</label>
       <input type="file" />
       <button onClick={handleUpload}>Upload</button>
+      { errors && errors.map((error, ind) => (
+        <div key={ind}>{error}</div>
+      ))}
     </form>
   )
 }
