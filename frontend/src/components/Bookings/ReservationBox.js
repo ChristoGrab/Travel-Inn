@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
 import Calendar from "./Calendar";
 import { calculateTotalPrice } from '../../functions/calculateTotalPrice'
 import "./ReservationBox.css";
@@ -7,6 +8,7 @@ import { calculateLengthOfStay } from "../../functions/lengthOfStay";
 const ReservationBox = ({ spot }) => {
   
   const [startDate, setStartDate] = useState(null);
+  const user = useSelector(state => state.session.user);
   const [endDate, setEndDate] = useState(null);
   const [nights, setNights] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -30,6 +32,8 @@ const ReservationBox = ({ spot }) => {
     useEffect(() => {
       setTotalPrice(calculateTotalPrice(nights, spot.price))
     }, [nights])
+    
+  if (!user) return null;
 
   return (
     <div className="reservation-box">

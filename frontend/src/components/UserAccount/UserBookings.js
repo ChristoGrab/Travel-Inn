@@ -9,6 +9,7 @@ import './UserBookings.css'
 
 const UserBookings = () => {
 
+  const user = useSelector(state => state.session.user)
   const dispatch = useDispatch();
   const history = useHistory();
   const userBookings = useSelector(state => Object.values(state.bookings.userBookings))
@@ -16,8 +17,6 @@ const UserBookings = () => {
   let pastBookings = [];
   const [dataLoaded, setDataLoaded] = useState(false)
   const [userHasHitDelete, setUserHasHitDelete] = useState(false)
-
-  console.log(userBookings)
 
   upcomingBookings = userBookings.filter(booking => {
     return booking.startDate > new Date().toISOString().split('T')[0]
@@ -40,7 +39,8 @@ const UserBookings = () => {
     history.push(`/bookings/${spotId}/update/${bookingId}`)
   }
 
-
+    if (!user) return null;
+  
     return (
       <>
       { dataLoaded && (

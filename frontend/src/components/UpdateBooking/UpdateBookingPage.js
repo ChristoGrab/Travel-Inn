@@ -11,6 +11,7 @@ import "./UpdateBookingPage.css"
 const UpdateBookingPage = () => {
 
   const dispatch = useDispatch();
+  const user = useSelector(state => state.session.user)
   const { spotId } = useParams();
   const { bookingId } = useParams();
   const spot = useSelector(state => state.spots.singleSpot)
@@ -48,8 +49,7 @@ const UpdateBookingPage = () => {
     }
   }, [bookingToUpdate])
 
-  if (!spot) return null;
-  if (!bookingToUpdate) return null;
+  if (!user || !spot || !bookingToUpdate) return null;
 
   return (
     <div className="update-reservation-box">
