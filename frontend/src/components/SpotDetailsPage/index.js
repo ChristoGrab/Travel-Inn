@@ -91,7 +91,7 @@ function SpotDetails() {
       
       <div className="spot-page-section-4">
         <h2>Where you'll be</h2>
-        <Map lat={convertDecimal(spot.lat)} lng={convertDecimal(spot.lng)}/>
+        <Map lat={parseFloat(spot.lat)} lng={parseFloat(spot.lng)}/>
         <span className="bold">{spot.city}, {spot.state}, {spot.country}</span>
       </div>
       
