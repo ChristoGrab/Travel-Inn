@@ -1,0 +1,26 @@
+.confirm-delete-div {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.tiny-button {
+  width: 65px;
+  height: 30px;
+  border-radius: 5px;
+  border: none;
+  background-color: #f5f5f5;
+  color: #000;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.tiny-button:hover {
+  background-color: #e21b5f;
+  border: 2px solid #e21b5f;
+  color: white;
+  border-radius: 3px;
+  box-shadow: 1px 1px 5px lightgray;
+}

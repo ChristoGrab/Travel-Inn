@@ -14,6 +14,8 @@ const UserBookings = () => {
   const userBookings = useSelector(state => Object.values(state.bookings.userBookings))
   let upcomingBookings = [];
   let pastBookings = [];
+  const [dataLoaded, setDataLoaded] = useState(false)
+  const [userHasHitDelete, setUserHasHitDelete] = useState(false)
 
   console.log(userBookings)
 
@@ -27,6 +29,7 @@ const UserBookings = () => {
 
   useEffect(() => {
     dispatch(getUserBookingsThunk())
+    .then(setDataLoaded(true))
 
     return (() => dispatch(clearBookingsAction()))
   }, [dispatch])
@@ -39,7 +42,10 @@ const UserBookings = () => {
 
 
     return (
+      <>
+      { dataLoaded && (
       <div className="user-bookings-page">
+
         <div className="user-bookings-header">
           <h1>Trips</h1>
           <h2>Upcoming reservations</h2>
@@ -94,6 +100,8 @@ const UserBookings = () => {
         </div>
 
       </div>
+      )}
+    </>
     )
   }
 
