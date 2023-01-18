@@ -22,7 +22,7 @@ const Upload = () => {
     } catch (err) {
       console.log(err);
       const data = await err.json();
-      console.log(data)  
+      console.log(data);
     }
   };
   
