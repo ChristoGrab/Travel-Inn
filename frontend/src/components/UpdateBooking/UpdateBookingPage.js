@@ -63,7 +63,7 @@ const UpdateBookingPage = () => {
         currentEnd={currentEnd}
         bookingId={bookingId}
       />
-      {currentStart && currentEnd && (
+      {currentStart && currentEnd && totalPrice !== "NaN" && (
         <div className="reservation-box-footer">
           <div className="reservation-box-footer-prices">
             <span className="bold">${spot.price}</span> x {nights} nights

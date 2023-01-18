@@ -128,7 +128,7 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {
-          setErrors([data.errors])
+          return setErrors([data.errors])
         }
       }
       )
@@ -170,6 +170,7 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
             minDate={startDate}
             isClearable
             monthsShown={2}
+            disabled={!startDate}
           />
         </div>
       </div>
