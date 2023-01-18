@@ -61,7 +61,7 @@ function App() {
           <Route path="/user/profile" exact>
             <ProfilePage />
           </Route>
-          <Route ptha='/user/bookings' exact>
+          <Route path='/user/bookings' exact>
             <UserBookings />
           </Route>
 

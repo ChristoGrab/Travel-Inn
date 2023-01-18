@@ -5,7 +5,6 @@ import { getOneSpot } from '../../store/spots';
 import { clearSpot } from '../../store/spots'
 import ReviewsBySpot from './SpotReviews'
 import ReservationBox from '../Bookings/ReservationBox';
-import convertDecimal from '../../functions/convertDecimal';
 import Map from '../Map';
 import Footer from '../Footer';
 import './SpotDetailsPage.css';
@@ -50,16 +49,26 @@ function SpotDetails() {
           </div>
         </div>
         <div className="spot-details-image-list">
-          {imageList.map(img => (
+          
+          {/* {imageList.map(img => (
             <img key={img.id} src={img.url} alt={img.name}></img>
           ))}
+         */}
+         
+        <img src={imageList[0].url} alt={imageList[0].name}></img>
+        <img src={imageList[1]?.url} alt={imageList[1]?.name}></img>
+        <img src={imageList[2]?.url} alt={imageList[2]?.name}></img>
+        <img src={imageList[3]?.url} alt={imageList[3]?.name}></img>
+        <img src={imageList[4]?.url} alt={imageList[4]?.name}></img>
         </div>
       </div>
 
       <div className="spot-page-section-2">
         <div className="spot-page-section-2-left">
           <div className="spot-page-box bold">
-            Free cancellation until 24 hours before check-in
+            <span>Free cancellation until 24 hours before check-in</span>
+            <span><i className="fa-solid fa-wifi" /> Free Wi-Fi</span>
+            <span><i className="fa-solid fa-door-open" /> Self Check-In</span>
           </div>
           <div className="spot-page-box">
             <span className="air-cover-text"><span className="light-red">Inn</span>Cover</span>
@@ -79,7 +88,7 @@ function SpotDetails() {
               <Link className="action-link"
                 to={`/spots/${spot.id}/delete`}>Remove listing
               </Link>
-              <button>Add Image</button>
+              {/* <button>Add Image</button> */}
           </div>
           : <ReservationBox spot={spot} />
         }
