@@ -3,7 +3,6 @@ import Geocode from 'react-geocode';
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from "react"
 import { getKey } from '../../store/map'
-import convertDecimal from '../../functions/convertDecimal';
 import './Map.css'
 
 // const LocationPin = () => (
