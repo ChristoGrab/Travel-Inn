@@ -2,7 +2,7 @@
 
 Welcome to Travel-Inn, an AirBnB Clone using Express and Sequelize for backend and React with Redux for frontend
 
-[Travel-Inn Live Link](https://travel-host.herokuapp.com)
+[Travel-Inn Live Link](https://travel-inn.onrender.com)
 
 ## Tech Stack
 
