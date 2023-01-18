@@ -5,6 +5,7 @@ import { getOneSpot } from '../../store/spots';
 import { clearSpot } from '../../store/spots'
 import ReviewsBySpot from './SpotReviews'
 import ReservationBox from '../Bookings/ReservationBox';
+import noImage from '../../assets/no-image-icon.png';
 import Map from '../Map';
 import Footer from '../Footer';
 import './SpotDetailsPage.css';
@@ -49,17 +50,31 @@ function SpotDetails() {
           </div>
         </div>
         <div className="spot-details-image-list">
-          
-          {/* {imageList.map(img => (
-            <img key={img.id} src={img.url} alt={img.name}></img>
-          ))}
-         */}
-         
-        <img src={imageList[0].url} alt={imageList[0].name}></img>
-        <img src={imageList[1]?.url} alt={imageList[1]?.name}></img>
-        <img src={imageList[2]?.url} alt={imageList[2]?.name}></img>
-        <img src={imageList[3]?.url} alt={imageList[3]?.name}></img>
-        <img src={imageList[4]?.url} alt={imageList[4]?.name}></img>
+          <img src={imageList[0].url}></img>
+          {imageList[1]?.url
+            ? <img src={imageList[1]?.url}></img>
+            : <div className="no-image-container">
+              <img className="no-image" src={noImage} />
+            </div>
+          }
+          {imageList[2]?.url
+            ? <img src={imageList[2]?.url}></img>
+            : <div className="no-image-container">
+              <img className="no-image" src={noImage} />
+            </div>
+          }
+          {imageList[3]?.url
+            ? <img src={imageList[3]?.url}></img>
+            : <div className="no-image-container">
+              <img className="no-image" src={noImage} />
+            </div>
+          }
+          {imageList[4]?.url
+            ? <img src={imageList[4]?.url}></img>
+            : <div className="no-image-container">
+              <img className="no-image" src={noImage} />
+            </div>
+          }
         </div>
       </div>
 
@@ -79,8 +94,8 @@ function SpotDetails() {
           </div>
         </div>
         <div className="spot-page-section-2-right">
-        {currentUser && currentUser.id === spot.Owner.id ?
-          <div className="spot-page-section-2-right-owner-container">
+          {currentUser && currentUser.id === spot.Owner.id ?
+            <div className="spot-page-section-2-right-owner-container">
               <Link
                 className="action-link"
                 to={`/spots/${spot.id}/edit`}>Edit listing
@@ -89,24 +104,24 @@ function SpotDetails() {
                 to={`/spots/${spot.id}/delete`}>Remove listing
               </Link>
               {/* <button>Add Image</button> */}
-          </div>
-          : <ReservationBox spot={spot} />
-        }
+            </div>
+            : <ReservationBox spot={spot} />
+          }
         </div>
       </div>
 
       <div className="spot-page-section-3">
-        <ReviewsBySpot spotId={spot.id} currentUser={currentUser} spotOwnerId={spot.Owner.id} averageRating={spot.avgStarRating}/>
+        <ReviewsBySpot spotId={spot.id} currentUser={currentUser} spotOwnerId={spot.Owner.id} averageRating={spot.avgStarRating} />
       </div>
-      
-      {currentUser && currentUser.id === spot.Owner.id ? null 
-      :
-      <div className="spot-page-section-4">
-        <h2>Where you'll be</h2>
-        <Map lat={parseFloat(spot.lat)} lng={parseFloat(spot.lng)}/>
-        <span className="bold">{spot.city}, {spot.state}, {spot.country}</span>
-      </div>
-      } 
+
+      {currentUser && currentUser.id === spot.Owner.id ? null
+        :
+        <div className="spot-page-section-4">
+          <h2>Where you'll be</h2>
+          <Map lat={parseFloat(spot.lat)} lng={parseFloat(spot.lng)} />
+          <span className="bold">{spot.city}, {spot.state}, {spot.country}</span>
+        </div>
+      }
       <Footer />
     </div>
   )

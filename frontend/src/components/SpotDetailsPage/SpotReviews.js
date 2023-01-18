@@ -97,7 +97,7 @@ function ReviewsBySpot({ spotId, spotOwnerId, currentUser, averageRating }) {
           currentUser && userReview && !userOwnsSpot && (
             <div className="spot-page-user-review-buttons">
               <button className="action-button" onClick={openEditReviewForm}>Edit your Review</button>
-              <button className="action-button" onClick={deleteReview}>Delete your Review</button>
+              <button id="delete-review-button" className="action-button" onClick={deleteReview}>Delete your Review</button>
             </div>
           )}
       </div>
