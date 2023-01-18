@@ -24,8 +24,6 @@ const Upload = () => {
       const data = await err.json();
       console.log(data)  
     }
-    const data = await res.json();
-    console.log(data);
   };
   
   return (
@@ -33,9 +31,6 @@ const Upload = () => {
       <label>Image Upload Test</label>
       <input type="file" />
       <button onClick={handleUpload}>Upload</button>
-      { errors && errors.map((error, ind) => (
-        <div key={ind}>{error}</div>
-      ))}
     </form>
   )
 }
