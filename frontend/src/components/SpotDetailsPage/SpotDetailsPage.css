@@ -112,32 +112,44 @@
   width: 100%;
 }
 
-.spot-details-image-list > img:nth-child(1) {
+.spot-details-image-list > :nth-child(1) {
   grid-area: img1;
   height: 400px;
   border-radius: 18px 0 0 18px;
 }
 
-.spot-details-image-list > img:nth-child(2) {
+.spot-details-image-list > :nth-child(2) {
   grid-area: img2;
   height: 195px;
 }
 
-.spot-details-image-list > img:nth-child(3) {
+.spot-details-image-list > :nth-child(3) {
   grid-area: img3;
   height: 195px;
   border-radius: 0 18px 0 0;
 }
 
-.spot-details-image-list > img:nth-child(4) {
+.spot-details-image-list > :nth-child(4) {
   grid-area: img4;
   height: 195px;
 }
 
-.spot-details-image-list > img:nth-child(5) {
+.spot-details-image-list > :nth-child(5) {
   grid-area: img5;
   height: 195px;
   border-radius: 0 0 18px 0;
+}
+
+.no-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f8f8;
+}
+
+.no-image {
+  max-height: 80px;
+  max-width: 80px;
 }
 
 /* Section 2 contains spot details on the left.

@@ -20,6 +20,7 @@ function UpdateReviewForm() {
   const [stars, setStars] = useState(review.stars)
   const [inputErrors, setInputErrors] = useState([]);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
 
   // list of input functions
   const updateReview = (e) => setReviewText(e.target.value)
@@ -38,6 +39,7 @@ function UpdateReviewForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    setShowErrors(true)
     if (inputErrors.length) return;
 
     const payload = {
@@ -45,9 +47,9 @@ function UpdateReviewForm() {
       stars: parseInt(stars)
     }
     
-    console.log(review.id)
+    setFormSubmitted(true);
     
-    setFormSubmitted(true)
+
 
     dispatch(updateReviewThunk(payload, review.id))
     .then(() => history.push(`/spots/${spotId}`))
@@ -58,11 +60,10 @@ function UpdateReviewForm() {
   return (
     <div className="update-review-form-container">
       <form className='create-review-form'>
-        <div
-          className="create-review-form-greeting">
-          Want to make some changes to your review? No problem!
+        <div className="create-review-form-greeting">
+          <h2>Want to make some changes to your review? No problem!</h2>
         </div>
-        {formSubmitted && <div className="create-review-errors">
+        {showErrors && <div className="create-review-errors">
           <div className="spot-errors-list">
             {inputErrors.map((error, idx) => (
               <li className="form-error" key={idx}>

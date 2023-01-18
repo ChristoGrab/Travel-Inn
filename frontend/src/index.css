@@ -42,7 +42,7 @@ input:focus {
 label {
   display: flex;
   flex-direction: column;
-  color: lightslategray;
+  color: rgb(63, 63, 63);
   font-size: 15px;
   width: 100%;
 }

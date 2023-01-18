@@ -13,7 +13,7 @@
     "header errors"
     "box1 box2"
     "button button";
-  gap: 20px;
+  gap: 15px;
   padding: 10px 40px;
   font-family: sans-serif;
   width: 100%;
@@ -32,7 +32,7 @@
   grid-area: box1;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
 }
 
 .create-spot-form-right {
@@ -40,7 +40,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
 }
 
 .create-spot-form-empty {
@@ -70,11 +70,36 @@
 }
 
 .create-spot-form-image-input {
-  border: 1px solid lightgray;
-  width: 70%;
+  width: 50%;
   border-radius: 5px;
   height: 34px;
+  display: flex;
+  flex-direction: column;
 }
+
+input[type=file]::file-selector-button {
+  margin-top: 4px;
+  background: white;
+  height: 30px;
+  width: 100%;
+  cursor: pointer;
+  align-self: center;
+  justify-self: center;
+  color: rgb(0, 0, 0);
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+input[type=file] {
+  border: none;
+  color: transparent;
+}
+
+input[type=file]:hover {
+  border: none;
+  box-shadow: none;
+}
+
 
 #create-spot-button {
   background-color: #ff385c;

@@ -169,67 +169,71 @@ function CreateSpotForm() {
         <div className="create-spot-form-left">
           <label>
             Street Address <span className="small-text"></span>
+          </label>
             <input className="create-spot-form-input"
               type="text"
               required
               value={address}
               onChange={updateAddress} />
-          </label>
+
           <label>
             City
+          </label>
             <input className="create-spot-form-input"
               type="text"
               required
               value={city}
               onChange={updateCity} />
-          </label>
           <label>
             State/Region
+            </label>
             <input className="create-spot-form-input"
               type="text"
               value={region}
               onChange={updateRegion} />
-          </label>
           <label>
             Country
+            </label>
             <input className="create-spot-form-input"
               type="text"
               value={country}
               onChange={updateCountry} />
-          </label>
+        
           <label>
-            Name - What should we call your listing?
+            Name - What should we call your listing?         
+             </label>
+            
             <input className="create-spot-form-input"
               type="text"
               value={name}
               onChange={updateName} />
-          </label>
+          
         </div>
 
         <div className="create-spot-form-right">
           <label>
             Description - Give your guests a brief overview of your listing <span className="small-text">(20 char min)</span>
+            </label>
             <textarea className="create-spot-form-textarea"
               type="text"
               value={description}
               onChange={updateDescription} />
-          </label>
           <label>
             Price in USD per night <span className="small-text">($10-10000)</span>
+            </label>
             <input className="create-spot-form-price-input"
               type="number"
               value={price}
               onChange={updatePrice} />
-          </label>
           <label>
             Preview Image <span className="small-text">Supported filetypes - jpg/jpeg or png</span>
+            </label>
             <input className='create-spot-form-image-input'
               type='file'
               name="image"
               id="imageInput"
               encType="multipart/form-data"
             />
-          </label>
         </div>
 
         <div className="create-spot-form-button">

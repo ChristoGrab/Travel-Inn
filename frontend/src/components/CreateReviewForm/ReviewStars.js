@@ -5,14 +5,6 @@ const ReviewStars = ({ stars, setStars }) => {
   
   // variable to trigger hover status on stars
   const [hover, setHover] = useState(null)
-  
-  const checkStars = (e) => {
-    e.preventDefault();
-    
-    console.log(
-      "banana"
-    )
-  }
 
   return (
     <div className="stars-wrapper">
@@ -26,7 +18,7 @@ const ReviewStars = ({ stars, setStars }) => {
               name="rating"
               className="rating-radio"
               value={ratingValue}
-              onClick={(e) => {setStars(ratingValue); checkStars(e)}}
+              onClick={(e) => {setStars(ratingValue)}}
             />
             <AiFillStar
               className="star"
