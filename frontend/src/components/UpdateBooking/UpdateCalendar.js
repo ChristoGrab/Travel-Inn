@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
+import { csrfFetch } from '../../store/csrf';
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useHistory } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import styled from "styled-components";
 import { findBookedDates } from '../../functions/findBookedDates';
-import { updateBookingThunk, getBookingsThunk, clearBookingsAction,  } from '../../store/bookings';
+import { updateBookingThunk, getBookingsThunk, clearBookingsAction, } from '../../store/bookings';
 import LoadingScreen from '../LoadingScreen';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -72,18 +73,34 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
   const [endDate, setEndDate] = useState(null);
   const [errors, setErrors] = useState([]);
   const [loadingScreen, setLoadingScreen] = useState(false)
+  const [unavailableDates, setUnavailableDates] = useState([])
+  
+  useEffect(() => {
+    if (spotId) {
+      console.log("restrictedBookings happened")
+      csrfFetch(`/api/bookings/restricted/${spotId}/${bookingId}`)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        data.forEach(booking => {
+          const bookedDates = findBookedDates(booking.startDate, booking.endDate)
+          setUnavailableDates(prev => [...prev, ...bookedDates])
+        })
+      })
+    }
+  }, [spotId, bookingId])
   
   useEffect(() => {
     dispatch(getBookingsThunk(spotId))
     return (() => dispatch(clearBookingsAction()))
   }, [dispatch, spotId])
-  
+
   useEffect(() => {
     if (currentStart && currentEnd) {
-    setStartDate(new Date(currentStart))
-    setEndDate(new Date(currentEnd))
+      setStartDate(new Date(currentStart))
+      setEndDate(new Date(currentEnd))
     }
-  }, [])
+  }, [bookingId])
 
   useEffect(() => {
     if (errors.length) {
@@ -91,11 +108,9 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
     }
   }, [errors])
 
-  let unavailableDates = []
-  
   useEffect(() => {
-      pullDates(startDate, endDate)
-      }, [startDate, endDate])
+    pullDates(startDate, endDate)
+  }, [startDate, endDate])
 
   // Create a new booking and send it to the backend
   const createReservation = async (e) => {
@@ -112,9 +127,8 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
       .then(response => history.push(`/user/bookings`))
       .catch(async (res) => {
         const data = await res.json();
-        console.log("Data from booking", data)
         if (data && data.errors) {
-          setErrors([data.errors])
+          return setErrors([data.errors])
         }
       }
       )
@@ -136,7 +150,6 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
             startDate={startDate}
             endDate={endDate}
             minDate={new Date()}
-            maxDate={endDate}
             isClearable
             monthsShown={2}
           />
@@ -157,10 +170,11 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
             minDate={startDate}
             isClearable
             monthsShown={2}
+            disabled={!startDate}
           />
         </div>
       </div>
-      
+
       <div>
         {errors.length > 0 && (
           <div className="errors-container">
@@ -170,32 +184,32 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
           </div>
         )}
       </div>
-       
+
       {startDate && endDate ?
-              <button className="reservation-button"
-              onClick={createReservation}>
-              Reserve
-            </button>
-            : <button className="disabled-reservation">
-              Select Dates
-            </button>
-        }
+        <button className="reservation-button"
+          onClick={createReservation}>
+          Reserve
+        </button>
+        : <button className="disabled-reservation">
+          Select Dates
+        </button>
+      }
 
     </>
   )
 }
 
 const UpdateCalendar = ({ pullDates, currentStart, currentEnd, bookingId }) => {
-  
+
   console.log("Current Start", currentStart)
   console.log("Current End", currentEnd)
   console.log("Booking ID", bookingId)
-  
+
   return (
     <UpdateStyles>
-      <DatePickerRange 
-        pullDates={pullDates}  
-        currentStart={currentStart} 
+      <DatePickerRange
+        pullDates={pullDates}
+        currentStart={currentStart}
         currentEnd={currentEnd}
         bookingId={bookingId}
       />

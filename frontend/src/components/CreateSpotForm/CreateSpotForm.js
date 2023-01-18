@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { csrfFetch } from '../../store/csrf';
 import { createNewSpot } from '../../store/spots'
 import { createImageThunk } from '../../store/spots';
+import LoadingScreen from '../LoadingScreen';
 import './CreateSpotForm.css'
 
 function CreateSpotForm() {
@@ -21,6 +22,7 @@ function CreateSpotForm() {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
   const formData = new FormData();
 
   // list of input functions
@@ -34,7 +36,6 @@ function CreateSpotForm() {
 
   // list of input errors
   useEffect(() => {
-
     let errors = []
     if (address.length <= 5) errors.push("Please provide a valid address")
     if (name.length <= 2) errors.push("Please provide a name for your listing")
@@ -44,42 +45,50 @@ function CreateSpotForm() {
     if (description.length <= 20) errors.push("Please provide at least a brief description of your listing (20 char min)")
     if (isNaN(price) || price < 10 || price > 10000) errors.push("Please provide a valid price per night within the $10-10000 range")
     setInputErrors(errors)
+    console.log(errors)
   }, [address, name, city, region, country, description, price])
+  
+  useEffect(() => {
+    if (inputErrors.length) {
+      setLoading(false)
+    }
+  }, [inputErrors.length])
 
   const validateImageUpload = (imageFile) => {
 
     let imageErrors = []
+    let userImage = imageFile.files[0]
 
     if (!imageFile.files.length) {
       imageErrors.push("Please provide an image file for your listing")
       return setInputErrors(imageErrors)
-    }
-
-    let userImage = imageFile.files[0]
-
-    if (userImage.type !== "image/jpeg" && userImage.type !== "image/png") {
+      
+    } else if (userImage.type !== "image/jpeg" && userImage.type !== "image/png") {
       imageErrors.push("The provided filetype is not supported (jpg or png only)")
       return setInputErrors(imageErrors)
     }
-
-    return;
+    
+    return
   }
 
   const handleSubmit = async (e) => {
 
     e.preventDefault();
     setFormSubmitted(true)
-
-    if (inputErrors.length) return
+    
+    if (inputErrors.length) return inputErrors
+    
+    setLoading(true)
 
     const imageFile = document.querySelector("#imageInput")
 
-    console.log(imageFile.files)
-
     validateImageUpload(imageFile)
+    
+    if (inputErrors.length) {
+      return inputErrors
+    }
 
     formData.append("image", imageFile.files[0])
-
 
     const picture = await csrfFetch('/api/spot-images/upload', {
       method: "POST",
@@ -91,7 +100,6 @@ function CreateSpotForm() {
 
     const previewImage = await picture.json();
 
-    console.log(previewImage)
 
     if (previewImage.errors) {
       return setInputErrors(previewImage.errors);
@@ -114,11 +122,11 @@ function CreateSpotForm() {
 
         const data = await response.json();
 
-        console.log(data)
-
         // if new errors, return them
         if (data && data.errors) {
-          setInputErrors(data.errors);
+          setLoading(false)
+          console.log(data)
+          return setInputErrors(data.errors);
         }
       });
 
@@ -127,15 +135,13 @@ function CreateSpotForm() {
       preview: true
     }
 
-    console.log(imgPayload)
-
     const finalDispatch = await dispatch(createImageThunk(imgPayload, newSpot.id))
       .catch(async (response) => {
         
         const data = await response
 
         if (data && data.errors) {
-          setInputErrors(data.errors);
+          return setInputErrors(data.errors);
         }
       });
 
@@ -146,19 +152,19 @@ function CreateSpotForm() {
 
   return (
     <div className="create-spot-form-container">
+      {loading && <LoadingScreen />}
       <form className="create-spot-form">
         <div className="create-spot-form-header">
           <h2>What place will you be hosting with us?</h2>
-          {formSubmitted && <div className="create-spot-errors">
-            <div className="spot-errors-list">
+        </div>
+        
+        {formSubmitted && <div className="create-spot-form-errors">
               {inputErrors.map((error, idx) => (
                 <li key={idx} className="form-error">
                   {error}
                 </li>
               ))}
-            </div>
-          </div>}
-        </div>
+            </div>}
 
         <div className="create-spot-form-left">
           <label>

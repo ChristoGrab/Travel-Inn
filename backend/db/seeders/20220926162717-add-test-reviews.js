@@ -50,6 +50,30 @@ module.exports = {
       spotId: 2,
       review: "LOVED IT!!! Everything was perfect",
       stars: 5
+    },
+    {
+      userId: 7,
+      spotId: 7,
+      review: "Great stay, would recommend to anyone",
+      stars: 4
+    },
+    {
+      userId: 6,
+      spotId: 7,
+      review: "It was ok, but the water wasn't working half the time...",
+      stars: 3
+    },
+    {
+      userId: 5,
+      spotId: 8,
+      review: "It's a life of luxury for me, and the chateau did not disappoint",
+      stars: 5
+    },
+    {
+      userId: 4,
+      spotId: 9,
+      review: "It was so sleepy I went into a coma",
+      stars: 2
     }
    ])
   },
