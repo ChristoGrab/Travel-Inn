@@ -13,7 +13,7 @@ import ProfilePage from "./components/UserAccount";
 import UserBookings from "./components/UserAccount/UserBookings";
 import UpdateReviewForm from "./components/UpdateReviewForm";
 import UpdateBookingPage from "./components/UpdateBooking/UpdateBookingPage";
-import Upload from "./components/Upload";
+import ImageForm from "./components/Upload/ImageForm";
 import "./index.css";
 
 function App() {
@@ -56,7 +56,7 @@ function App() {
             <UpdateBookingPage />
           </Route>
           <Route path='/testing/:spotId' exact>
-            <Upload />
+            <ImageForm />
           </Route>
           <Route path="/user/profile" exact>
             <ProfilePage />
