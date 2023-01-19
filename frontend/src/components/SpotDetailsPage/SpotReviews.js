@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { loadSpotReviewsThunk } from "../../store/reviews";
 import { deleteReviewThunk } from "../../store/reviews";
 import ReviewCard from './ReviewCard'
+import DeleteReview from './DeleteReview'
 import "./SpotReviews.css"
 
 
@@ -62,12 +63,8 @@ function ReviewsBySpot({ spotId, spotOwnerId, currentUser, averageRating }) {
 
     history.push(`/reviews/${userReview.id}/edit`)
   }
-
-  const deleteReview = (e) => {
-
-    dispatch(deleteReviewThunk(userReview.id))
-      .then(() => userHasDeletedReview())
-  }
+  
+  
 
   if (!reviews) return null;
   let reviewNums = reviews?.length
@@ -97,7 +94,7 @@ function ReviewsBySpot({ spotId, spotOwnerId, currentUser, averageRating }) {
           currentUser && userReview && !userOwnsSpot && (
             <div className="spot-page-user-review-buttons">
               <button className="action-button" onClick={openEditReviewForm}>Edit your Review</button>
-              <button id="delete-review-button" className="action-button" onClick={deleteReview}>Delete your Review</button>
+              <DeleteReview reviewId={userReview.id} />
             </div>
           )}
       </div>
