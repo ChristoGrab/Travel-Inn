@@ -23,6 +23,9 @@ function CreateSpotForm() {
   const [price, setPrice] = useState(0);
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [correctFile, setCorrectFile] = useState(true)
+  const [noFile, setNoFile] = useState(false)
+  const [imageErrors, setImageErrors] = useState([])
   const formData = new FormData();
 
   // list of input functions
@@ -44,47 +47,37 @@ function CreateSpotForm() {
     if (country.length <= 1) errors.push("Please provide at least 2 initials for your country")
     if (description.length <= 20) errors.push("Please provide at least a brief description of your listing (20 char min)")
     if (isNaN(price) || price < 10 || price > 10000) errors.push("Please provide a valid price per night within the $10-10000 range")
+    if (correctFile === false) errors.push("Please provide a valid image file type (jpg/jpeg or png)")
+    if (noFile === true) errors.push("Please provide an image file for your listing")
     setInputErrors(errors)
-  }, [address, name, city, region, country, description, price])
+  }, [address, name, city, region, country, description, price, correctFile, noFile])
+
   
   useEffect(() => {
-    if (inputErrors.length) {
+    if (inputErrors.length || imageErrors.length) {
       setLoading(false)
     }
-  }, [inputErrors.length])
-
-  const validateImageUpload = (imageFile) => {
-
-    let imageErrors = []
-    let userImage = imageFile.files[0]
-
-    if (!imageFile.files.length) {
-      imageErrors.push("Please provide an image file for your listing")
-      return setInputErrors(imageErrors)
-      
-    } else if (userImage.type !== "image/jpeg" && userImage.type !== "image/png") {
-      imageErrors.push("The provided filetype is not supported (jpg or png only)")
-      return setInputErrors(imageErrors)
-    }
-    
-    return
-  }
+  }, [inputErrors.length, imageErrors.length])
 
   const handleSubmit = async (e) => {
 
     e.preventDefault();
     setFormSubmitted(true)
+    setImageErrors([])
     
     if (inputErrors.length) return inputErrors
-    
+    const imageFile = document.querySelector("#imageInput")
     setLoading(true)
 
-    const imageFile = document.querySelector("#imageInput")
-
-    validateImageUpload(imageFile)
-    
-    if (inputErrors.length) {
-      return inputErrors
+    if (!imageFile.files.length) {
+      setLoading(false)
+      setImageErrors(["no file"])
+      return imageErrors
+    } else if (imageFile.files[0].type !== "image/jpeg" && imageFile.files[0].type !== "image/png") {
+      setLoading(false)
+      setImageErrors(["wrong file"])
+      console.log("wrong file")
+      return imageErrors
     }
 
     formData.append("image", imageFile.files[0])
@@ -98,7 +91,6 @@ function CreateSpotForm() {
     })
 
     const previewImage = await picture.json();
-
 
     if (previewImage.errors) {
       return setInputErrors(previewImage.errors);
@@ -145,6 +137,7 @@ function CreateSpotForm() {
 
     history.push(`/user/profile`)
   }
+
 
   // Component JSX
 
@@ -224,7 +217,7 @@ function CreateSpotForm() {
               value={price}
               onChange={updatePrice} />
           <label>
-            Preview Image <span className="small-text">Supported filetypes - jpg/jpeg or png</span>
+            Cover Photo - Pick an image to wow potential guests!<span className="small-text">Supported filetypes - jpg/jpeg or png</span>
             </label>
             <input className='create-spot-form-image-input'
               type='file'
@@ -232,6 +225,13 @@ function CreateSpotForm() {
               id="imageInput"
               encType="multipart/form-data"
             />
+            {imageErrors && <div className="create-spot-form-errors">
+              {imageErrors.map((error, idx) => (
+                <li key={idx} className="form-error">
+                  {error}
+                </li>
+              ))}
+            </div>}
         </div>
 
         <div className="create-spot-form-button">
