@@ -117,7 +117,6 @@ export const deleteBookingThunk = (bookingId) => async (dispatch) => {
     return data;
   } else {
     const data = await response.json()
-    console.log(data)
     return data;
   }
 }

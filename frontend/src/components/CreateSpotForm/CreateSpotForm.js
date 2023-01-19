@@ -45,7 +45,6 @@ function CreateSpotForm() {
     if (description.length <= 20) errors.push("Please provide at least a brief description of your listing (20 char min)")
     if (isNaN(price) || price < 10 || price > 10000) errors.push("Please provide a valid price per night within the $10-10000 range")
     setInputErrors(errors)
-    console.log(errors)
   }, [address, name, city, region, country, description, price])
   
   useEffect(() => {
@@ -125,7 +124,6 @@ function CreateSpotForm() {
         // if new errors, return them
         if (data && data.errors) {
           setLoading(false)
-          console.log(data)
           return setInputErrors(data.errors);
         }
       });
@@ -135,7 +133,7 @@ function CreateSpotForm() {
       preview: true
     }
 
-    const finalDispatch = await dispatch(createImageThunk(imgPayload, newSpot.id))
+    dispatch(createImageThunk(imgPayload, newSpot.id))
       .catch(async (response) => {
         
         const data = await response

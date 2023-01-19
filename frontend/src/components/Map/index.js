@@ -39,9 +39,6 @@ const Map = ( {address} ) => {
     response => {
       let newlat = response.results[0].geometry.location.lat;
       let newlng = response.results[0].geometry.location.lng;
-      console.log(response.results[0].geometry.location)
-      console.log(response.results[0].geometry.location.lat)
-      console.log(response.results[0].geometry.location.lng)
       setCenter({lat: newlat, lng: newlng})
     },
     error => {

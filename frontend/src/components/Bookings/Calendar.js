@@ -6,7 +6,6 @@ import styled from "styled-components";
 import { findBookedDates } from '../../functions/findBookedDates';
 import { createBookingThunk, getBookingsThunk, clearBookingsAction } from '../../store/bookings';
 import LoadingScreen from '../LoadingScreen';
-import { calculateTotalPrice } from '../../functions/calculateTotalPrice';
 import "react-datepicker/dist/react-datepicker.css";
 import "./Calendar.css"
 
@@ -115,7 +114,6 @@ const DatePickerRange = ( {price, pullDates} ) => {
       .then(response => history.push(`/user/bookings`))
       .catch(async (res) => {
         const data = await res.json();
-        console.log("Data from booking", data)
         if (data && data.errors) return setErrors([data.errors])
       }
       )

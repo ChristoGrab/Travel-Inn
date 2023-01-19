@@ -16,6 +16,8 @@ const Upload = () => {
     
     formData.append("image", imageFile.files[0]);
     
+    console.log(spotId)
+    
     try {
       const res = await csrfFetch("/api/spot-images/upload", {
         method: "POST",
@@ -25,19 +27,19 @@ const Upload = () => {
         body: formData,
       });
       
-      const imageUrl = await res.json();
+      const imageUrlObj = await res.json();
       
       const new_image = {
-        url: imageUrl,
+        url: imageUrlObj.url,
         preview: false
       }
       
       dispatch(createImageThunk(new_image, spotId))
-      .then(window.location.reload())
 
     } catch (err) {
       const data = await err.json();
       console.log(data);
+      return data;
     }
     
   };

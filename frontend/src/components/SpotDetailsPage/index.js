@@ -52,27 +52,27 @@ function SpotDetails() {
         <div className="spot-details-image-list">
           <img src={imageList[0].url}></img>
           {imageList[1]?.url
-            ? <img src={imageList[1]?.url}></img>
+            ? <img src={imageList[1]?.url} alt={spot.name} />
             : <div className="no-image-container">
-              <img className="no-image" src={noImage} />
+              <img className="no-image" src={noImage} alt={"an empty container"}/>
             </div>
           }
           {imageList[2]?.url
-            ? <img src={imageList[2]?.url}></img>
+            ? <img src={imageList[2]?.url} alt={spot.name} />
             : <div className="no-image-container">
-              <img className="no-image" src={noImage} />
+              <img className="no-image" src={noImage} alt={"an empty container"}/>
             </div>
           }
           {imageList[3]?.url
-            ? <img src={imageList[3]?.url}></img>
+            ? <img src={imageList[3]?.url} alt={spot.name}/>
             : <div className="no-image-container">
-              <img className="no-image" src={noImage} />
+              <img className="no-image" src={noImage} alt={"an empty container"}/>
             </div>
           }
           {imageList[4]?.url
-            ? <img src={imageList[4]?.url}></img>
+            ? <img src={imageList[4]?.url} alt={spot.name} />
             : <div className="no-image-container">
-              <img className="no-image" src={noImage} />
+              <img className="no-image" src={noImage} alt={"an empty container"}/>
             </div>
           }
         </div>
