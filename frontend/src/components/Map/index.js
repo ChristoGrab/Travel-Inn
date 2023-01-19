@@ -51,7 +51,7 @@ const Map = ( {address} ) => {
   }, [address, key])
   
   if (!key) return null;
-
+  
   return (
   <div className="map">
     <div className="google-map" style={{ height: '450px', width: '80%' }}>
