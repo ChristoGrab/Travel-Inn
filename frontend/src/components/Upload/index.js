@@ -1,9 +1,14 @@
 import { csrfFetch } from "../../store/csrf";
+import { getOneSpot, createImageThunk } from "../../store/spots";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 
 const Upload = () => {
+  
+  const dispatch = useDispatch();
+  const { spotId } = useParams();
 
   const handleUpload = async (e) => {
-    
     e.preventDefault();
     const formData = new FormData();
     
@@ -19,11 +24,22 @@ const Upload = () => {
         },
         body: formData,
       });
+      
+      const imageUrl = await res.json();
+      
+      const new_image = {
+        url: imageUrl,
+        preview: false
+      }
+      
+      dispatch(createImageThunk(new_image, spotId))
+      .then(window.location.reload())
+
     } catch (err) {
-      console.log(err);
       const data = await err.json();
       console.log(data);
     }
+    
   };
   
   return (
