@@ -3,7 +3,6 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserBookingsThunk, clearBookingsAction } from '../../store/bookings';
 import DeleteBooking from './DeleteBooking';
-import ReservationBox from '../Bookings/ReservationBox';
 import convertDates from '../../functions/convertDates';
 import './UserBookings.css'
 
@@ -16,8 +15,7 @@ const UserBookings = () => {
   let upcomingBookings = [];
   let pastBookings = [];
   const [dataLoaded, setDataLoaded] = useState(false)
-  const [userHasHitDelete, setUserHasHitDelete] = useState(false)
-
+  
   upcomingBookings = userBookings.filter(booking => {
     return booking.startDate > new Date().toISOString().split('T')[0]
   })
@@ -68,7 +66,9 @@ const UserBookings = () => {
                 </div>
               </Link>
               <Link to={`/spots/${booking.spotId}`} className="upcoming-booking-box-2">
-                <img className="medium-image" src={booking.Spot.previewImage}></img>
+                <img className="medium-image" 
+                src={booking.Spot.previewImage}
+                alt={booking.Spot.name} />
               </Link>
               <div className="upcoming-booking-box-3">
                 <button
@@ -86,7 +86,9 @@ const UserBookings = () => {
         <div className="previous-bookings-container">
           {pastBookings.length ? pastBookings?.map(booking => (
             <Link to={`/spots/${booking.Spot.id}`} key={booking.id} className="previous-booking-card">
-              <img className="previous-booking-image" src={booking.Spot.previewImage} />
+              <img className="previous-booking-image" 
+              src={booking.Spot.previewImage} 
+              alt={booking.Spot.name} />
               <div className="previous-booking-details">
                 <span className="bold">{booking.Spot.city}</span>
                 <span>Hosted by <span className="bold">{booking.Spot.host}</span></span>

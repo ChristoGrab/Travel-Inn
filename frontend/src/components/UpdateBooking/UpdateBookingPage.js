@@ -34,11 +34,10 @@ const UpdateBookingPage = () => {
 
   useEffect(() => {
     setTotalPrice(calculateTotalPrice(nights, spot.price))
-  }, [nights])
+  }, [nights, spot.price])
 
   useEffect(() => {
     if (bookingToUpdate) {  
-      console.log("it's a booking to update", bookingToUpdate)    
       let fixedStart = new Date(bookingToUpdate.startDate)
       let fixedEnd = new Date(bookingToUpdate.endDate)
       fixedStart.setDate(fixedStart.getDate() + 1)

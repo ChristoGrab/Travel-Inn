@@ -19,10 +19,7 @@ function LoginForm() {
     dispatch(sessionActions.login({ credential, password }))
     .catch( async (res) => {
         const data = await res.json();
-        console.log("Data from login", data)
         if (data && data.errors) setErrors(data.errors)
-        console.log(data.errors)
-        console.log(errors)
       }
     );
   };
@@ -31,7 +28,7 @@ function LoginForm() {
     <form className='login-form'
     onSubmit={handleSubmit}>
       <h3>Log In</h3>
-        {errors && (
+        {formSubmitted && errors && (
           <li id="login-error">{errors}</li>
         )}
       <label className="form-label">

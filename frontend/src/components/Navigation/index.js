@@ -13,7 +13,6 @@ import Logo from '../../assets/TravelInn_Logo.png'
 function Navigation({ isLoaded }) {
 
   const sessionUser = useSelector(state => state.session.user);
-  // console.log("Session user in Navigation: ", sessionUser)
 
   let sessionLinks;
 
