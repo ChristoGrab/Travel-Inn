@@ -1,8 +1,8 @@
 # Travel-Inn
 
-Welcome to Travel-Inn! Travel-Inn is a full-stack AirBnB Clone using Express.js and Sequelize for backend and React with Redux for frontend.
+Welcome to Travel-Inn! Travel-Inn is a full-stack AirBnB Clone using Express.js and Sequelize for backend and React with Redux for frontend.  Travel-Inn visitors are able to create a user account, or sign in with a single click using the Demo User.  With an account, users can create a listing, write reviews for other listings, and even set up a booking!
 
-[Travel-Inn Live Link](https://travel-inn.onrender.com)
+[Click this link to check it out yourself!](https://travel-inn.onrender.com)
 
 ## Tech Stacks
 
@@ -25,9 +25,7 @@ Welcome to Travel-Inn! Travel-Inn is a full-stack AirBnB Clone using Express.js 
 
 ## Wiki Links
 
-
 Please use the provided links below for further information on the project:
-
 
 ### [Feature List](https://github.com/ChristoGrab/AirBnB-Project/wiki/Feature-List)
 
@@ -43,6 +41,17 @@ A Demo User button has been included so all features can be tested without havin
 
 ## Contact Me
 
-Any questions can be directed my way via email at christo.grab@gmail.com
-<br>
-I look forward to any questions/concerns/feedback!
+## Contact Me
+
+<div id="header" align="center">
+  <div id="badges">
+  
+  <a href="https://www.linkedin.com/in/christo-grabowski-894a82a6" target="_blank">
+    <img src="https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Badge"/>
+  </a>
+    
+  <a href="mailto:christo.grab@gmail.com" target="_blank">
+    <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Gmail Badge"/>
+  </a>
+  </div>
+</div>
