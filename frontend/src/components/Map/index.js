@@ -29,8 +29,6 @@ const Map = ( {address} ) => {
   }, [])
   
   Geocode.setApiKey(key)
-  
-  if (Geocode.setApiKey) console.log('key set')
   Geocode.setLanguage('en')
   Geocode.setRegion('us')
   
