@@ -77,7 +77,6 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
 
   useEffect(() => {
     if (spotId) {
-      console.log("restrictedBookings happened")
       dispatch(getRestrictedDatesThunk(spotId, bookingId))
     }
   }, [spotId, bookingId])
@@ -111,7 +110,6 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
     }
   }
 
-  console.log(unavailableDates)
   // Create a new booking and send it to the backend
   const createReservation = async (e) => {
     e.preventDefault();
@@ -177,7 +175,7 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
 
       <div>
         {errors.length > 0 && (
-          <div className="errors-container">
+          <div className="update-booking-errors-container">
             {errors.map((error, ind) => (
               <div className="form-error" key={ind}>{error}</div>
             ))}

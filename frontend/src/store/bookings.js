@@ -137,6 +137,7 @@ export const updateBookingThunk = (booking, id) => async (dispatch) => {
     const data = await response.json()
     dispatch(postBookingAction(data))
     return data;
+    
   } else {
     const data = await response.json()
     console.log(data)
