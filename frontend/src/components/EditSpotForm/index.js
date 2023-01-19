@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateSpot } from '../../store/spots'
-import "./EditSpotForm.css"
 
 function EditSpotForm() {
 
@@ -40,7 +39,7 @@ function EditSpotForm() {
     if (region.length <= 1) errors.push("Please provide a valid state")
     if (country.length <= 1) errors.push("Please provide a valid country")
     if (description.length <= 12) errors.push("Please provide a brief description of your listing that is at least 12 characters long")
-    if (price < 1 || price > 10000) errors.push("Please provide a price per night between $1-10000")
+    if (typeof price !== "number" || price < 1 || price > 10000) errors.push("Please provide a price per night between $1-10000")
     setInputErrors(errors)
   }, [address, name, city, region, country, description, price])
 
@@ -64,75 +63,74 @@ function EditSpotForm() {
   }
 
   return (
-    <div>
-      <form className="edit-spot-form">
-        <div className="edit-spot-form-greeting">
-          Please provide the updated listing information
+    <div className="create-spot-form-container">
+      <form className="create-spot-form">
+        <div className="create-spot-form-header">
+          <h2>Please provide the updated listing information</h2>
         </div>
-        {formSubmitted && <div className="form-error">
-          <div>
+        
+        {formSubmitted && <div className="create-spot-form-errors">
             {inputErrors.map((error, idx) => (
-              <li key={idx}>
+              <li key={idx} className="form-error">
                 {error}
               </li>
             ))}
-          </div>
         </div>}
+        
+        <div className="create-spot-form-left">
+        <label>Address</label>
+        <input className="create-spot-form-input"
+          type="text"
+          value={address}
+          onChange={updateAddress} />
+        <label>City</label>
+        <input
+        className="create-spot-form-input"
+          type="text"
+          value={city}
+          onChange={updateCity} />
+        <label>State</label>
+        <input
+        className="create-spot-form-input"
+          type="text"
+          value={region}
+          onChange={updateRegion} />
+        <label>Country</label>
+        <input
+        className="create-spot-form-input"
+          type="text"
+          value={country}
+          onChange={updateCountry} />
+        <label>Name - What should we call your listing?</label>
+        <input
+        className="create-spot-form-input"
+          type="text"
+          value={name}
+          onChange={updateName} />
+          </div>
+          
+        <div className="create-spot-form-right">
         <label>
-          Address
-          <input
-            type="text"
-            required
-            value={address}
-            onChange={updateAddress} />
+          Description - Give your guests a brief overview of your listing <span className="small-text">(20 char min)</span>
         </label>
+        <textarea
+          className="create-spot-form-textarea"
+          type="text"
+          value={description}
+          onChange={updateDescription} />
         <label>
-          City
-          <input
-            type="text"
-            required
-            value={city}
-            onChange={updateCity} />
-        </label>
-        <label>
-          State
-          <input
-            type="text"
-            value={region}
-            onChange={updateRegion} />
-        </label>
-        <label>
-          Country
-          <input
-            type="text"
-            value={country}
-            onChange={updateCountry} />
-        </label>
-        <label>
-          Name
-          <input
-            type="text"
-            value={name}
-            onChange={updateName} />
-        </label>
-        <label>
-          Description
-          <textarea
-            id="edit-spot-form-textarea"
-            type="text"
-            value={description}
-            onChange={updateDescription} />
-        </label>
-        <label>
-          Price
-          <input
-            type="text"
-            value={price}
-            onChange={updatePrice} />
-        </label>
+          Price per night in USD</label>
+        <input
+        className="create-spot-form-price-input"
+          type="number"
+          value={price}
+          onChange={updatePrice} />
+          </div>
+          <div className="create-spot-form-button">
         <button
-          className="edit-spot-button"
+          className="submit-button"
           onClick={handleSubmit}>Update your listing</button>
+          </div>
       </form>
     </div>
   )
