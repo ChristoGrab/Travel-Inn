@@ -114,14 +114,16 @@ function SpotDetails() {
         <ReviewsBySpot spotId={spot.id} currentUser={currentUser} spotOwnerId={spot.Owner.id} averageRating={spot.avgStarRating} />
       </div>
 
-      {currentUser && currentUser.id === spot.Owner.id ? null
-        :
         <div className="spot-page-section-4">
-          <h2>Where you'll be</h2>
-          <Map lat={parseFloat(spot.lat)} lng={parseFloat(spot.lng)} />
+          {currentUser.id === spot.Owner.id
+          ? <h2>Your listing location</h2>
+          : <h2>Where you'll be</h2>
+          }     
+          For security reasons, locations are approximate. Your host will provide exact address before check-in.
+          <Map address={`${spot.city}, ${spot.state}`} />
           <span className="bold">{spot.city}, {spot.state}, {spot.country}</span>
         </div>
-      }
+        
       <Footer />
     </div>
   )

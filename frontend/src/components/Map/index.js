@@ -1,56 +1,69 @@
 import GoogleMapReact from 'google-map-react';
 import Geocode from 'react-geocode';
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { getKey } from '../../store/map'
 import './Map.css'
 
-// const LocationPin = () => (
-//   <div className="pin">
-//     <i className="fa-solid fa-house" />
-//   </div>
-// )
+const LocationPin = () => (
+    <i className="fa-solid fa-house" />
+)
 
-const Map = ( {lat, lng} ) => {
+const Map = ( {address} ) => {
   const dispatch = useDispatch();
   const key = useSelector(state => state.map.key)
-  const renderMarkers = (map, maps) => {
-    let marker = new maps.Marker({
-      position: { lat, lng },
-      map,
-      title: 'Location is approximate. Exact location will be provided after booking.'
-    });
-    return marker;
+  const [center, setCenter] = useState({lat: 0, lng: 0})
+  
+  const defaultProps = {
+    center: {
+      lat: 0,
+      lng: 0
+    },
+    zoom: 16
   };
   
   useEffect(() => {
     if (!key) {
       dispatch(getKey())
     }
-  }, [dispatch, key])
-  
-  const defaultProps = {
-    center: {
-      lat,
-      lng
-    },
-    zoom: 16
-  };
-  
-  if (!key) return null;
+  }, [])
   
   Geocode.setApiKey(key)
+  
+  if (Geocode.setApiKey) console.log('key set')
+  Geocode.setLanguage('en')
+  Geocode.setRegion('us')
+  
+  useEffect(() => {
+  Geocode.fromAddress(address).then(
+    response => {
+      let newlat = response.results[0].geometry.location.lat;
+      let newlng = response.results[0].geometry.location.lng;
+      console.log(response.results[0].geometry.location)
+      console.log(response.results[0].geometry.location.lat)
+      console.log(response.results[0].geometry.location.lng)
+      setCenter({lat: newlat, lng: newlng})
+    },
+    error => {
+      console.error(error);
+    }
+  );
+  }, [address, key])
+  
+  if (!key) return null;
   
   return (
   <div className="map">
     <div className="google-map" style={{ height: '450px', width: '80%' }}>
       <GoogleMapReact
-        bootstrapURLKeys={{ key: key }}
+        bootstrapURLKeys={{ 
+          key: key,
+          language: 'en' 
+        }}
         defaultCenter={defaultProps.center}
         defaultZoom={defaultProps.zoom}
-        yesIWantToUseGoogleMapApiInternals
-        onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}>
-
+        center={center}>
+        <LocationPin lat={center.lat} lng={center.lng} />
       </GoogleMapReact>
     </div>
   </div>
