@@ -56,14 +56,13 @@ const Map = ( {address} ) => {
   <div className="map">
     <div className="google-map" style={{ height: '450px', width: '80%' }}>
       <GoogleMapReact
-        bootstrapURLKeys={{ key: key }}
+        bootstrapURLKeys={{ 
+          key: key,
+          language: 'en' 
+        }}
         defaultCenter={defaultProps.center}
         defaultZoom={defaultProps.zoom}
-        maxZoom={defaultProps.zoom}
-        minZoom={defaultProps.zoom}
-        disableDefaultUI={true}
-        center={center}
-        yesIWantToUseGoogleMapApiInternals>
+        center={center}>
         <LocationPin lat={center.lat} lng={center.lng} />
       </GoogleMapReact>
     </div>

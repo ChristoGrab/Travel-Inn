@@ -5,14 +5,17 @@
   padding: 12px;
   border-radius: 50%;
   opacity: 1;
+  animation: bounce 3s infinite;
 }
 
-.fa-house::after {
-  content: "\005E";
-  position: absolute;
-  top: 35px;
-  color: #ff385c;
-  left: 18px;
-  background-color: none;
-  transform: rotate(180deg);
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
