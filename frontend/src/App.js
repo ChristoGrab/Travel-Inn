@@ -55,7 +55,7 @@ function App() {
           <Route path='/bookings/:spotId/update/:bookingId' exact>
             <UpdateBookingPage />
           </Route>
-          <Route path='/testing' exact>
+          <Route path='/testing/:spotId' exact>
             <Upload />
           </Route>
           <Route path="/user/profile" exact>

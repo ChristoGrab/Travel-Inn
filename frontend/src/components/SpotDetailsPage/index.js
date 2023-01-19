@@ -115,7 +115,7 @@ function SpotDetails() {
       </div>
 
         <div className="spot-page-section-4">
-          {currentUser.id === spot.Owner.id
+          {currentUser && currentUser.id === spot.Owner.id
           ? <h2>Your listing location</h2>
           : <h2>Where you'll be</h2>
           }     
