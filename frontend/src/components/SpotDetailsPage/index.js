@@ -5,6 +5,7 @@ import { getOneSpot } from '../../store/spots';
 import { clearSpot } from '../../store/spots'
 import ReviewsBySpot from './SpotReviews'
 import ReservationBox from '../Bookings/ReservationBox';
+import ImageForm from '../Upload/ImageForm';
 import noImage from '../../assets/no-image-icon.png';
 import Map from '../Map';
 import Footer from '../Footer';
@@ -103,7 +104,7 @@ function SpotDetails() {
               <Link className="action-link"
                 to={`/spots/${spot.id}/delete`}>Remove listing
               </Link>
-              {/* <button>Add Image</button> */}
+              <ImageForm />
             </div>
             : <ReservationBox spot={spot} />
           }

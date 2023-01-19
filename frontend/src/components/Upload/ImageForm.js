@@ -2,8 +2,9 @@ import { csrfFetch } from "../../store/csrf";
 import { getOneSpot, createImageThunk } from "../../store/spots";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import "./ImageForm.css"
 
-const Upload = () => {
+const ImageForm = () => {
   
   const dispatch = useDispatch();
   const { spotId } = useParams();
@@ -30,11 +31,12 @@ const Upload = () => {
       const imageUrlObj = await res.json();
       
       const new_image = {
-        url: imageUrlObj.url,
+        url: imageUrlObj.imageUrl,
         preview: false
       }
       
       dispatch(createImageThunk(new_image, spotId))
+      .then(window.location.reload())
 
     } catch (err) {
       const data = await err.json();
@@ -45,12 +47,12 @@ const Upload = () => {
   };
   
   return (
-    <form>
-      <label>Image Upload Test</label>
+    <form className="image-form">
+      <label>Add Image (jpg/jpeg or png)</label>
       <input type="file" />
-      <button onClick={handleUpload}>Upload</button>
+      <button className="action-button" onClick={handleUpload}>Upload</button>
     </form>
   )
 }
 
-export default Upload;
+export default ImageForm;
