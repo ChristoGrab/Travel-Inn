@@ -183,7 +183,7 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
         )}
       </div>
 
-      {startDate && endDate ?
+      {startDate && endDate && (startDate < endDate) ?
         <button className="reservation-button"
           onClick={createReservation}>
           Reserve
