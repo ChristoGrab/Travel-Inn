@@ -71,12 +71,11 @@ function CreateSpotForm() {
 
     if (!imageFile.files.length) {
       setLoading(false)
-      setImageErrors(["no file"])
+      setImageErrors(["Please select an image to upload"])
       return imageErrors
     } else if (imageFile.files[0].type !== "image/jpeg" && imageFile.files[0].type !== "image/png") {
       setLoading(false)
-      setImageErrors(["wrong file"])
-      console.log("wrong file")
+      setImageErrors(["Please select a valid image file type (jpg/jpeg or png)"])
       return imageErrors
     }
 
