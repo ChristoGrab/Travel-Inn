@@ -3,6 +3,7 @@ const router = express.Router()
 const { Booking, Spot, User, SpotImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
 const { Op } = require("sequelize");
+const BookingError = require('../../utils/bookingErrors');
 
 
 
@@ -74,9 +75,17 @@ router.get('/current', requireAuth, async (req, res) => {
 })
 
 // EDIT A BOOKING
-router.put('/:bookingId', requireAuth, async (req, res) => {
+router.put('/:bookingId', requireAuth, async (req, res, next) => {
   const booking = await Booking.findByPk(req.params.bookingId)
   
+  const otherBookings = await Booking.findAll({
+    where: {
+      spotId: booking.spotId,
+      id: {
+        [Op.ne]: booking.id
+      }
+    }
+  })
   
   if (!booking) {
     res.status(404)
@@ -95,6 +104,7 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
   }
   
   const { startDate, endDate } = req.body
+  let startDateCheck = new Date(startDate)
   let endDateCheck = new Date(endDate)
   
   if (endDateCheck < new Date()) {
@@ -112,6 +122,21 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
       "statusCode": 400
     })
   }
+  
+  for (let booking of otherBookings) {
+    let otherBookingObject = booking.toJSON();
+    let otherBookingStartDate = otherBookingObject.startDate
+    let otherBookingEndDate = otherBookingObject.endDate
+    otherBookingStartDate = new Date(otherBookingStartDate)
+    otherBookingEndDate = new Date(otherBookingEndDate)
+    
+    if (startDateCheck < otherBookingStartDate && endDateCheck > otherBookingEndDate) {
+      const err = new BookingError("This booking conflicts with another booking", 400)
+      return next(err)
+    }
+  }
+    
+  
   
   await booking.update({
     startDate,

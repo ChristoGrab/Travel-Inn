@@ -5,7 +5,7 @@ const GET_USER_BOOKINGS = 'bookings/get/user';
 const CREATE_BOOKING = "bookings/create";
 const DELETE_BOOKING = "bookings/delete";
 const CLEAR_BOOKINGS = "bookings/clear";
-const UPDATE_BOOKING = "bookings/update";
+const GET_RESTRICTED_BOOKINGS = "bookings/restricted";
 
 // Action Creators
 const getBookingsAction = (bookings) => {
@@ -18,6 +18,13 @@ const getBookingsAction = (bookings) => {
 const getUserBookingsAction = (bookings) => {
   return {
     type: GET_USER_BOOKINGS,
+    bookings
+  }
+}
+
+const getRestrictedDatesAction = (bookings) => {
+  return {
+    type: GET_RESTRICTED_BOOKINGS,
     bookings
   }
 }
@@ -62,6 +69,17 @@ export const getUserBookingsThunk = () => async (dispatch) => {
   
   if (response.ok) {
     dispatch(getUserBookingsAction(data))
+    return data;
+  }
+}
+
+export const getRestrictedDatesThunk = (spotId, bookingId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/bookings/restricted/${spotId}/${bookingId}`)
+  
+  const data = await response.json();
+  
+  if (response.ok) {
+    dispatch(getRestrictedDatesAction(data))
     return data;
   }
 }
@@ -119,6 +137,7 @@ export const updateBookingThunk = (booking, id) => async (dispatch) => {
     const data = await response.json()
     dispatch(postBookingAction(data))
     return data;
+    
   } else {
     const data = await response.json()
     console.log(data)
@@ -126,7 +145,7 @@ export const updateBookingThunk = (booking, id) => async (dispatch) => {
   }
 }
 
-const bookingsReducer = (state = { spotBookings: {}, userBookings: {} }, action) => {
+const bookingsReducer = (state = { spotBookings: {}, userBookings: {}, restricted: [] }, action) => {
   
   switch (action.type) {
     
@@ -134,7 +153,8 @@ const bookingsReducer = (state = { spotBookings: {}, userBookings: {} }, action)
       const newState = {
         ...state,
         spotBookings: {...state.spotBookings},
-        userBookings: {...state.userBookings}
+        userBookings: {...state.userBookings},
+        restricted: [...state.restricted]
       }
       
 
@@ -152,25 +172,35 @@ const bookingsReducer = (state = { spotBookings: {}, userBookings: {} }, action)
       const newState = {
         ...state,
         spotBookings: {...state.spotBookings},
-        userBookings: {...state.userBookings}
+        userBookings: {...state.userBookings},
+        restricted: [...state.restricted]
       }
-      
-
-      
       action.bookings.Bookings.forEach(booking => {
         newState.userBookings[booking.id] = booking;
       })
       
-
-      
-    return newState;
+      return newState;
     }
+      
+    case GET_RESTRICTED_BOOKINGS: {
+      const newState = {
+        ...state,
+        spotBookings: {...state.spotBookings},
+        userBookings: {...state.userBookings},
+        restricted: action.bookings.Bookings
+      }
+      
+      return newState;
+    }
+      
+
     
     case CREATE_BOOKING: {
       const newState = { 
         ...state,
         spotBookings: {...state.spotBookings},
-        userBookings: {...state.userBookings}
+        userBookings: {...state.userBookings},
+        restricted: [...state.restricted]
     }
     
     newState.spotBookings[action.booking.id] = action.booking
@@ -181,7 +211,8 @@ const bookingsReducer = (state = { spotBookings: {}, userBookings: {} }, action)
     const newState = {
       ...state,
       spotBookings: {...state.spotBookings},
-      userBookings: {...state.userBookings}
+      userBookings: {...state.userBookings},
+      restricted: [...state.restricted]
     }
 
     delete newState.userBookings[action.bookingId]
@@ -194,7 +225,8 @@ const bookingsReducer = (state = { spotBookings: {}, userBookings: {} }, action)
     return {
       ...state,
       spotBookings: {},
-      userBookings: {}
+      userBookings: {},
+      restricted: []
     }
   }
 

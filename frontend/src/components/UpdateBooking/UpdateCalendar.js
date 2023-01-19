@@ -5,7 +5,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import styled from "styled-components";
 import { findBookedDates } from '../../functions/findBookedDates';
-import { updateBookingThunk, getBookingsThunk, clearBookingsAction, } from '../../store/bookings';
+import { updateBookingThunk, getBookingsThunk, clearBookingsAction, getRestrictedDatesThunk } from '../../store/bookings';
 import LoadingScreen from '../LoadingScreen';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -73,23 +73,14 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
   const [endDate, setEndDate] = useState(null);
   const [errors, setErrors] = useState([]);
   const [loadingScreen, setLoadingScreen] = useState(false)
-  const [unavailableDates, setUnavailableDates] = useState([])
-  
+  const restricted = useSelector(state => state.bookings.restricted)
+
   useEffect(() => {
     if (spotId) {
-      console.log("restrictedBookings happened")
-      csrfFetch(`/api/bookings/restricted/${spotId}/${bookingId}`)
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        data.forEach(booking => {
-          const bookedDates = findBookedDates(booking.startDate, booking.endDate)
-          setUnavailableDates(prev => [...prev, ...bookedDates])
-        })
-      })
+      dispatch(getRestrictedDatesThunk(spotId, bookingId))
     }
   }, [spotId, bookingId])
-  
+
   useEffect(() => {
     dispatch(getBookingsThunk(spotId))
     return (() => dispatch(clearBookingsAction()))
@@ -111,6 +102,13 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
   useEffect(() => {
     pullDates(startDate, endDate)
   }, [startDate, endDate])
+
+  let unavailableDates = []
+  if (restricted) {
+    for (let bookings of restricted) {
+      unavailableDates = [...unavailableDates, ...findBookedDates(bookings.startDate, bookings.endDate)]
+    }
+  }
 
   // Create a new booking and send it to the backend
   const createReservation = async (e) => {
@@ -177,7 +175,7 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
 
       <div>
         {errors.length > 0 && (
-          <div className="errors-container">
+          <div className="update-booking-errors-container">
             {errors.map((error, ind) => (
               <div className="form-error" key={ind}>{error}</div>
             ))}
