@@ -49,7 +49,11 @@ function LoginForm() {
   return (
     <form className='login-form'
       onSubmit={handleSubmit}>
-      <h3>Log In</h3>
+      <div className="auth-form-header">
+        Log In
+      </div>
+      
+      <h2>Welcome to Travel-Inn</h2>
       {formSubmitted && errors && (
         <li id="login-error">{errors}</li>
       )}

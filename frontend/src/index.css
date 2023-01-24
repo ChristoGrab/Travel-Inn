@@ -23,16 +23,12 @@ body::before {
 }
 
 input {
-  border: 1px solid lightgray;
+  border: 1px solid #ebebeb;
   height: 34px;
   width: 100%;
   border-radius: 14px;
   box-sizing: border-box;
   padding: 0 6px;
-}
-
-input:hover {
-  box-shadow: 1px 1px 2px lightgray;
 }
 
 input:focus {
@@ -75,7 +71,7 @@ Submit buttons are red, and action buttons are white with a red border.
   background-color: #e21b5f;
   border: 2px solid #e21b5f;
   color: white;
-  border-radius: 5em;
+  border-radius: 6px;
   width: 50%;
   margin-top: 20px;
   font-size: 15px;
