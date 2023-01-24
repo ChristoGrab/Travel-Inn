@@ -39,14 +39,6 @@ input:focus {
   outline: solid 1px #e21b5f;
 }
 
-label {
-  display: flex;
-  flex-direction: column;
-  color: rgb(63, 63, 63);
-  font-size: 15px;
-  width: 100%;
-}
-
 .error-list-item {
   font-size: 11pt;
 }

@@ -1,11 +1,68 @@
 .login-form {
-  width: 40vh;
+  min-width: 500px;
+  min-height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   box-sizing: border-box;
+}
+
+.auth-form-body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container:focus-within label {
+  position: absolute;
+  pointer-events: none;
+  transform-origin: top left;
+  transform: translate(0, 6px) scale(0.75);
+  color: #ff385c;
+  transition: 200ms all ease-out 0ms;
+  margin-left: 5px;
+}
+
+.filled {
+  position: absolute;
+  pointer-events: none;
+  transform-origin: top left;
+  transform: translate(0, 6px) scale(0.75);
+  color: #ff385c;
+  transition: 200ms all ease-out 0ms;
+  left: 16px;
+}
+
+.not-filled {
+  position: absolute;
+  pointer-events: none;
+  transform: translate(0, 10px) scale(1);
+  transform-origin: top left;
+  transition: 200ms all ease-out 0ms;
+  color: #6f81a5;
+  font-size: 16px;
+  left: 16px;
+}
+
+
+.auth-form-input-top {
+  border-radius: 10px 10px 0 0;
+  height: 55px;
+  padding-top: 16px;
+  padding-left: 5px;
+}
+
+.auth-form-input-bottom {
+  border-radius: 0 0 10px 10px;
+  height: 55px;
 }
 
 .form-input {
