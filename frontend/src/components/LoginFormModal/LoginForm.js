@@ -39,9 +39,14 @@ function LoginForm() {
     dispatch(sessionActions.login({ credential, password }))
       .catch(async (res) => {
         const data = await res.json();
-        if (data && data.errors) setErrors(data.errors)
-      }
-      );
+        if (data && data.errors) {
+          if (typeof data.errors === 'string') {
+            setErrors([data.errors]);
+          } else {
+            setErrors(data.errors);
+          }
+        }
+      });
   };
 
   return (
@@ -52,10 +57,15 @@ function LoginForm() {
       </div>
       
       <h2>Welcome to Travel-Inn</h2>
+      
       {formSubmitted && errors && (
-        <li id="login-error">{errors}</li>
+        <div className="auth-form-error-box">
+        {errors.map((error, idx) => (
+          <li className="form-error" key={idx}>{error}</li>
+      ))}
+      </div>
       )}
-
+      
       <div className="auth-form-body">
         <div className="input-container">
 

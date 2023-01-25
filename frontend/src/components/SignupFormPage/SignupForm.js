@@ -104,7 +104,7 @@ function SignupForm() {
         
         <h2>Welcome to Travel-Inn</h2>
         
-        <div className='form-errors'>
+        <div className='auth-form-error-box'>
           {errors.map((error, idx) => <li className="form-error" key={idx}>{error}</li>)}
         </div>
         
