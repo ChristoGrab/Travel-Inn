@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
-import LoginFormModal from '../LoginFormModal';
+import LoginFormModal from '../AuthForms/LoginFormModal';
 import CreateSpotButton from '../CreateSpotForm/index'
-import SignupFormModal from '../SignupFormPage';
+import SignupFormModal from '../AuthForms/SignupFormPage';
 import DemoUser from '../DemoUser'
 
 import './Navigation.css';

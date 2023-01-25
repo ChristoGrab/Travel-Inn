@@ -68,69 +68,91 @@ function EditSpotForm() {
         <div className="create-spot-form-header">
           <h2>Please provide the updated listing information</h2>
         </div>
-        
+
         {formSubmitted && <div className="create-spot-form-errors">
-            {inputErrors.map((error, idx) => (
-              <li key={idx} className="form-error">
-                {error}
-              </li>
-            ))}
+          {inputErrors.map((error, idx) => (
+            <li key={idx} className="form-error">
+              {error}
+            </li>
+          ))}
         </div>}
-        
+
         <div className="create-spot-form-left">
-        <label>Address</label>
-        <input className="create-spot-form-input"
-          type="text"
-          value={address}
-          onChange={updateAddress} />
-        <label>City</label>
-        <input
-        className="create-spot-form-input"
-          type="text"
-          value={city}
-          onChange={updateCity} />
-        <label>State</label>
-        <input
-        className="create-spot-form-input"
-          type="text"
-          value={region}
-          onChange={updateRegion} />
-        <label>Country</label>
-        <input
-        className="create-spot-form-input"
-          type="text"
-          value={country}
-          onChange={updateCountry} />
-        <label>Name - What should we call your listing?</label>
-        <input
-        className="create-spot-form-input"
-          type="text"
-          value={name}
-          onChange={updateName} />
+
+          <div className="input-container">
+            <input className="auth-form-input-top"
+              type="text"
+              required
+              value={address}
+              onChange={updateAddress} />
+            <label className={address ? "filled" : "not-filled"} >
+              Street Address <span className="small-text"></span>
+            </label>
           </div>
-          
+
+          <div className="input-container">
+            <input className="auth-form-input-middle"
+              type="text"
+              required
+              value={city}
+              onChange={updateCity} />
+            <label className={city ? 'filled' : 'not-filled'}>City</label>
+          </div>
+
+          <div className="input-container">
+            <input className="auth-form-input-middle"
+              type="text"
+              value={region}
+              onChange={updateRegion} />
+            <label className={region ? 'filled' : 'not-filled'}>
+              State/Region
+            </label>
+          </div>
+
+          <div className="input-container">
+            <input className="auth-form-input-middle"
+              type="text"
+              value={country}
+              onChange={updateCountry} />
+            <label className={country ? 'filled' : 'not-filled'}>
+              Country
+            </label>
+          </div>
+
+          <div className="input-container">
+            <input className="auth-form-input-bottom"
+              type="text"
+              value={name}
+              onChange={updateName} />
+            <label className={name ? 'filled' : 'not-filled'}>
+              Name - What should we call your listing?
+            </label>
+          </div>
+        </div>
+
         <div className="create-spot-form-right">
-        <label>
-          Description - Give your guests a brief overview of your listing <span className="small-text">(20 char min)</span>
-        </label>
-        <textarea
-          className="create-spot-form-textarea"
-          type="text"
-          value={description}
-          onChange={updateDescription} />
-        <label>
-          Price per night in USD</label>
-        <input
-        className="create-spot-form-price-input"
-          type="number"
-          value={price}
-          onChange={updatePrice} />
-          </div>
-          <div className="create-spot-form-button">
-        <button
-          className="submit-button"
-          onClick={handleSubmit}>Update your listing</button>
-          </div>
+          <label>
+            Description - Give your guests a brief overview of your listing <span className="small-text">(20 char min)</span>
+          </label>
+          <textarea
+            className="create-spot-form-textarea"
+            type="text"
+            value={description}
+            onChange={updateDescription} />
+          <label>
+            Price per night in US$ <span className="small-text">($10-10000)</span>
+          </label>
+          <input
+            className="create-spot-form-price-input"
+            type="number"
+            value={price}
+            onChange={updatePrice} />
+        </div>
+        <div className="create-spot-form-button">
+          <button
+            className="submit-button"
+            onClick={handleSubmit}>Update your listing</button>
+        </div>
       </form>
     </div>
   )

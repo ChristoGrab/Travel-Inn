@@ -5,7 +5,7 @@
   flex-direction: column;
   margin: auto;
   max-width: 1700px;
-  width: 80%;
+  width: 75%;
   gap: 55px;
 }
 
@@ -79,7 +79,6 @@
 
 .spot-details-subtitle {
   display: flex;
-  justify-content: space-around;
   align-items: center;
   gap: 10px;
   font-size: 15px;
@@ -89,10 +88,6 @@
   font-weight: bold;
   margin-bottom: 2px;
   margin-right: -5px;
-}
-
-.spot-details-location {
-  margin-left: 10px;
 }
 
 .spot-details-image-list {
