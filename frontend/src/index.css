@@ -23,7 +23,7 @@ body::before {
 }
 
 input {
-  border: 1px solid lightgray;
+  border: 1px solid #ebebeb;
   height: 34px;
   width: 100%;
   border-radius: 14px;
@@ -31,20 +31,8 @@ input {
   padding: 0 6px;
 }
 
-input:hover {
-  box-shadow: 1px 1px 2px lightgray;
-}
-
 input:focus {
   outline: solid 1px #e21b5f;
-}
-
-label {
-  display: flex;
-  flex-direction: column;
-  color: rgb(63, 63, 63);
-  font-size: 15px;
-  width: 100%;
 }
 
 .error-list-item {
@@ -83,8 +71,8 @@ Submit buttons are red, and action buttons are white with a red border.
   background-color: #e21b5f;
   border: 2px solid #e21b5f;
   color: white;
-  border-radius: 5em;
-  width: 50%;
+  border-radius: 6px;
+  width: 100%;
   margin-top: 20px;
   font-size: 15px;
   font-weight: bold;
