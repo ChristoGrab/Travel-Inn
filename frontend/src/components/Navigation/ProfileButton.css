@@ -54,10 +54,11 @@
   text-decoration: none;
   color: black;
   box-sizing: border-box;
-  font-size: 16px;
+  font-size: 15px;
   padding: 10px;
   width: 100%;
   transition: 100ms background linear;
+  font-family: system-ui, -apple-system, 'Segoe UI', 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 .manage-account-link:hover {
@@ -70,10 +71,13 @@
   text-decoration: none;
   color: black;
   box-sizing: border-box;
-  font-size: 16px;
+  font-size: 15px;
   padding: 10px;
   width: 100%;
   transition: 100ms background linear;
+  background-color: white;
+  border: none;
+  font-family: system-ui, -apple-system, 'Segoe UI', 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;;
 }
 
 #logout-button:hover {
