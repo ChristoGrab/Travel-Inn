@@ -75,9 +75,11 @@
 }
 
 .auth-form-input-top,
+.auth-form-input-middle,
 .auth-form-input-bottom {
-  height: 55px;
-  padding-top: 16px;
+  font-size: 16px;
+  height: 58px;
+  padding-top: 19px;
   padding-left: 20px;
 }
 

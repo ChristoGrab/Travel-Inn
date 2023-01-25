@@ -19,8 +19,6 @@ function LoginForm() {
     } else {
       setCredentialFielsIsActive(false)
     }
-    
-    console.log(credendtialFieldIsActive)
   }
   
   function handlePasswordFocus(text) {
@@ -67,6 +65,7 @@ function LoginForm() {
             value={credential}
             onChange={(e) => handleCredentialFocus(e.target.value)}
           />
+          
           <label className={credendtialFieldIsActive ? 'filled' : "not-filled"}>Username or Email</label>
         </div>
 
