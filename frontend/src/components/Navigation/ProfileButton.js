@@ -39,16 +39,16 @@ function ProfileButton({ user }) {
       <button id="profile-button" onClick={openMenu}>
        <i className="fa-solid fa-bars" id='profile-bars'/>
         <i className="fas fa-user-circle" id='profile-pic'/>
-      </button>
-      {showMenu && (
-        <ul className="profile-dropdown">
+        {showMenu && (
+        <div className="profile-dropdown">
           <Link to='/user/profile' className="manage-account-link">Manage Listings</Link>
           <Link to='/user/bookings' className="manage-account-link">Your Trips</Link>
-          <li>
-            <button id="logout-button" onClick={logout}>Log Out</button>
-          </li>
-        </ul>
-      )}
+          <button id="logout-button" onClick={logout}>Log Out</button>
+        </div>
+        )}
+      </button>
+
+      
     </>
   );
 }
