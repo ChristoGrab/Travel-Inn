@@ -2,9 +2,11 @@
   background-color: white;
   border: none;
   border-radius: 15px;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 550;
   padding: 10px;
   transition: 180ms all ease-in-out;
+  color: #222222;
 }
 
 #become-host-button:hover {
