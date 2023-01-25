@@ -52,7 +52,7 @@ function CreateSpotForm() {
     setInputErrors(errors)
   }, [address, name, city, region, country, description, price, correctFile, noFile])
 
-  
+
   useEffect(() => {
     if (inputErrors.length || imageErrors.length) {
       setLoading(false)
@@ -64,7 +64,7 @@ function CreateSpotForm() {
     e.preventDefault();
     setFormSubmitted(true)
     setImageErrors([])
-    
+
     if (inputErrors.length) return inputErrors
     const imageFile = document.querySelector("#imageInput")
     setLoading(true)
@@ -126,7 +126,7 @@ function CreateSpotForm() {
 
     dispatch(createImageThunk(imgPayload, newSpot.id))
       .catch(async (response) => {
-        
+
         const data = await response
 
         if (data && data.errors) {
@@ -147,90 +147,99 @@ function CreateSpotForm() {
         <div className="create-spot-form-header">
           <h2>What place will you be hosting with us?</h2>
         </div>
-        
+
         {formSubmitted && <div className="create-spot-form-errors">
-              {inputErrors.map((error, idx) => (
-                <li key={idx} className="form-error">
-                  {error}
-                </li>
-              ))}
-            </div>}
+          {inputErrors.map((error, idx) => (
+            <li key={idx} className="form-error">
+              {error}
+            </li>
+          ))}
+        </div>}
 
         <div className="create-spot-form-left">
-          <label>
-            Street Address <span className="small-text"></span>
-          </label>
-            <input className="create-spot-form-input"
+          
+          <div className="input-container">
+            <input className="auth-form-input-top"
               type="text"
               required
               value={address}
               onChange={updateAddress} />
-
-          <label>
-            City
-          </label>
-            <input className="create-spot-form-input"
+            <label className={address ? "filled" : "not-filled"} >
+              Street Address <span className="small-text"></span>
+            </label>
+          </div>
+          
+          <div className="input-container">
+            <input className="auth-form-input-middle"
               type="text"
               required
               value={city}
               onChange={updateCity} />
-          <label>
-            State/Region
-            </label>
-            <input className="create-spot-form-input"
+            <label className={city ? 'filled' : 'not-filled'}>City</label>
+          </div>
+
+          <div className="input-container">
+            <input className="auth-form-input-middle"
               type="text"
               value={region}
               onChange={updateRegion} />
-          <label>
-            Country
+            <label className={region ? 'filled' : 'not-filled'}>
+              State/Region
             </label>
-            <input className="create-spot-form-input"
-              type="text"
-              value={country}
-              onChange={updateCountry} />
-        
-          <label>
-            Name - What should we call your listing?         
-             </label>
-            
-            <input className="create-spot-form-input"
-              type="text"
-              value={name}
-              onChange={updateName} />
-          
+          </div>
+
+        <div className="input-container">
+          <input className="auth-form-input-middle"
+            type="text"
+            value={country}
+            onChange={updateCountry} />
+          <label className={country ? 'filled' : 'not-filled'}>
+            Country
+          </label>
+          </div>
+
+          <div className="input-container">
+          <input className="auth-form-input-bottom"
+            type="text"
+            value={name}
+            onChange={updateName} />
+          <label className={name ? 'filled' : 'not-filled'}>
+            Name - What should we call your listing?
+          </label>
+        </div>
         </div>
 
         <div className="create-spot-form-right">
           <label>
             Description - Give your guests a brief overview of your listing <span className="small-text">(20 char min)</span>
-            </label>
-            <textarea className="create-spot-form-textarea"
-              type="text"
-              value={description}
-              onChange={updateDescription} />
+          </label>
+          <textarea className="create-spot-form-textarea"
+            type="text"
+            value={description}
+            onChange={updateDescription} />
           <label>
             Price in USD per night <span className="small-text">($10-10000)</span>
-            </label>
-            <input className="create-spot-form-price-input"
-              type="number"
-              value={price}
-              onChange={updatePrice} />
+          </label>
+          <input className="create-spot-form-price-input"
+            type="number"
+            value={price}
+            onChange={updatePrice} />
           <label>
             Cover Photo - Pick an image to wow potential guests!<span className="small-text">Supported filetypes - jpg/jpeg or png</span>
-            </label>
-            <input className='create-spot-form-image-input'
-              type='file'
-              name="image"
-              id="imageInput"
-              encType="multipart/form-data"
-            />
-            {imageErrors && <div className="create-spot-form-errors">
-              {imageErrors.map((error, idx) => (
-                <li key={idx} className="form-error">
-                  {error}
-                </li>
-              ))}
-            </div>}
+          </label>
+          <input className='create-spot-form-image-input'
+            type='file'
+            name="image"
+            id="imageInput"
+            encType="multipart/form-data"
+          />
+          {imageErrors && <div className="create-spot-form-errors">
+            {imageErrors.map((error, idx) => (
+              <li key={idx} className="form-error">
+                {error}
+              </li>
+            ))}
+          </div>}
         </div>
 
         <div className="create-spot-form-button">
