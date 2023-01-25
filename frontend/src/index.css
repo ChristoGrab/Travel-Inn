@@ -40,7 +40,9 @@ input:focus {
 }
 
 textarea {
+  padding: 12px;
   resize: none;
+  font-family: Helvetica, sans-serif;
 }
 
 textarea:hover {

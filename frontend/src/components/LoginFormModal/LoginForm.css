@@ -69,6 +69,10 @@
   border-bottom: 1px solid #ebebeb;
 }
 
+.auth-form-input-middle {
+  border-radius: 0px;
+}
+
 .auth-form-input-bottom {
   border-top: 1px solid #ebebeb;
   border-radius: 0 0 10px 10px;
@@ -84,6 +88,7 @@
 }
 
 .auth-form-input-top:focus,
+.auth-form-input-middle:focus,
 .auth-form-input-bottom:focus {
   border-radius: 10px;
   border: 1px solid #ff385c;

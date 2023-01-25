@@ -32,7 +32,6 @@
   grid-area: box1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
 .create-spot-form-right {
@@ -57,7 +56,7 @@
 
 .create-spot-form-textarea {
   border: 1px solid lightgray;
-  width: 100%;
+  width: 95%;
   border-radius: 5px;
   height: 100px;
   font-family: Arial, Helvetica, sans-serif;
