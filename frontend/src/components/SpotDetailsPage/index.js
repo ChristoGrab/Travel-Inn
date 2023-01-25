@@ -47,9 +47,13 @@ function SpotDetails() {
           <div className="spot-details-subtitle">
             <span className="spot-details-stars">★ {spot.avgStarRating}</span>
             <span>• {spot.numReviews} Reviews</span>
+            .
+            <span><i className="fa-solid fa-medal" /> Superhost</span>
+            .
             <span className="spot-details-location"> {spot.city}, {spot.state}, {spot.country}</span>
           </div>
         </div>
+        
         <div className="spot-details-image-list">
           <img src={imageList[0].url}></img>
           {imageList[1]?.url

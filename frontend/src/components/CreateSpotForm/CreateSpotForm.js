@@ -218,7 +218,7 @@ function CreateSpotForm() {
             value={description}
             onChange={updateDescription} />
           <label>
-            Price in USD per night <span className="small-text">($10-10000)</span>
+            Price per night in US$ <span className="small-text">($10-10000)</span>
           </label>
           <input className="create-spot-form-price-input"
             type="number"
