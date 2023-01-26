@@ -53,7 +53,7 @@ const UserBookings = () => {
             <div key={booking.id} className="upcoming-booking-card">
               <Link to='/' className='upcoming-booking-box-1'>
                 <div className="upcoming-booking-name">
-                  <div className="bold">{booking.Spot.city}</div>
+                  <span className="bold big-text">{booking.Spot.city}</span>
                   <span>{booking.Spot.name}</span>
                 </div>
                 <div className="upcoming-booking-dates">
@@ -65,11 +65,13 @@ const UserBookings = () => {
                   <div>{booking.Spot.country}</div>
                 </div>
               </Link>
+              
               <Link to={`/spots/${booking.spotId}`} className="upcoming-booking-box-2">
                 <img className="medium-image" 
                 src={booking.Spot.previewImage}
                 alt={booking.Spot.name} />
               </Link>
+              
               <div className="upcoming-booking-box-3">
                 <button
                   className="action-button"

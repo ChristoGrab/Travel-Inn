@@ -24,7 +24,7 @@ function Navigation({ isLoaded }) {
     );
   } else {
     sessionLinks = (
-      <div>
+      <div className="navbar-right">
         <LoginFormModal />
         <SignupFormModal />
       </div>

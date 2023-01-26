@@ -61,6 +61,10 @@ textarea:focus {
   font-size: 12px;
 }
 
+.big-text {
+  font-size: 26px;
+}
+
 /* Global button styles
 
 There are two kinds of buttons in the app: submit buttons and action buttons. 
@@ -149,4 +153,8 @@ button:hover {
 
 .dark-red {
   color: #be0000;
+}
+
+.dark-grey {
+  color: #bebebe;
 }
