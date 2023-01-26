@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { login } from "../../store/session"
+import { login } from "../../../store/session"
 import './DemoUser.css'
 
 function DemoUser() {
