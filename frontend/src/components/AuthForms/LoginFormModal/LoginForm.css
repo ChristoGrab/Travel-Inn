@@ -32,6 +32,10 @@
   border-radius: 10px;
 }
 
+.auth-form-footer {
+  width: 100%;
+}
+
 .input-container {
   position: relative;
   display: flex;
@@ -108,6 +112,29 @@
 .form-label {
   padding: 2%;
   margin: 5px 0 10px 0;
+}
+
+.auth-form-footer-break {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 16px 0;
+  align-items: center;
+}
+
+.auth-form-footer-break::before {
+  content: "";
+  display: block;
+  border-bottom: 2px solid #ebebeb;
+  width: 100%;
+  margin: 4px 16px 0 0;
+}
+
+.auth-form-footer-break::after {
+  content: "";
+  display: block;
+  border-bottom: 2px solid #ebebeb;
+  width: 100%;
+  margin: 4px 0 0 16px;
 }
 
 #login-error {

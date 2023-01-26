@@ -90,8 +90,13 @@ function LoginForm() {
           <label className={passwordFieldIsActive ? 'filled' : "not-filled"} htmlFor="password">Password</label>
         </div>
       </div>
-      <button className="submit-button" type="submit">Log In</button>
-      < DemoUser />
+      <div className="auth-form-footer">
+        <button className="submit-button" type="submit">Log In</button>
+        <div className="auth-form-footer-break">
+          or
+        </div>
+        < DemoUser />
+      </div>
     </form>
   );
 }
