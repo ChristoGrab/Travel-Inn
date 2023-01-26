@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUserBookingsThunk, clearBookingsAction } from '../../store/bookings';
 import DeleteBooking from './DeleteBooking';
 import convertDates from '../../functions/convertDates';
+import formatDateString from '../../functions/formatDateString';
 import './UserBookings.css'
 
 const UserBookings = () => {
@@ -57,8 +58,7 @@ const UserBookings = () => {
                   <span>{booking.Spot.name}</span>
                 </div>
                 <div className="upcoming-booking-dates">
-                  <span>{convertDates(booking.startDate)}</span>
-                  <span>{convertDates(booking.endDate)}</span>
+                  {formatDateString(booking.startDate, booking.endDate)}
                 </div>
                 <div className="upcoming-booking-place">
                   <div>{booking.Spot.address}</div>
@@ -94,8 +94,7 @@ const UserBookings = () => {
               <div className="previous-booking-details">
                 <span className="bold">{booking.Spot.city}</span>
                 <span>Hosted by <span className="bold">{booking.Spot.host}</span></span>
-                <span>Stayed from {convertDates(booking.startDate)}</span>
-                <span>to {convertDates(booking.endDate)}</span>
+                <span>{formatDateString(booking.startDate, booking.endDate)}</span>
               </div>
             </Link>
           ))
