@@ -2,18 +2,31 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   width: 95%;
+  max-width: 1600px;
   margin: 0 auto;
   list-style: none;
   padding: 40px;
+  gap: 25px;
+}
+
+@media screen and (max-width: 1080px) {
+  .landing-page-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .landing-page-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .spot-card {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 10px;
   box-sizing: border-box;
-  height: 380px;
+  height: 370px;
   width: 100%;
   flex: 1 0 auto;
   text-decoration: none;

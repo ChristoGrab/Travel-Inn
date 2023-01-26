@@ -7,17 +7,18 @@
 .upcoming-bookings-container {
   display: flex;
   flex-direction: column;
-  width: 90%;
-  margin: 20px auto;
+  width: 100%;
   gap: 40px;
+  align-self: flex-start;
 }
 
 .upcoming-booking-card {
   display: grid;
-  grid-template-columns: 1fr 1.5fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   justify-content: space-evenly;
-  padding: 10px;
-  height: 200px;
+  padding: 20px;
+  height: 260px;
+  width: 100%;
   box-shadow: 1px 1px 5px 1px lightgray;
   border-radius: 10px;
 }
@@ -26,11 +27,15 @@
 */
 .upcoming-booking-box-1 {
   display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: .5fr .5fr 1fr 1fr;
   grid-template-areas:
   "header header header header"
   "dates dates location location";
   text-decoration: none;
-  color: black;
+  color: #222222;
+  width: 100%;
+  gap: 10px;
 }
 
 .upcoming-booking-name {
@@ -38,7 +43,7 @@
   border-bottom: 2px solid lightgray;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  margin-top: 20px;
 }
 
 .upcoming-booking-dates {
@@ -48,6 +53,7 @@
   justify-content: center;
   align-items: flex-start;
   border-right: 2px solid lightgray;
+  font-size: 18px;
 }
 
 .upcoming-booking-place {
@@ -63,16 +69,35 @@
 /* box 2 contains the image */
 
 .upcoming-booking-box-2 {
-  width: 60%;
+  width: fit-content;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   justify-self: center;
+  text-decoration: none;
+}
+
+.check-in-time {
+  background: white;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  color: #222222;
+  position: relative;
+  z-index: 10;
+  height: 18px;
+  top: 5px;
+  right: 100%;
+  padding: 3px;
+  border-radius: 3px;
 }
 
 .medium-image {
-  max-height: 200px;
+  max-height: 260px;
+  max-width: 320px;
+  min-width: 50px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 0 10px 10px 0;
+  box-sizing: border-box;
 }
 
 /* box 3 contains the buttons */
@@ -81,6 +106,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 32px;
   width: 100%;
 }

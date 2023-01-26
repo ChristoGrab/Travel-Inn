@@ -1,0 +1,18 @@
+#demo-user {
+  background-color: white;
+  border: 2px solid black;
+  color: #222222;
+  border-radius: 6px;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 600;
+  height: 40px;
+  padding: 0 10px;
+  transition: all 280ms ease-in-out;
+}
+
+#demo-user:hover {
+  background-color: #f7f7f7;
+  cursor: pointer;
+  border-radius: 6px;
+}

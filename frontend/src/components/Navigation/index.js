@@ -5,7 +5,6 @@ import ProfileButton from './ProfileButton';
 import LoginFormModal from '../AuthForms/LoginFormModal';
 import CreateSpotButton from '../CreateSpotForm/index'
 import SignupFormModal from '../AuthForms/SignupFormPage';
-import DemoUser from '../DemoUser'
 
 import './Navigation.css';
 import Logo from '../../assets/TravelInn_Logo.png'
@@ -25,10 +24,9 @@ function Navigation({ isLoaded }) {
     );
   } else {
     sessionLinks = (
-      <div>
+      <div className="navbar-right">
         <LoginFormModal />
         <SignupFormModal />
-        <DemoUser />
       </div>
     );
   }

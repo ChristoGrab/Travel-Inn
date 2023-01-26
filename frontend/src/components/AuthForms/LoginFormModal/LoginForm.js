@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import * as sessionActions from "../../../store/session";
 import { useDispatch } from "react-redux";
 import './LoginForm.css';
+import DemoUser from "../DemoUser";
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -89,7 +90,13 @@ function LoginForm() {
           <label className={passwordFieldIsActive ? 'filled' : "not-filled"} htmlFor="password">Password</label>
         </div>
       </div>
-      <button className="submit-button" type="submit">Log In</button>
+      <div className="auth-form-footer">
+        <button className="submit-button" type="submit">Log In</button>
+        <div className="auth-form-footer-break">
+          or
+        </div>
+        < DemoUser />
+      </div>
     </form>
   );
 }

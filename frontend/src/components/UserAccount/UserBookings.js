@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUserBookingsThunk, clearBookingsAction } from '../../store/bookings';
 import DeleteBooking from './DeleteBooking';
 import convertDates from '../../functions/convertDates';
+import formatDateString from '../../functions/formatDateString';
 import './UserBookings.css'
 
 const UserBookings = () => {
@@ -53,23 +54,25 @@ const UserBookings = () => {
             <div key={booking.id} className="upcoming-booking-card">
               <Link to='/' className='upcoming-booking-box-1'>
                 <div className="upcoming-booking-name">
-                  <div className="bold">{booking.Spot.city}</div>
+                  <span className="bold big-text">{booking.Spot.city}</span>
                   <span>{booking.Spot.name}</span>
                 </div>
                 <div className="upcoming-booking-dates">
-                  <span>{convertDates(booking.startDate)}</span>
-                  <span>{convertDates(booking.endDate)}</span>
+                  {formatDateString(booking.startDate, booking.endDate)}
                 </div>
                 <div className="upcoming-booking-place">
-                  <div>{booking.Spot.address}</div>
+                  <div style={{fontSize: 18 + "px"}}>{booking.Spot.address}</div>
+                  <div style={{fontSize: 18 + "px"}}>{booking.Spot.city}, {booking.Spot.state}</div>
                   <div>{booking.Spot.country}</div>
                 </div>
               </Link>
+              
               <Link to={`/spots/${booking.spotId}`} className="upcoming-booking-box-2">
                 <img className="medium-image" 
                 src={booking.Spot.previewImage}
                 alt={booking.Spot.name} />
               </Link>
+              
               <div className="upcoming-booking-box-3">
                 <button
                   className="action-button"
@@ -92,8 +95,7 @@ const UserBookings = () => {
               <div className="previous-booking-details">
                 <span className="bold">{booking.Spot.city}</span>
                 <span>Hosted by <span className="bold">{booking.Spot.host}</span></span>
-                <span>Stayed from {convertDates(booking.startDate)}</span>
-                <span>to {convertDates(booking.endDate)}</span>
+                <span>{formatDateString(booking.startDate, booking.endDate)}</span>
               </div>
             </Link>
           ))

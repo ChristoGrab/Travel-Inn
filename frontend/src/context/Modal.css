@@ -30,10 +30,21 @@
   justify-content: space-between;
   align-items: center;
   border-radius: 1em;
-  border: 1px solid rgba(211, 211, 211, 0.6)
+  border: 1px solid rgba(211, 211, 211, 0.6);
+  animation: scrollUp .3s linear;
 }
 
 #modal-content textarea {
   resize: none;
 }
 
+@keyframes scrollUp {
+  0% {
+    transform: translateY(60%);
+    opacity: .1;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
