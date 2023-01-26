@@ -5,6 +5,7 @@
   justify-content: center;
   margin: auto;
   width: 80%;
+  animation: fadeIn 1s;
 }
 
 .create-spot-form {
