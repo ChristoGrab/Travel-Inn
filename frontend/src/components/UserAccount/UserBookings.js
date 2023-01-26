@@ -61,7 +61,8 @@ const UserBookings = () => {
                   {formatDateString(booking.startDate, booking.endDate)}
                 </div>
                 <div className="upcoming-booking-place">
-                  <div>{booking.Spot.address}</div>
+                  <div style={{fontSize: 18 + "px"}}>{booking.Spot.address}</div>
+                  <div style={{fontSize: 18 + "px"}}>{booking.Spot.city}, {booking.Spot.state}</div>
                   <div>{booking.Spot.country}</div>
                 </div>
               </Link>

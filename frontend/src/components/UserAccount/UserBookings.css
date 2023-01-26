@@ -53,6 +53,7 @@
   justify-content: center;
   align-items: flex-start;
   border-right: 2px solid lightgray;
+  font-size: 18px;
 }
 
 .upcoming-booking-place {
