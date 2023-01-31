@@ -1,5 +1,6 @@
 .update-reservation-box {
-  width: 40%;
+  width: 50%;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;

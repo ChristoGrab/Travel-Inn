@@ -18,11 +18,13 @@ const UpdateStyles = styled.div`
   .react-datepicker {
     padding: 20px;
     border-radius: 10px;
+    display: flex;
   }
   
-  .react-datepicker-month-container {
+  .react-datepicker__month-container {
     width: 100%;
     background-color: white;
+    float: none;
   }
   
   .react-datepicker__day--disabled {
@@ -51,14 +53,8 @@ const UpdateStyles = styled.div`
     width: 100%;
     height: 45px;
     background-color: white;
-    // preventOverflow: offset;
     flip: offset;
     border-radius: 7px;
-  }
-  
-  .react-datepicker__day:hover {
-    background-color: lightred;
-    
   }
   }
   
@@ -143,7 +139,6 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
       {loadingScreen && <LoadingScreen />}
       <div className="update-calendar-container">
         <div className="check-in-container">
-          <label className="booking-label">Select checkin date</label>
           <DatePicker
             id="check-in"
             selected={startDate}
@@ -156,6 +151,7 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
             isClearable
             monthsShown={2}
             inline
+            fixedHeight
           />
         </div>
         {/* <div className="check-out-container">
