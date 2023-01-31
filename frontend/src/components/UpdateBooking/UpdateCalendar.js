@@ -143,7 +143,7 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
       {loadingScreen && <LoadingScreen />}
       <div className="update-calendar-container">
         <div className="check-in-container">
-          <label className="booking-label">CHECK-IN</label>
+          <label className="booking-label">Select checkin date</label>
           <DatePicker
             id="check-in"
             selected={startDate}
@@ -204,10 +204,6 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
 }
 
 const UpdateCalendar = ({ pullDates, currentStart, currentEnd, bookingId }) => {
-
-  console.log("Current Start", currentStart)
-  console.log("Current End", currentEnd)
-  console.log("Booking ID", bookingId)
 
   return (
     <UpdateStyles>

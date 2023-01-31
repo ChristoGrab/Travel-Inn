@@ -1,7 +1,4 @@
 .update-reservation-box {
-  position: absolute;
-  top: 30%;
-  left: 30%;
   width: 40%;
   margin: 0 auto;
   display: flex;

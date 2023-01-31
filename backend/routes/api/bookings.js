@@ -130,7 +130,7 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
     otherBookingStartDate = new Date(otherBookingStartDate)
     otherBookingEndDate = new Date(otherBookingEndDate)
     
-    if (startDateCheck < otherBookingStartDate && endDateCheck > otherBookingEndDate) {
+    if (startDateCheck <= otherBookingStartDate && endDateCheck >= otherBookingEndDate) {
       const err = new BookingError("This booking conflicts with another booking", 400)
       return next(err)
     }
