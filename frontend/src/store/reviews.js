@@ -6,6 +6,7 @@ const LOAD_USER_REVIEWS = '/review/user/load';
 const DELETE_REVIEW = "/review/delete";
 const CREATE_REVIEW = '/review/create';
 const UPDATE_REVIEW = "/review/update";
+const CLEAR_REVIEWS = "/reviews/clear";
 
 // Action Creators
 const loadSpotReviews = (reviews) => {
@@ -45,6 +46,12 @@ const updateReview = (review) => {
   }
 }
 
+export const clearReviews = () => {
+  return {
+    type: CLEAR_REVIEWS
+  }
+}
+
 // Action Thunks
 
 export const loadSpotReviewsThunk = (spotId) => async (dispatch) => {
@@ -52,8 +59,6 @@ export const loadSpotReviewsThunk = (spotId) => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json();
-    
-    console.log(data)
     dispatch(loadSpotReviews(data))
   }
 }
@@ -187,6 +192,14 @@ const reviewsReducer = (state = initialState, action) => {
       return newReviewObject;
     }
 
+    case CLEAR_REVIEWS: {
+      return {
+        ...state,
+        spot: {},
+        user: {}
+      }
+    }
+    
     default:
       return state;
   }

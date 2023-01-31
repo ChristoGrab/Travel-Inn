@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import { useHistory } from "react-router-dom";
 import { loadSpotReviewsThunk } from "../../store/reviews";
-import { deleteReviewThunk } from "../../store/reviews";
 import ReviewCard from './ReviewCard'
 import DeleteReview from './DeleteReview'
+import { clearReviews } from "../../store/reviews";
 import "./SpotReviews.css"
 
 
@@ -19,12 +19,14 @@ function ReviewsBySpot({ spotId, spotOwnerId, currentUser, averageRating }) {
 
   useEffect(() => {
     dispatch(loadSpotReviewsThunk(spotId)).then(setDataLoaded(true))
+    
+    return (() => dispatch(clearReviews()))
   }, [dispatch, spotId])
 
   // Function to check if user has left a review
   const checkForUserReview = (reviews) => {
 
-    if (!reviews) return
+    if (!reviews) return;
 
     reviews.forEach(review => {
       if (review.userId === currentUser.id) {
@@ -34,7 +36,6 @@ function ReviewsBySpot({ spotId, spotOwnerId, currentUser, averageRating }) {
   }
 
   useEffect(() => {
-
     if (currentUser) {
       checkForUserReview(reviews)
     }
