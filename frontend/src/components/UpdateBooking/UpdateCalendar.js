@@ -109,6 +109,12 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
       unavailableDates = [...unavailableDates, ...findBookedDates(bookings.startDate, bookings.endDate)]
     }
   }
+  
+  const onChange = dates => {
+    const [start, end] = dates;
+    setStartDate(start);
+    setEndDate(end);
+  };
 
   // Create a new booking and send it to the backend
   const createReservation = async (e) => {
@@ -142,17 +148,17 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
             id="check-in"
             selected={startDate}
             excludeDates={unavailableDates}
-            placeholderText="Select New Start Date"
-            onChange={date => setStartDate(date)}
-            selectsStart
+            onChange={onChange}
+            selectsRange
             startDate={startDate}
             endDate={endDate}
             minDate={new Date()}
             isClearable
             monthsShown={2}
+            inline
           />
         </div>
-        <div className="check-out-container">
+        {/* <div className="check-out-container">
           <label className="booking-label">CHECK-OUT</label>
           <DatePicker
             filterDate={date => {
@@ -170,7 +176,7 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
             monthsShown={2}
             disabled={!startDate}
           />
-        </div>
+        </div> */}
       </div>
 
       <div>
