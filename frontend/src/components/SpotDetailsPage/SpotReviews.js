@@ -62,7 +62,7 @@ function ReviewsBySpot({ spotId, spotOwnerId, currentUser, averageRating }) {
   const openEditReviewForm = (e) => {
     e.preventDefault();
 
-    history.push(`/reviews/${userReview.id}/edit`)
+    history.push(`/spots/${spotId}/reviews/${userReview.id}/edit`)
   }
   
   
