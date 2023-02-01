@@ -18,11 +18,13 @@ const UpdateStyles = styled.div`
   .react-datepicker {
     padding: 20px;
     border-radius: 10px;
+    display: flex;
   }
   
-  .react-datepicker-month-container {
+  .react-datepicker__month-container {
     width: 100%;
     background-color: white;
+    float: none;
   }
   
   .react-datepicker__day--disabled {
@@ -51,14 +53,8 @@ const UpdateStyles = styled.div`
     width: 100%;
     height: 45px;
     background-color: white;
-    // preventOverflow: offset;
     flip: offset;
     border-radius: 7px;
-  }
-  
-  .react-datepicker__day:hover {
-    background-color: lightred;
-    
   }
   }
   
@@ -109,6 +105,12 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
       unavailableDates = [...unavailableDates, ...findBookedDates(bookings.startDate, bookings.endDate)]
     }
   }
+  
+  const onChange = dates => {
+    const [start, end] = dates;
+    setStartDate(start);
+    setEndDate(end);
+  };
 
   // Create a new booking and send it to the backend
   const createReservation = async (e) => {
@@ -137,22 +139,22 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
       {loadingScreen && <LoadingScreen />}
       <div className="update-calendar-container">
         <div className="check-in-container">
-          <label className="booking-label">CHECK-IN</label>
           <DatePicker
             id="check-in"
             selected={startDate}
             excludeDates={unavailableDates}
-            placeholderText="Select New Start Date"
-            onChange={date => setStartDate(date)}
-            selectsStart
+            onChange={onChange}
+            selectsRange
             startDate={startDate}
             endDate={endDate}
             minDate={new Date()}
             isClearable
             monthsShown={2}
+            inline
+            fixedHeight
           />
         </div>
-        <div className="check-out-container">
+        {/* <div className="check-out-container">
           <label className="booking-label">CHECK-OUT</label>
           <DatePicker
             filterDate={date => {
@@ -170,7 +172,7 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
             monthsShown={2}
             disabled={!startDate}
           />
-        </div>
+        </div> */}
       </div>
 
       <div>
@@ -198,10 +200,6 @@ const DatePickerRange = ({ pullDates, currentStart, currentEnd, bookingId }) => 
 }
 
 const UpdateCalendar = ({ pullDates, currentStart, currentEnd, bookingId }) => {
-
-  console.log("Current Start", currentStart)
-  console.log("Current End", currentEnd)
-  console.log("Booking ID", bookingId)
 
   return (
     <UpdateStyles>

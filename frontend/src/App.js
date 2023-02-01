@@ -49,7 +49,7 @@ function App() {
           <Route path='/spots/:spotId/delete' exact>
             <DeleteModal />
           </Route>
-          <Route path='/reviews/:reviewId/edit' exact>
+          <Route path='/spots/:spotId/reviews/:reviewId/edit' exact>
             <UpdateReviewForm />
           </Route>
           <Route path='/bookings/:spotId/update/:bookingId' exact>
