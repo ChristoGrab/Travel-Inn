@@ -21,6 +21,7 @@ function CreateSpotForm() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
+  
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [correctFile, setCorrectFile] = useState(true)
@@ -225,7 +226,7 @@ function CreateSpotForm() {
             value={price}
             onChange={updatePrice} />
           <label>
-            Cover Photo - Pick an image to wow potential guests!<span className="small-text">Supported filetypes - jpg/jpeg or png</span>
+            Cover Photo - Pick an image to wow potential guests <span className="small-text">Supported filetypes - jpg/jpeg or png</span>
           </label>
           <input className='create-spot-form-image-input'
             type='file'

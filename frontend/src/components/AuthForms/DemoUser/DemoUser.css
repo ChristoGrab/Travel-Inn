@@ -1,4 +1,4 @@
-#demo-user {
+.demo-user {
   background-color: white;
   border: 2px solid black;
   color: #222222;
@@ -11,8 +11,42 @@
   transition: all 280ms ease-in-out;
 }
 
-#demo-user:hover {
+.demo-user:hover {
   background-color: #f7f7f7;
   cursor: pointer;
   border-radius: 6px;
+}
+
+.loading-button {
+  background-color: #f7f7f7;
+  border: 2px solid black;
+  color: darkgrey;
+  border-radius: 6px;
+  width: 100%;
+  font-size: 22px;
+  font-weight: 600;
+  height: 40px;
+  padding: 0 10px;
+}
+
+.loading-text-1 {
+  animation: 1s flash infinite linear;
+}
+
+.loading-text-2 {
+  animation: 1s flash infinite linear;
+}
+
+.loading-text-3 {
+  animation: 1s flash infinite linear;
+}
+
+@keyframes flash {
+  0% {
+    color: white;
+  }
+  
+  100% {
+    color: darkgrey;
+  }
 }
