@@ -31,7 +31,7 @@ function UpdateReviewForm() {
   // list of input functions
   const updateReview = (e) => setReviewText(e.target.value)
   const updateStars = (e) => setStars(e.target.value)
-  
+
   useEffect(() => {
     if (review) {
       setReviewText(review.review)
