@@ -57,11 +57,7 @@ router.get('/:spotId/reviews', async (req, res) => {
       {
         model: User,
         attributes: ['id', 'firstName', 'lastName']
-      },
-      // {
-      //   model: ReviewImage,
-      //   attributes: ['id', 'url']
-      // }
+      }
     ]
   })
 
@@ -208,9 +204,9 @@ router.get('/:spotId', async (req, res) => {
       "statusCode": 404
     })
   }
-  
+
   spotObject = spot.toJSON()
-  
+
   if (!spotObject.avgStarRating) {
     spotObject.avgStarRating = "This spot does not have any ratings yet"
     console.log(spot.avgStarRating)
@@ -412,20 +408,21 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     bookingsList.push(booking.toJSON())
   })
 
-  // Check incoming start and end dates against all pre-existing bookings.
+  // Check request start and end dates against all pre-existing bookings.
   // New booking cannot overlap with or encapsulate an existing booking
   for (let i = 0; i < bookingsList.length; i++) {
-    let eleStart = new Date(bookingsList[i].startDate)
-    let eleEnd = new Date(bookingsList[i].endDate)
-    
-    if (startDateCheck >= eleStart && startDateCheck <= eleEnd) {
+
+    let conflictStart = new Date(bookingsList[i].startDate)
+    let conflictEnd = new Date(bookingsList[i].endDate)
+
+    if (startDateCheck >= conflictStart && startDateCheck <= conflictEnd) {
       const err = new BookingError("Your check-in date conflicts with an existing booking.")
       return next(err)
-    } else if (endDateCheck >= eleStart && endDateCheck <= eleEnd) {
+    } else if (endDateCheck >= conflictStart && endDateCheck <= conflictEnd) {
       const err = new BookingError("Your check-out date conflicts with an existing booking.")
       return next(err)
-    } else if (startDateCheck < eleStart && endDateCheck > eleEnd) {
-      const err = new BookingError("The dates you requested are in conflict with a pre-existing booking. Please avoid any greyed-out dates on the calendar.")
+    } else if (startDateCheck < conflictStart && endDateCheck > conflictStart) {
+      const err = new BookingError("The dates you requested are in conflict with a pre-existing booking.")
       return next(err)
     }
   }
