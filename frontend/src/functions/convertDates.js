@@ -1,8 +1,6 @@
 import formatDateString from "./formatDateString"
 
 // This function takes in a date and converts it to a string
-// that is more readable for the user
-
 // the date being passed in is set to the next day
 // because a new Date() object is created at 12:00am
 // and the date is therefore set to the previous day by default when converted
