@@ -108,19 +108,13 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
   let endDateCheck = new Date(endDate)
   
   if (endDateCheck < new Date()) {
-    res.status(400);
-    return res.json({
-      "message": "This booking has already ended and cannot be modified",
-      "statusCode": 403
-    })
+    const err = new BookingError("This booking has already ended and cannot be modified", 403)
+    return next(err)
   }
   
   if (startDate > endDate) {
-    res.status(400);
-    return res.json({
-      "message": "Start date must be before end date",
-      "statusCode": 400
-    })
+    const err = new BookingError("Start date must be before end date", 400)
+    return next(err)
   }
   
   for (let booking of otherBookings) {
@@ -134,9 +128,7 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
       const err = new BookingError("This booking conflicts with another booking", 400)
       return next(err)
     }
-  }
-    
-  
+  } 
   
   await booking.update({
     startDate,
