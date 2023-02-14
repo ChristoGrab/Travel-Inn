@@ -1,4 +1,4 @@
-# AirBnB Clone
+# Travel-Inn
 
 ## Database Schema Design
 
