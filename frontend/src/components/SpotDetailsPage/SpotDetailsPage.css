@@ -189,3 +189,19 @@ The right conditionally render either:
 .create-new-review-link:hover {
   box-shadow: 2px 2px 3px lightslategray;
 }
+
+.spot-page-icon {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 16px;
+}
+
+.fa-calendar-xmark {
+  margin-right: 6px;
+  margin-left: 3px;
+}
+
+.fa-door-open {
+  margin-left: 2px;
+}

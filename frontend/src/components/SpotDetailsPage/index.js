@@ -89,9 +89,9 @@ function SpotDetails() {
           <span className="hosted-by">Hosted by {spot.Owner.firstName}</span>
           </div>
           <div className="spot-page-box bold">
-            <span>Free cancellation until 24 hours before check-in</span>
-            <span><i className="fa-solid fa-wifi" /> Free Wi-Fi</span>
-            <span><i className="fa-solid fa-door-open" /> Self Check-In</span>
+            <span className='spot-page-icon'><i className="fa-regular fa-calendar-xmark" /> Free cancellation until 24 hours before check-in</span>
+            <span className='spot-page-icon'><i className="fa-solid fa-wifi" /> Free Wi-Fi</span>
+            <span className='spot-page-icon'><i className="fa-solid fa-door-open" /> Self Check-In</span>
           </div>
           <div className="spot-page-box">
             <span className="air-cover-text"><span className="light-red">Inn</span>Cover</span>
