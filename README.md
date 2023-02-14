@@ -1,6 +1,6 @@
 # Travel-Inn
 
-Welcome to Travel-Inn! Travel-Inn is a full-stack AirBnB Clone using Express.js and Sequelize for backend and React with Redux for frontend.  Travel-Inn visitors are able to create a user account, or sign in with a single click using the Demo User. With an account, users can create a listing, write reviews for other listings, and even set up a booking!
+Welcome to Travel-Inn! Travel-Inn is a full-stack travel site in the style of Airbnb, using Express.js and Sequelize for backend and React with Redux for frontend.  Travel-Inn visitors are able to create a user account, or sign in with a single click using the Demo User. With an account, users can create a listing, write reviews for other listings, and even set up a booking!
 
 Travel-Inn remains a WIP and many more features (as well as plenty of polish) are yet to come!
 
