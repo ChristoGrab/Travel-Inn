@@ -77,7 +77,7 @@ const UserBookings = () => {
                 <button
                   className="action-button"
                   onClick={(e) => openReservationBox(e, booking.id, booking.spotId)}
-                >Change Reservation</button>
+                >Edit</button>
                 <DeleteBooking bookingId={booking.id} />
               </div>
             </div>
