@@ -2,8 +2,6 @@ export const reviewFormValidations = (stars, review) => {
   
   let errors = []
   
-  console.log(stars, review)
-  
   if (!stars) errors.push('Please provide a rating for your host')
   
   
