@@ -110,7 +110,8 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 // GET ALL SPOTS OWNED BY THE CURRENT USER //
 router.get('/current', requireAuth, async (req, res) => {
 
-  const mySpots = await Spot.findAll({
+  // Query the database for all spots owned by the current user, and include the average rating for each spot
+  const currentUserSpots = await Spot.findAll({
     where: {
       ownerId: req.user.id
     },
@@ -137,8 +138,9 @@ router.get('/current', requireAuth, async (req, res) => {
     ]
   })
 
-  const spotsList = []
-  mySpots.forEach(spot => {
+  const spotsList = [];
+  
+  currentUserSpots.forEach(spot => {
     spotsList.push(spot.toJSON())
   })
 
@@ -160,7 +162,8 @@ router.get('/current', requireAuth, async (req, res) => {
       spot.avgRating = "No Ratings"
     }
   })
-
+  
+  
   return res.json({
     "Spots": spotsList
   })
@@ -197,6 +200,7 @@ router.get('/:spotId', async (req, res) => {
     ]
   })
 
+  
   if (!spot) {
     res.status(404)
     return res.json({
@@ -207,10 +211,9 @@ router.get('/:spotId', async (req, res) => {
 
   spotObject = spot.toJSON()
 
+  // If the spot has no ratings, set the avgStarRating to a message saying so
   if (!spotObject.avgStarRating) {
     spotObject.avgStarRating = "This spot does not have any ratings yet"
-    console.log(spot.avgStarRating)
-    console.log(spot)
   }
 
   return res.json(spotObject)
