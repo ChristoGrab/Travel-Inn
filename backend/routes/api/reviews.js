@@ -143,9 +143,7 @@ router.put('/:reviewId', requireAuth, validateReview, async (req, res, next) => 
       userId: editedReview.userId,
       spotId: editedReview.spotId,
       review,
-      stars,
-      createdAt: editedReview.createdAt,
-      updatedAt: editedReview.updatedAt
+      stars
     })
 
   } catch (err) {
@@ -157,30 +155,36 @@ router.put('/:reviewId', requireAuth, validateReview, async (req, res, next) => 
 // DELETE A REVIEW
 
 router.delete('/:reviewId', requireAuth, async (req, res, next) => {
-  const review = await Review.findByPk(req.params.reviewId);
 
-  // Return 404 error if review does not exist
-  if (!review) {
-    const error = new Error("The review you are trying to delete doesn't exist");
-    error.status = 404
-    error.title = "Review not found"
-    throw error;
+  try {
+    const review = await Review.findByPk(req.params.reviewId);
+
+    // Return 404 error if review does not exist
+    if (!review) {
+      const error = new Error("The review you are trying to delete doesn't exist");
+      error.status = 404
+      error.title = "Review not found"
+      throw error;
     }
 
-  // Return 403 error if current user is not creator of Review
-  if (review.userId !== req.user.id) {
-    const error = new Error("You are not authorized to delete this review");
-    error.status = 403
-    error.title = "Unauthorized request"
-    throw error;
+    // Return 403 error if current user is not creator of Review
+    if (review.userId !== req.user.id) {
+      const error = new Error("You are not authorized to delete this review");
+      error.status = 403
+      error.title = "Unauthorized request"
+      throw error;
+    }
+
+    await review.destroy();
+
+    return res.json({
+      "message": "Successfully deleted",
+      "statusCode": 200
+    })
+    
+  } catch (err) {
+    next(err)
   }
-
-  await review.destroy();
-
-  res.json({
-    "message": "Successfully deleted",
-    "statusCode": 200
-  })
 })
 
 module.exports = router;
