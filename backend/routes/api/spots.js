@@ -11,11 +11,10 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId)
 
   if (!spot) {
-    res.status(404)
-    return res.json({
-      "message": "Spot couldn't be found",
-      "statusCode": 404
-    })
+    const error = new Error("The listing you are looking for couldn't be found")
+    error.status = 404
+    error.title = "Listing not found"
+    return next(error)
   }
 
   const { url, preview } = req.body;
@@ -31,23 +30,21 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
     url,
     preview
   })
-
 })
 
 // GET ALL REVIEWS BY A SPOT'S ID //
-router.get('/:spotId/reviews', async (req, res) => {
+
+router.get('/:spotId/reviews', async (req, res, next) => {
   
   const spot = await Spot.findByPk(req.params.spotId)
   
-  // if spot doesn't exist, return 404
+  // Handle case where spot doesn't exist
   if (!spot) {
-    res.status(404)
-    return res.json({
-      "message": "Spot couldn't be found",
-      "statusCode": 404
-    })
-  }
-  
+    const error = new Error("The listing you are looking for couldn't be found")
+    error.status = 404
+    error.title = "Listing not found"
+    return next(error)
+    }
   
   const spotReviews = await Review.findAll({
     where: {
@@ -66,19 +63,19 @@ router.get('/:spotId/reviews', async (req, res) => {
 })
 
 // GET ALL BOOKINGS FOR A SPOT BASED ON THE SPOT'S ID
-router.get('/:spotId/bookings', requireAuth, async (req, res) => {
+router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
   
   const idCheck = await Spot.findByPk(req.params.spotId)
 
-  // If query array is empty spot doesn't exist
+  // Handle case where spot doesn't exist
   if (!idCheck) {
-    res.status(404)
-    return res.json({
-      "message": "Spot couldn't be found",
-      "statusCode": 404
-    })
+    const error = new Error("The listing you are looking for couldn't be found")
+    error.status = 404
+    error.title = "Listing not found"
+    return next(error)
   }
 
+  // If the user is not the owner of the spot, only return the booked dates
   if (idCheck.ownerId !== req.user.id) {
     const nonOwnerBookings = await Booking.findAll({
       where: {
@@ -91,6 +88,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
     })
   }
 
+  // If the user is the owner of the spot, return all booking information
   else {
     const ownerBookings = await Booking.findAll({
       where: {
@@ -110,7 +108,8 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 // GET ALL SPOTS OWNED BY THE CURRENT USER //
 router.get('/current', requireAuth, async (req, res) => {
 
-  const mySpots = await Spot.findAll({
+  // Query the database for all spots owned by the current user, and include the average rating for each spot
+  const currentUserSpots = await Spot.findAll({
     where: {
       ownerId: req.user.id
     },
@@ -137,8 +136,9 @@ router.get('/current', requireAuth, async (req, res) => {
     ]
   })
 
-  const spotsList = []
-  mySpots.forEach(spot => {
+  const spotsList = [];
+  
+  currentUserSpots.forEach(spot => {
     spotsList.push(spot.toJSON())
   })
 
@@ -160,7 +160,8 @@ router.get('/current', requireAuth, async (req, res) => {
       spot.avgRating = "No Ratings"
     }
   })
-
+  
+  
   return res.json({
     "Spots": spotsList
   })
@@ -168,7 +169,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
 // GET SPOT BY ID //
 
-router.get('/:spotId', async (req, res) => {
+router.get('/:spotId', async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId, {
     attributes: {
 
@@ -197,20 +198,19 @@ router.get('/:spotId', async (req, res) => {
     ]
   })
 
+  
   if (!spot) {
-    res.status(404)
-    return res.json({
-      "message": "Spot couldn't be found",
-      "statusCode": 404
-    })
+    const error = new Error("The listing you are looking for couldn't be found")
+    error.status = 404
+    error.title = "Listing not found"
+    return next(error)
   }
 
   spotObject = spot.toJSON()
 
+  // If the spot has no ratings, set the avgStarRating to a message saying so
   if (!spotObject.avgStarRating) {
     spotObject.avgStarRating = "This spot does not have any ratings yet"
-    console.log(spot.avgStarRating)
-    console.log(spot)
   }
 
   return res.json(spotObject)
@@ -312,7 +312,7 @@ router.get('/', async (req, res) => {
 })
 
 // CREATE REVIEW FOR A SPOT BASED ON THE SPOT'S ID //
-router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) => {
+router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId, {
     include: [
       {
@@ -322,11 +322,10 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
   })
 
   if (!spot) {
-    res.status(404)
-    return res.json({
-      "message": "Spot couldn't be found",
-      "statusCode": 404
-    })
+    const error = new Error("The listing you are looking for couldn't be found")
+    error.status = 404
+    error.title = "Listing not found"
+    return next(error)
   }
 
   // Turn the Spot into a JSON
@@ -367,20 +366,17 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
 
   // 404 error
   if (!spot) {
-    res.status(404)
-    return res.json({
-      "message": "Spot couldn't be found",
-      "statusCode": 404
-    })
+    const error = new Error("The listing you are looking for couldn't be found")
+    error.status = 404
+    error.title = "Listing not found"
+    return next(error)
   }
 
   // Prevent owner from making a booking
   if (req.user.id === spot.ownerId) {
-    res.status(403);
-    return res.json({
-      "message": "You cannot create a booking for a property you own",
-      "statusCode": 403
-    })
+    const error = new Error("You cannot create a booking for a property you own")
+    error.status = 403
+    error.title = "Forbidden action"
   }
 
   const { startDate, endDate } = req.body

@@ -26,9 +26,9 @@ const DeleteBooking = ({ bookingId }) => {
     { userHasHitDelete ? 
       <div className="confirm-delete-div">
         <button className="action-button" onClick={handleConfirm}>Confirm</button>
-        <button className="action-button" onClick={() => setUserHasHitDelete(false)}>Abort</button>
+        <button className="action-button" onClick={() => setUserHasHitDelete(false)}>Go Back</button>
       </div> 
-      : <button className="action-button" onClick={handleDelete}>Cancel Reservation</button>
+      : <button className="action-button" onClick={handleDelete}>Cancel</button>
     }
     </>
   )

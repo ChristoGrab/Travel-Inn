@@ -20,9 +20,9 @@ router.get('/current', requireAuth, async (req, res) => {
         model: Spot,
         attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country',
           'lat', 'lng', 'name', 'price'],
-          include: {
-            model: SpotImage
-          }
+        include: {
+          model: SpotImage
+        }
       },
       {
         model: ReviewImage,
@@ -36,19 +36,19 @@ router.get('/current', requireAuth, async (req, res) => {
   myReviews.forEach(review => {
     reviewsList.push(review.toJSON())
   })
-  
+
   // Iterate through each review
   reviewsList.forEach(review => {
     review.Spot.SpotImages.forEach(spotImage => {
-      
+
       if (spotImage.preview) {
         review.Spot.previewImage = spotImage.url
-        
+
       } else {
         review.Spot.previewImage = "This spot doesn't have a preview image yet"
       }
     })
-    
+
     // Make sure to remove the SpotImages from response
     delete review.Spot.SpotImages;
   })
@@ -110,76 +110,81 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
 })
 
 // EDIT A REVIEW
-router.put('/:reviewId', requireAuth, validateReview, async (req, res) => {
-  const reviewToEdit = await Review.findByPk(req.params.reviewId)
+router.put('/:reviewId', requireAuth, validateReview, async (req, res, next) => {
+  try {
+    const reviewToEdit = await Review.findByPk(req.params.reviewId)
 
-  // Return 404 error if review doesn't exist
-  if (!reviewToEdit) {
-    res.status(404)
-    return res.json({
-      "message": "Review couldn't be found",
-      "statusCode": 404
+    // Return 404 error if review doesn't exist
+    if (!reviewToEdit) {
+      const error = new Error("The review you are trying to edit doesn't exist");
+      error.status = 404
+      error.title = "Review not found"
+      throw error;
+
+    }
+
+    // Return 403 error if current user is not creator of this review
+    if (reviewToEdit.userId !== req.user.id) {
+      const error = new Error("You are not authorized to edit this review");
+      error.status = 403
+      error.title = "Unauthorized request"
+      throw error;
+    }
+
+    const { review, stars } = req.body
+
+    const editedReview = await reviewToEdit.update({
+      review,
+      stars
     })
-  }
 
-  // Return 403 error if current user is not creator of Review
-  if (reviewToEdit.userId !== req.user.id) {
-    res.status(403)
     return res.json({
-      "message": "Unauthorized request",
-      "statusCode": 403
+      id: editedReview.id,
+      userId: editedReview.userId,
+      spotId: editedReview.spotId,
+      review,
+      stars
     })
+
+  } catch (err) {
+    next(err)
   }
-
-  const { review, stars } = req.body
-
-  const editedReview = await reviewToEdit.update({
-    review,
-    stars
-  })
-
-
-  return res.json({
-    id: editedReview.id,
-    userId: editedReview.userId,
-    spotId: editedReview.spotId,
-    review,
-    stars,
-    createdAt: editedReview.createdAt,
-    updatedAt: editedReview.updatedAt
-  })
 })
 
 
 // DELETE A REVIEW
 
-router.delete('/:reviewId', requireAuth, async (req, res) => {
-  const review = await Review.findByPk(req.params.reviewId);
+router.delete('/:reviewId', requireAuth, async (req, res, next) => {
 
-  // Return 404 error if review does not exist
-  if (!review) {
-    res.status(404)
+  try {
+    const review = await Review.findByPk(req.params.reviewId);
+
+    // Return 404 error if review does not exist
+    if (!review) {
+      const error = new Error("The review you are trying to delete doesn't exist");
+      error.status = 404
+      error.title = "Review not found"
+      throw error;
+    }
+
+    // Return 403 error if current user is not creator of Review
+    if (review.userId !== req.user.id) {
+      const error = new Error("You are not authorized to delete this review");
+      error.status = 403
+      error.title = "Unauthorized request"
+      throw error;
+    }
+
+    await review.destroy();
+
     return res.json({
-      "message": "Review couldn't be found",
-      "statusCode": 404
+      "message": "Successfully deleted",
+      "statusCode": 200
     })
+    
+  } catch (err) {
+    next(err)
   }
-
-  // Return 403 error if current user is not creator of Review
-  if (review.userId !== req.user.id) {
-    res.status(403)
-    return res.json({
-      "message": "Unauthorized request",
-      "statusCode": 403
-    })
-  }
-
-  await review.destroy();
-
-  res.json({
-    "message": "Successfully deleted",
-    "statusCode": 200
-  })
 })
 
 module.exports = router;
