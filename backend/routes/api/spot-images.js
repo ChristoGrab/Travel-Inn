@@ -25,7 +25,7 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
   
   // Check if the image exists, and throw an error if not
   if (!image) {
-    const error = new Error('Image not found');
+    const error = new Error('The image you are trying to delete could not be found');
     error.status = 404;
     error.title = 'Image not found';
     
@@ -46,7 +46,7 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
   // Else, delete the image
   await image.destroy();
   return res.json({
-    "message": "Successfully deleted",
+    "message": "Image successfully deleted",
     "statusCode": 200
   })
 })

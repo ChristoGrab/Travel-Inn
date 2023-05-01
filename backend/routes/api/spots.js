@@ -65,10 +65,10 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 // GET ALL BOOKINGS FOR A SPOT BASED ON THE SPOT'S ID
 router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
   
-  const idCheck = await Spot.findByPk(req.params.spotId)
+  const spot = await Spot.findByPk(req.params.spotId)
 
   // Handle case where spot doesn't exist
-  if (!idCheck) {
+  if (!spot) {
     const error = new Error("The listing you are looking for couldn't be found")
     error.status = 404
     error.title = "Listing not found"
@@ -76,7 +76,8 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
   }
 
   // If the user is not the owner of the spot, only return the booked dates
-  if (idCheck.ownerId !== req.user.id) {
+  if (spot.ownerId !== req.user.id) {
+    
     const nonOwnerBookings = await Booking.findAll({
       where: {
         spotId: req.params.spotId
@@ -90,6 +91,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
 
   // If the user is the owner of the spot, return all booking information
   else {
+    
     const ownerBookings = await Booking.findAll({
       where: {
         spotId: req.params.spotId
@@ -244,6 +246,10 @@ router.get('/', async (req, res) => {
       {
         model: SpotImage,
       },
+      {
+        model: Review,
+        attributes: ['stars']
+      }
     ]
   });
   
@@ -253,40 +259,51 @@ router.get('/', async (req, res) => {
       spotsList.push(spot.toJSON())
     })
   
-    // Create avgRating and numReviews properties because sequelize is a pain
+    // Create separate avgRating and numReviews properties because sequelize is a pain
+    // Add the sum of all review scores to each associated spot by id and keep track of numReviews
+    // If there are no reviews, set avgRating to "No ratings"
     spotsList.forEach(spot => {
-      spot.avgRating = 0;
-      spot.numReviews = 0;
+      
+      let reviewSum = 0;
+      let reviewNum = 0;
+      
+      spot.Reviews.forEach(review => {
+        reviewSum += review.stars
+        reviewNum += 1
+      })
+      
+      spot.avgRating = reviewSum / reviewNum || "No ratings";
+      spot.numReviews = spot.Reviews.length || 0;
     })
     
   // Separate query for all reviews
-  const reviews = await Review.findAll({})
-  reviewsList = []
+  // const reviews = await Review.findAll({})
+  // reviewsList = []
   
-  reviews.forEach(review => {
-    reviewsList.push(review.toJSON())
-  })
+  // reviews.forEach(review => {
+  //   reviewsList.push(review.toJSON())
+  // })
   
-  // Add the sum of all review scores to each associated spot by id and keep track of numReviews
-  reviewsList.forEach(review => {
-    spotsList.forEach(spot => {
-      if (review.spotId === spot.id) {
-        spot.avgRating += review.stars
-        spot.numReviews ++
-      }
-    })
-  })
+  // // Add the sum of all review scores to each associated spot by id and keep track of numReviews
+  // reviewsList.forEach(review => {
+  //   spotsList.forEach(spot => {
+  //     if (review.spotId === spot.id) {
+  //       spot.avgRating += review.stars
+  //       spot.numReviews ++
+  //     }
+  //   })
+  // })
   
-  // Calculate the actual avgRating
-  spotsList.forEach(spot => {
-    spot.avgRating = spot.avgRating / spot.numReviews;
-  })
+  // // Calculate the actual avgRating
+  // spotsList.forEach(spot => {
+  //   spot.avgRating = spot.avgRating / spot.numReviews;
+  // })
 
-  spotsList.forEach(spot => {
-    if (!spot.avgRating) {
-      spot.avgRating = "No Ratings"
-    }
-  })
+  // spotsList.forEach(spot => {
+  //   if (!spot.avgRating) {
+  //     spot.avgRating = "No Ratings"
+  //   }
+  // })
 
   // Iterate through each spot, finding the associated SpotImage with preview set to true
   spotsList.forEach(spot => {
@@ -303,10 +320,10 @@ router.get('/', async (req, res) => {
   })
   
   // Delete the nested images and numReviews property
-  spotsList.forEach(spot => {
-    delete spot.SpotImages
-    delete spot.numReviews
-  })
+  // spotsList.forEach(spot => {
+  //   delete spot.SpotImages
+  //   delete spot.numReviews
+  // })
 
   return res.json({ "Spots": spotsList, page, size });
 })
