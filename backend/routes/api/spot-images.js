@@ -14,7 +14,7 @@ router.post('/upload', singleMulterUpload("image"), async (req, res) => {
 })
 
 // DELETE A SPOT IMAGE
-router.delete('/:imageId', requireAuth, async (req, res) => {
+router.delete('/:imageId', requireAuth, async (req, res, next) => {
   const image = await SpotImage.findByPk(req.params.imageId, {
       include: [
         {
@@ -23,24 +23,27 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
       ]
   });
   
+  // Check if the image exists, and throw an error if not
   if (!image) {
-    res.status(404);
-    return res.json({
-      "message": "Spot Image couldn't be found",
-      "statusCode": 404
-    })
+    const error = new Error('Image not found');
+    error.status = 404;
+    error.title = 'Image not found';
+    
+    return next(error);
   }
   
   const imageToJSON = image.toJSON();
   
+  // Check if the user is the owner of the spot, and throw an error if not
   if (req.user.id !== imageToJSON.Spot.ownerId) {
-    res.status(403);
-    return res.json({
-      "message": "Unauthorized request",
-      "statusCode": 403
-    })
+    const error = new Error('You are not authorized to delete this image');
+    error.status = 401;
+    error.title = 'Unauthorized';
+    
+    return next(error);
   }
   
+  // Else, delete the image
   await image.destroy();
   return res.json({
     "message": "Successfully deleted",

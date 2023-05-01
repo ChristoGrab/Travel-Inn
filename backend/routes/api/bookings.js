@@ -76,6 +76,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
 // EDIT A BOOKING
 router.put('/:bookingId', requireAuth, async (req, res, next) => {
+  
   const booking = await Booking.findByPk(req.params.bookingId)
   
   const otherBookings = await Booking.findAll({
@@ -88,19 +89,13 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
   })
   
   if (!booking) {
-    res.status(404)
-    return res.json({
-      "message": "Booking couldn't be found",
-      "statusCode": 404
-    })
+    const error = new BookingError("The booking you requested couldn't be found", 404)
+    return next(error)
   }
   
   if (booking.userId !== req.user.id) {
-    res.status(403);
-    return res.json({
-      message: "Unauthorized request",
-      statusCode: 403
-    })
+    const err = new BookingError("Unauthorized request", 403)
+    return next(err)
   }
   
   const { startDate, endDate } = req.body
@@ -148,7 +143,7 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
 
 // DELETE A BOOKING
 
-router.delete('/:bookingId', requireAuth, async (req, res) => {
+router.delete('/:bookingId', requireAuth, async (req, res, next) => {
   const booking = await Booking.findByPk(req.params.bookingId, {
     include: {
       model: Spot
@@ -156,19 +151,13 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
   });
     
   if (!booking) {
-    res.status(404)
-    return res.json({
-      "message": "Booking couldn't be found",
-      "statusCode": 404
-    })
+    const error = new BookingError("The booking you requested couldn't be found", 404)
+    return next(error)
   }
   
   if (booking.userId !== req.user.id) {
-    res.status(403)
-    return res.json({
-      "message": "Unauthorized request",
-      "statusCode": 403
-    })
+    const err = new BookingError("Unauthorized request", 403)
+    return next(err)
   }
   
   // Turn startDate into a Date object and compare it to present
@@ -177,11 +166,8 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
   startDate = new Date(startDate)
   
   if (startDate < new Date()) {
-    res.status(403);
-    return res.json({
-      "message": "Bookings that have already started cannot be deleted",
-      "statusCode": 403
-    })
+    const err = new BookingError("This booking has already ended and cannot be deleted", 403)
+    return next(err)
   }
   
   await booking.destroy();

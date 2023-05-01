@@ -479,23 +479,21 @@ router.post('/', requireAuth, validateSpot, async (req, res) => {
 
 // EDIT A SPOT //
 
-router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
+router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId)
 
   if (!spot) {
-    res.status(404)
-    return res.json({
-      "message": "Spot couldn't be found",
-      "statusCode": 404
-    })
+    const error = new Error("The listing you are looking for couldn't be found")
+    error.status = 404
+    error.title = "Listing not found"
+    return next(error)
   }
 
   if (spot.ownerId !== req.user.id) {
-    res.status(403);
-    return res.json({
-      "message": "Unauthorized request",
-      "statusCode": 403
-    })
+    const error = new Error("You cannot edit a listing that you do not own")
+    error.status = 403
+    error.title = "Forbidden action"
+    return next(error)
   }
 
   const {
@@ -527,23 +525,21 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
 
 // DELETE A SPOT //
 
-router.delete('/:spotId', requireAuth, async (req, res) => {
+router.delete('/:spotId', requireAuth, async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId)
 
   if (!spot) {
-    res.status(404)
-    return res.json({
-      "message": "Spot couldn't be found",
-      "statusCode": 404
-    })
+   const error = new Error("The listing you are looking for couldn't be found")
+    error.status = 404
+    error.title = "Listing not found"
+    return next(error)
   }
 
   if (spot.ownerId !== req.user.id) {
-    res.status(403)
-    return res.json({
-      "message": "Unauthorized request",
-      "statusCode": 403
-    })
+    const error = new Error("You cannot delete a listing that you do not own")
+    error.status = 403
+    error.title = "Forbidden action"
+    return next(error)
   }
 
   await spot.destroy()
