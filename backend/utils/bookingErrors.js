@@ -1,9 +1,9 @@
 class BookingError extends Error {
-  constructor(message) {
+  constructor(message, status) {
     super()
     this.title = 'Booking Error'
     this.message = message
-    this.status = 403;
+    this.status = status
   }
 }
 
