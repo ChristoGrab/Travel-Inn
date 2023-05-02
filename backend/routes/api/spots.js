@@ -274,36 +274,12 @@ router.get('/', async (req, res) => {
       
       spot.avgRating = reviewSum / reviewNum || "No ratings";
       spot.numReviews = spot.Reviews.length || 0;
+      
+      // Round the avgRating to 2 decimal places
+      if (typeof spot.avgRating === "number") {
+        spot.avgRating = spot.avgRating.toFixed(2)
+      }
     })
-    
-  // Separate query for all reviews
-  // const reviews = await Review.findAll({})
-  // reviewsList = []
-  
-  // reviews.forEach(review => {
-  //   reviewsList.push(review.toJSON())
-  // })
-  
-  // // Add the sum of all review scores to each associated spot by id and keep track of numReviews
-  // reviewsList.forEach(review => {
-  //   spotsList.forEach(spot => {
-  //     if (review.spotId === spot.id) {
-  //       spot.avgRating += review.stars
-  //       spot.numReviews ++
-  //     }
-  //   })
-  // })
-  
-  // // Calculate the actual avgRating
-  // spotsList.forEach(spot => {
-  //   spot.avgRating = spot.avgRating / spot.numReviews;
-  // })
-
-  // spotsList.forEach(spot => {
-  //   if (!spot.avgRating) {
-  //     spot.avgRating = "No Ratings"
-  //   }
-  // })
 
   // Iterate through each spot, finding the associated SpotImage with preview set to true
   spotsList.forEach(spot => {
@@ -320,10 +296,10 @@ router.get('/', async (req, res) => {
   })
   
   // Delete the nested images and numReviews property
-  // spotsList.forEach(spot => {
-  //   delete spot.SpotImages
-  //   delete spot.numReviews
-  // })
+  spotsList.forEach(spot => {
+    delete spot.SpotImages
+    delete spot.Reviews
+  })
 
   return res.json({ "Spots": spotsList, page, size });
 })
