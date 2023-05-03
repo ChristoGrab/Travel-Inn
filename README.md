@@ -24,6 +24,7 @@ Travel-Inn remains a WIP and many more features (as well as plenty of polish) ar
 ### Database/Hosting:
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Render](https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=white)
+![Amazon S3](https://img.shields.io/static/v1?style=for-the-badge&message=Amazon+S3&color=569A31&logo=Amazon+S3&logoColor=FFFFFF&label=)
 
 ## Wiki Links
 
@@ -37,11 +38,14 @@ Please use the provided links below for further information on the project:
 
 ## Landing Page
 
-![Landing Page](./frontend/src/assets/Landing-Page.png)
-
 From the landing page, you can see a display of all the listings currently on the site.
 
-A Demo User button has been included so all features can be tested without having to sign up.
+![Landing Page](./frontend/src/assets/Landing-Page.png)
+
+A Demo User button has been included so all features can be tested without having to register a new account.
+
+![Login Modal](https://user-images.githubusercontent.com/108154848/236034064-bb5c4d7b-8c28-4c91-94ac-238accbb9365.jpg)
+
 
 ## Contact Me
 
