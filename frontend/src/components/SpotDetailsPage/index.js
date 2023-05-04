@@ -41,7 +41,7 @@ function SpotDetails() {
 
   return (
     <div className='spot-page-outer-container'>
-      <div className="spot-page-section-1">
+      <section className="spot-page-section-1">
         <div className="spot-details-header">
           <div className="spot-details-title">{spot.name}</div>
           <div className="spot-details-subtitle">
@@ -81,9 +81,9 @@ function SpotDetails() {
             </div>
           }
         </div>
-      </div>
+      </section>
 
-      <div className="spot-page-section-2">
+      <section className="spot-page-section-2">
         <div className="spot-page-section-2-left">
           <div className="spot-page-box">
           <span className="hosted-by">Hosted by {spot.Owner.firstName}</span>
@@ -116,13 +116,13 @@ function SpotDetails() {
             : <ReservationBox spot={spot} />
           }
         </div>
-      </div>
+      </section>
 
-      <div className="spot-page-section-3">
+      <section className="spot-page-section-3">
         <ReviewsBySpot spotId={spot.id} currentUser={currentUser} spotOwnerId={spot.Owner.id} averageRating={spot.avgStarRating} />
-      </div>
+      </section>
 
-        <div className="spot-page-section-4">
+        <section className="spot-page-section-4">
           {currentUser && currentUser.id === spot.Owner.id
           ? <h2>Your listing location</h2>
           : <h2>Where you'll be</h2>
@@ -130,7 +130,7 @@ function SpotDetails() {
           For security reasons, locations are approximate. Your host will provide exact address before check-in.
           <Map address={`${spot.city}, ${spot.state}`} />
           <span className="bold">{spot.city}, {spot.state}, {spot.country}</span>
-        </div>
+        </section>
         
       <Footer />
     </div>

@@ -20,14 +20,14 @@ function LandingPage() {
   return (
     <>
       {dataLoaded && (
-        <div className="spot-card-container">
-          <div className="landing-page-grid">
+        <main className="spot-card-container">
+          <section className="landing-page-grid">
             {spotsList.map(spot => (
               <SpotCardInfo key={spot.id} spot={spot} />
             ))}
-          </div>
+          </section>
           <Footer />
-        </div>
+        </main>
       )}
     </>
   )
