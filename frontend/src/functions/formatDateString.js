@@ -1,5 +1,13 @@
 import convertDates from "./convertDates"
 
+// This function takes in two dates and returns a string in the format of:
+// "Month Day - Day, Year" if the dates are in the same month and year
+// "Month Day - Month Day, Year" if the dates are in the same year
+// "Month Day, Year - Month Day, Year" if the dates are in different years
+// The function uses the convertDates function to convert the dates into a format that can be parsed
+// by the Date constructor. It then splits the parsed dates into an array of values, and uses those
+// values to construct the string to be returned.
+
 const formatDateString = (startDate, endDate) => {
   
   let parsedStartDate = convertDates(startDate)
