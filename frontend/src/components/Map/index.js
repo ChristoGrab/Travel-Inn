@@ -5,8 +5,11 @@ import { useEffect, useState } from "react"
 import { getKey } from '../../store/map'
 import './Map.css'
 
-const LocationPin = () => (
-  <i className="fa-solid fa-house" />
+// By passing the coordinates to the LocationPin component, the pin will be fixed to the location specified
+const LocationPin = ({ lat, lng }) => (
+  <div className="pin" lat={lat} lng={lng}>
+    <i className="fa-solid fa-house" />
+  </div>
 )
 
 const Map = ({ address }) => {
@@ -63,7 +66,7 @@ const Map = ({ address }) => {
           defaultCenter={defaultProps.center}
           defaultZoom={defaultProps.zoom}
           center={center}>
-          <LocationPin lat={center.lat} lng={center.lng} />
+             <LocationPin lat={center.lat} lng={center.lng} />
         </GoogleMapReact>
       </div>
     </div>

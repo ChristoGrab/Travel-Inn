@@ -1,3 +1,8 @@
+.pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
 .fa-house {
   color: white;
   background-color: #ff385c;
