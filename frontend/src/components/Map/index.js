@@ -6,14 +6,14 @@ import { getKey } from '../../store/map'
 import './Map.css'
 
 const LocationPin = () => (
-    <i className="fa-solid fa-house" />
+  <i className="fa-solid fa-house" />
 )
 
-const Map = ( {address} ) => {
+const Map = ({ address }) => {
   const dispatch = useDispatch();
   const key = useSelector(state => state.map.key)
-  const [center, setCenter] = useState({lat: 0, lng: 0})
-  
+  const [center, setCenter] = useState({ lat: 0, lng: 0 })
+
   const defaultProps = {
     center: {
       lat: 0,
@@ -21,48 +21,53 @@ const Map = ( {address} ) => {
     },
     zoom: 16
   };
-  
+
+  // If the Google API key is not already in the store, fetch it
   useEffect(() => {
     if (!key) {
       dispatch(getKey())
     }
   }, [])
-  
-  Geocode.setApiKey(key)
-  Geocode.setLanguage('en')
-  Geocode.setRegion('us')
-  
+
+  // If the Google API key is in the store, set the key, regional settings, and parse the address
   useEffect(() => {
-  Geocode.fromAddress(address).then(
-    response => {
-      let newlat = response.results[0].geometry.location.lat;
-      let newlng = response.results[0].geometry.location.lng;
-      setCenter({lat: newlat, lng: newlng})
-    },
-    error => {
-      console.error(error);
+    if (key) {
+      Geocode.setApiKey(key)
+      Geocode.setLanguage('en')
+      Geocode.setRegion('us')
+
+      Geocode.fromAddress(address).then(
+        response => {
+          let newlat = response.results[0].geometry.location.lat;
+          let newlng = response.results[0].geometry.location.lng;
+          setCenter({ lat: newlat, lng: newlng })
+        },
+        error => {
+          console.error(error);
+        }
+      );
     }
-  );
   }, [address, key])
-  
+
+  // Don't render the map if the Google API key is not in the store
   if (!key) return null;
-  
+
   return (
-  <div className="map">
-    <div className="google-map" style={{ height: '450px', width: '80%' }}>
-      <GoogleMapReact
-        bootstrapURLKeys={{ 
-          key: key,
-          language: 'en' 
-        }}
-        defaultCenter={defaultProps.center}
-        defaultZoom={defaultProps.zoom}
-        center={center}>
-        <LocationPin lat={center.lat} lng={center.lng} />
-      </GoogleMapReact>
+    <div className="map">
+      <div className="google-map" style={{ height: '450px', width: '80%' }}>
+        <GoogleMapReact
+          bootstrapURLKeys={{
+            key: key,
+            language: 'en'
+          }}
+          defaultCenter={defaultProps.center}
+          defaultZoom={defaultProps.zoom}
+          center={center}>
+          <LocationPin lat={center.lat} lng={center.lng} />
+        </GoogleMapReact>
+      </div>
     </div>
-  </div>
-)
+  )
 }
 
 export default Map;

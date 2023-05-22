@@ -50,13 +50,16 @@ export const clearBookingsAction = () => {
 }
 
 export const getBookingsThunk = (spotId) => async (dispatch) => {
+  
+  // fetch all bookings for a spot
   const response = await csrfFetch(`/api/spots/${spotId}/bookings`);
 
+  // get the json version of the response
   const data = await response.json();
 
+  // if the response is ok, dispatch the action with the bookings
   if (response.ok) {
     dispatch(getBookingsAction(data))
-    return data;
   }
 
   return data;
@@ -123,7 +126,6 @@ export const deleteBookingThunk = (bookingId) => async (dispatch) => {
 
 export const updateBookingThunk = (booking, id) => async (dispatch) => {
   
-  console.log(id)
   const response = await csrfFetch(`/api/bookings/${id}`, {
     method: "PUT",
     headers: {
@@ -132,18 +134,21 @@ export const updateBookingThunk = (booking, id) => async (dispatch) => {
     body: JSON.stringify(booking)
   })
   
+  // if the response is ok, dispatch the action with the bookings
   if (response.ok) {
     const data = await response.json()
     dispatch(postBookingAction(data))
     return data;
     
+  // if the response is not ok, return the error data
   } else {
     const data = await response.json()
-    console.log(data)
     return data;
   }
 }
 
+// The Bookings Reducer contains all the bookings for a spot, all the bookings for a user, 
+// and all the bookings that are restricted for a spot
 const bookingsReducer = (state = { spotBookings: {}, userBookings: {}, restricted: [] }, action) => {
   
   switch (action.type) {
